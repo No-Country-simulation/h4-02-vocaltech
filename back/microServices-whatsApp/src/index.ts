@@ -6,7 +6,7 @@ dotenv.config();
 
 const dataSource = new DataSource({
     type: 'postgres',
-    host: 'postgres-whatsapp',
+    host: 'postgres',
     port: 5432,
     username: process.env.POSTGRES_USER_WHATSAPP,
     password: process.env.POSTGRES_PASSWORD_WHATSAPP,
