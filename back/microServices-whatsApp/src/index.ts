@@ -13,7 +13,7 @@ const dataSource = new DataSource({
     database: process.env.POSTGRES_DB_WHATSAPP,
     synchronize: true,
     logging: true,
-    entities: [],  // Asegúrate de incluir todas las entidades que necesites
+    entities: [],  
   });
   
 dataSource.initialize()
