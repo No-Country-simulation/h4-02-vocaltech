@@ -7,11 +7,11 @@ dotenv.config();
 
 export const dataSource = new DataSource({
     type: 'postgres',
-    host: 'postgres-email',
+    host: 'postgres-leads',
     port: 5432,
-    username: process.env.POSTGRES_USER_EMAIL,
-    password: process.env.POSTGRES_PASSWORD_EMAIL,
-    database: process.env.POSTGRES_DB_EMAIL,
+    username: process.env.POSTGRES_USER_LEADS,
+    password: process.env.POSTGRES_PASSWORD_LEADS,
+    database: process.env.POSTGRES_DB_LEADS,
     synchronize: true,
     logging: true,
     entities: [User],  

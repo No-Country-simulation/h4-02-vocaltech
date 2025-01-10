@@ -7,11 +7,11 @@ dotenv.config();
 
 export const dataSource = new DataSource({
     type: 'postgres',
-    host: 'postgres-email',
+    host: 'postgres-whatsapp',
     port: 5432,
-    username: process.env.POSTGRES_USER_EMAIL,
-    password: process.env.POSTGRES_PASSWORD_EMAIL,
-    database: process.env.POSTGRES_DB_EMAIL,
+    username: process.env.POSTGRES_USER_WHATSAPP,
+    password: process.env.POSTGRES_PASSWORD_WHATSAPP,
+    database: process.env.POSTGRES_DB_WHATSAPP,
     synchronize: true,
     logging: true,
     entities: [User],  
