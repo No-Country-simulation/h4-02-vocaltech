@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { fetchEmailsFromLeads } from "../controllers/leadsEmailController";
 
-const router = Router();
+const emailRouter = Router();
 
 // Definir las rutas para manejar las solicitudes
-router.get("/", (res, req) => {fetchEmailsFromLeads});
+emailRouter.get("/", (res, req) => {fetchEmailsFromLeads});
 
-export default router;
+export default emailRouter;
 
