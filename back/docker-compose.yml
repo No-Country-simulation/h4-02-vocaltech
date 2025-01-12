@@ -5,69 +5,26 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - DATABASE_URL=${DATABASE_URL_EMAIL}
-    depends_on:
-      - postgres-email
-
-  leads-service:
-    build: ./microServices-leads
-    ports:
-      - "3002:3000"
-    environment:
-      - DATABASE_URL=${DATABASE_URL_LEADS}
-    depends_on:
-      - postgres-leads
+      - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
+      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+    depends_on: []
 
   whatsapp-service:
     build: ./microServices-whatsApp
     ports:
-      - "3003:3000"
+      - "3003:3002"
     environment:
-      - DATABASE_URL=${DATABASE_URL_WHATSAPP}
-    depends_on:
-      - postgres-whatsapp
+      - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
+      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+    depends_on: []
 
-  postgres-email:
-    image: postgres:14
-    container_name: postgres-email
-    restart: always
+  whatsapp-leads:
+    build: ./microServices-leads
     ports:
-      - "5433:5432"
+      - "3004:3005"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER_EMAIL}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_EMAIL}
-      POSTGRES_DB: ${POSTGRES_DB_EMAIL}
-    volumes:
-      - postgres_email_data:/var/lib/postgresql/data
+      - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
+      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+    depends_on: []
 
-  postgres-leads:
-    image: postgres:14
-    container_name: postgres-leads
-    restart: always
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER_LEADS}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_LEADS}
-      POSTGRES_DB: ${POSTGRES_DB_LEADS}
-    volumes:
-      - postgres_leads_data:/var/lib/postgresql/data
-
-  postgres-whatsapp:
-    image: postgres:14
-    container_name: postgres-whatsapp
-    restart: always
-    ports:
-      - "5435:5432"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER_WHATSAPP}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_WHATSAPP}
-      POSTGRES_DB: ${POSTGRES_DB_WHATSAPP}
-    volumes:
-      - postgres_whatsapp_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_email_data:
-  postgres_leads_data:
-  postgres_whatsapp_data:
 

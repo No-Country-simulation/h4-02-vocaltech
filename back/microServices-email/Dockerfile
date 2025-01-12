@@ -13,6 +13,9 @@ RUN npm install --legacy-peer-deps
 # Copia el resto del código
 COPY . .
 
+# Copia el archivo .env al contenedor
+COPY .env .env
+
 # Compila TypeScript a JavaScript
 RUN npx tsc
 
