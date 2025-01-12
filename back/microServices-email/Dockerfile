@@ -20,7 +20,7 @@ COPY .env .env
 RUN npx tsc
 
 # Expone el puerto
-EXPOSE 3000
+EXPOSE 3001
 
 # Ejecuta el comando de inicio de la aplicación
 CMD ["npm", "start"]

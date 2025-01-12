@@ -3,16 +3,15 @@ services:
   email-service:
     build: ./microServices-email
     ports:
-      - "3001:3000"
-    environment:
-      - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
-      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+      - "3000:3001"
+    env_file:
+      - ./microServices-email/.env
     depends_on: []
 
   whatsapp-service:
     build: ./microServices-whatsApp
     ports:
-      - "3003:3002"
+      - "3002:3003"
     environment:
       - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
       - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
