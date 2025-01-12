@@ -2,9 +2,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("TOKEN_AIRTABLE:", process.env.TOKEN_AIRTABLE);
-console.log("AIRTABLE_BASE_ID:", process.env.AIRTABLE_BASE_ID);
-
 export function validateEnv() {
   const apiKey = process.env.TOKEN_AIRTABLE;
   const baseId = process.env.AIRTABLE_BASE_ID;
