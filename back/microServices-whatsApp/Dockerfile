@@ -1,20 +1,26 @@
 # Usar una imagen base de Node.js
 FROM node:16
 
-# Establecer el directorio de trabajo dentro del contenedor
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copiar archivos de configuración
+# Copia los archivos necesarios
 COPY package*.json ./
 
-# Instalar dependencias
-RUN npm install
+# Instala todas las dependencias (incluye las de desarrollo)
+RUN npm install --legacy-peer-deps
 
-# Copiar el código de la aplicación
+# Copia el resto del código
 COPY . .
 
-# Exponer el puerto del servicio
-EXPOSE 3000
+# Copia el archivo .env al contenedor
+COPY .env .env
 
-# Comando para iniciar la aplicación
-CMD ["node", "src/index.js"]
+# Compila TypeScript a JavaScript
+RUN npx tsc
+
+# Expone el puerto
+EXPOSE 3003
+
+# Ejecuta el comando de inicio de la aplicación
+CMD ["npm", "start"]
