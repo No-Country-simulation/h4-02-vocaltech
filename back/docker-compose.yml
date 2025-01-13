@@ -3,7 +3,7 @@ services:
   email-service:
     build: ./microServices-email
     ports:
-      - "3000:3001"
+      - "3001:3000"
     env_file:
       - ./microServices-email/.env
     depends_on: []
