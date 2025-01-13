@@ -11,19 +11,17 @@ services:
   whatsapp-service:
     build: ./microServices-whatsApp
     ports:
-      - "3002:3003"
-    environment:
-      - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
-      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+      - "3003:3000"
+    env_file:
+      - ./microServices-whatsApp/.env
     depends_on: []
 
-  whatsapp-leads:
+  leads-service:
     build: ./microServices-leads
     ports:
-      - "3004:3005"
-    environment:
-      - TOKEN_AIRTABLE=${TOKEN_AIRTABLE}
-      - AIRTABLE_BASE_ID=${AIRTABLE_BASE_ID}
+      - "3002:3000"
+    env_file:
+      - ./microServices-leads/.env
     depends_on: []
 
 
