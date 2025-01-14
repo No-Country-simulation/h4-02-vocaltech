@@ -13,14 +13,12 @@ RUN npm install --legacy-peer-deps
 # Copia el resto del código
 COPY . .
 
-# Copia el archivo .env al contenedor
-COPY .env .env
-
 # Compila TypeScript a JavaScript
 RUN npx tsc
 
 # Expone el puerto
-EXPOSE 3003
+EXPOSE 3000
 
 # Ejecuta el comando de inicio de la aplicación
 CMD ["npm", "start"]
+
