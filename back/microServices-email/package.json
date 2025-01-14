@@ -21,6 +21,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
+    "@types/airtable": "^0.10.5",
     "@types/cors": "^2.8.17",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.0",
