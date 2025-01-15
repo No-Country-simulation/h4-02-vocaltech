@@ -4,8 +4,10 @@ import Navbar from './Navbar'
 
 const Header = () => {
   return (
-    <div className='flex mx-10 ml-10 mt-2 justify-between'>
-      //Logo
+    <div className='bg-azul text-white flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-white'>
+      <Link to='/'>
+        <img className='text-10' src='./logo.png' alt='Logo' />
+      </Link>
       <Navbar />
     </div>
   )
