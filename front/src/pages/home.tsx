@@ -1,5 +1,6 @@
 import React from 'react'
 import '../index.css'
+import Solution from './solution'
 
 const home = () => {
   return (
@@ -14,6 +15,7 @@ const home = () => {
           served on freshly baked buns.{' '}
         </p>
       </div>
+      <Solution />
     </>
   )
 }
