@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getTableRecords } from "../configDbAirTable/AirTableController";
+import { getTableRecords } from "../config/AirTableController";
 
 const router = Router();
 
