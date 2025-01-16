@@ -1,0 +1,18 @@
+.card-anaranjada {
+    background-image: url('./assets/fondo-naranja.png');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+.card-azul {
+    background-image: url('./assets/fondo-azul.png');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat;
+}
+.card-amarilla {
+    background-image: url('./assets/fondo-amarillo.png');
+    background-size: cover;
+    background-position: center; 
+    background-repeat: no-repeat;
+}
