@@ -1,7 +1,7 @@
 import cors from "cors";
 import morgan from "morgan";
 import express from "express";
-import router from "./routers/index";
+import router from "./routersAirtable/index";
 
 const server = express();
 

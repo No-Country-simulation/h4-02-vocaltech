@@ -10,6 +10,9 @@ COPY package*.json ./
 # Instala todas las dependencias (incluye las de desarrollo)
 RUN npm install --legacy-peer-deps
 
+# Copia todo el código fuente
+COPY src ./src
+
 # Copia el resto del código
 COPY . .
 

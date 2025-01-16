@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import getRecords from "../config/dbConfigAirTable";
+import getRecords from "./dbConfigAirTable";
 
 // Controlador para obtener registros de una tabla
 export async function getTableRecords(req: Request, res: Response) {
