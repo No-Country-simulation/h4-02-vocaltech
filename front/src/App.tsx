@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
 import Home from './pages/home'
@@ -7,9 +7,12 @@ import Companies from './pages/companies'
 import Login from './pages/login'
 
 function App() {
+  const location = useLocation()
   return (
     <>
-      <Header />
+      {location.pathname !== '/login' && location.pathname !== '/register' && (
+        <Header />
+      )}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/emprendedores' element={<Entrepreneurs />} />
