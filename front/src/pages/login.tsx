@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
 interface LoginFormInputs {
   email: string
@@ -36,9 +37,11 @@ const Login: React.FC = () => {
             servicios diseñados para potenciar tus habilidades y conectar
             oportunidades.
           </p>
-          <button className='bg-azul px-6 py-3 rounded-md text-white hover:bg-blue-700 transition'>
-            Registrarme
-          </button>
+          <Link to='/register'>
+            <button className='bg-azul px-6 py-3 rounded-md text-white hover:bg-blue-700 transition'>
+              Registrarme
+            </button>
+          </Link>
         </div>
       </section>
 

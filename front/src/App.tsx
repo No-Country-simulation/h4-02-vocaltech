@@ -5,6 +5,7 @@ import Home from './pages/home'
 import Entrepreneurs from './pages/entrepreneurs'
 import Companies from './pages/companies'
 import Login from './pages/login'
+import Register from './pages/register'
 
 function App() {
   const location = useLocation()
@@ -18,6 +19,7 @@ function App() {
         <Route path='/emprendedores' element={<Entrepreneurs />} />
         <Route path='/empresas' element={<Companies />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Routes>
     </>
   )
