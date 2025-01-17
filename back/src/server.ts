@@ -2,7 +2,7 @@ import cors from "cors";
 import morgan from "morgan";
 import express from "express";
 import passport from "passport";
-import router from "./routersAirtable/index";
+import indexRouter from "./router/index";
 import OAuthRouter from "./modules/auth/routes/authRoutes";
 
 const server = express();
@@ -17,6 +17,6 @@ server.use(cors());
 server.use(express.json());
 server.use(morgan("dev"))
 
-server.use("/api", router);
+server.use("/api", indexRouter);
 
 export default server;
