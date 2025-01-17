@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 interface LoginFormInputs {
   email: string
@@ -13,6 +14,8 @@ const Login: React.FC = () => {
     handleSubmit,
     formState: { errors }
   } = useForm<LoginFormInputs>()
+
+  const [showPassword, setShowPassword] = useState(false)
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
     console.log('Datos del formulario:', data)
@@ -28,6 +31,13 @@ const Login: React.FC = () => {
           backgroundPosition: 'center'
         }}
       >
+        <Link to='/'>
+          <img
+            src='./logo.png'
+            alt='Icono'
+            className='absolute top-5 left-10 w-130'
+          />
+        </Link>
         <div className='text-center'>
           <h1 className='text-5xl font-bold mb-20'>
             Inicia sesión en VocalTech
@@ -38,7 +48,7 @@ const Login: React.FC = () => {
             oportunidades.
           </p>
           <Link to='/register'>
-            <button className='bg-azul px-6 py-3 rounded-md text-white hover:bg-blue-700 transition'>
+            <button className='bg-azul px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
               Registrarme
             </button>
           </Link>
@@ -74,33 +84,58 @@ const Login: React.FC = () => {
             )}
           </div>
 
-          <div className='mb-10'>
-            <label htmlFor='password' className='block text-lg font-medium '>
+          <div className='mb-10 relative'>
+            <label htmlFor='password' className='block text-lg font-medium'>
               Contraseña
             </label>
-            <input
-              type='password'
-              id='password'
-              className='w-full border-gray-300 text-black rounded-lg px-3 py-2 mt-1 focus:ring-orange-500 focus:border-orange-500'
-              placeholder='********'
-              {...register('password', {
-                required: 'La contraseña es obligatoria',
-                minLength: {
-                  value: 6,
-                  message: 'La contraseña debe tener al menos 6 caracteres'
-                }
-              })}
-            />
+            <div className='relative'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id='password'
+                className='w-full border-gray-300 text-black rounded-lg px-3 py-2 mt-1 focus:ring-orange-500 focus:border-orange-500'
+                placeholder='********'
+                {...register('password', {
+                  required: 'La contraseña es obligatoria',
+                  minLength: {
+                    value: 6,
+                    message: 'La contraseña debe tener al menos 6 caracteres'
+                  }
+                })}
+              />
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
+                className='absolute inset-y-0 right-3 flex items-center'
+              >
+                {showPassword ? (
+                  <FiEyeOff
+                    className='text-gray-500 hover:text-gray-700'
+                    size={20}
+                  />
+                ) : (
+                  <FiEye
+                    className='text-gray-500 hover:text-gray-700'
+                    size={20}
+                  />
+                )}
+              </button>
+            </div>
             {errors.password && (
               <span className='text-red-500 text-sm mt-1'>
                 {errors.password.message}
               </span>
             )}
+            <Link
+              to='/forgot-password'
+              className='text-sm text-gray-300 hover:text-white mt-3 absolute bottom-[-25px] right-0 underline'
+            >
+              Olvidé mi contraseña
+            </Link>
           </div>
 
           <button
             type='submit'
-            className='bg-orange-500 w-full text-white py-2 rounded-lg font-semibold hover:bg-orange-600 transition'
+            className='bg-orange-500 w-full text-white py-2 mt-10 rounded-lg font-semibold hover:bg-orange-600 transition'
           >
             Iniciar sesión
           </button>
@@ -112,7 +147,7 @@ const Login: React.FC = () => {
           </div>
 
           <div className='flex gap-4 justify-center'>
-            <button className='flex items-center gap-2 bg-white text-black py-2 px-4 rounded-lg w-1/2 justify-center hover:bg-gray-200 transition'>
+            <button className='flex items-center gap-2 bg-white text-slate-600 font-semibold py-2 px-4 rounded-lg w-full justify-center hover:bg-gray-200 transition'>
               <img src='./logo_google.png' alt='Google' className='w-5' />
               Iniciar con Google
             </button>
