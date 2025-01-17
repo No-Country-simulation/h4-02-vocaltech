@@ -5,29 +5,71 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: { colors: {
-      primary: "#CE9DF9",
-      azul: "#0B1455",
-      anaranjado: "#E26105",
-      negro: "#151419",
-      anaranjado_claro: "#FFC107",
-      amarillo: "#FFEB3B",
-      blanco: "#FBFBFB"
+    extend: {
+      colors: {
+        primary: "#CE9DF9",
+        azul: "#0B1455",
+        anaranjado: "#E26105",
+        negro: "#151419",
+        anaranjado_claro: "#FFC107",
+        amarillo: "#FFEB3B",
+        blanco: "#FBFBFB",
+      },
+      fontFamily: {
+        vazirmatn: ["var(--font-vazir)", "Vazirmatn", "serif"],
+        lato: ["var(--font-lato)", "Lato", "serif"],
+      },
+      fontSize: {
+        h1: ["3rem", { lineHeight: "1.3" }],
+        h2: ["2.5rem", { lineHeight: "1.2" }],
+        h3: ["2rem", { lineHeight: "1.2" }],
+        h4: ["1.5rem", { lineHeight: "1.2" }],
+        h5: ["1.25rem", { lineHeight: "1" }],
+        bodyMd: ["1rem", { lineHeight: "1" }],
+        bodySm: ["0.875rem", { lineHeight: "0.9" }],
+        quote: ["0.625rem", { lineHeight: "0.8" }],
+      },
+      objectPosition: {
+        'center-top': 'center',
+        'custom-50-25': '50% 50%',
+      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              fontSize: theme("fontSize.h1")[0],
+              lineHeight: theme("fontSize.h1")[1].lineHeight,
+              fontWeight: "bold",
+              fontFamily: theme("fontFamily.lato").join(","),
+            },
+            h2: {
+              fontSize: theme("fontSize.h2")[0],
+              lineHeight: theme("fontSize.h2")[1].lineHeight,
+              fontWeight: "bold",
+              fontFamily: theme("fontFamily.lato").join(","),
+            },
+            h3: {
+              fontSize: theme("fontSize.h3")[0],
+              lineHeight: theme("fontSize.h3")[1].lineHeight,
+              fontWeight: "bold",
+              fontFamily: theme("fontFamily.vazirmatn").join(","),
+            },
+            h4: {
+              fontSize: theme("fontSize.h4")[0],
+              lineHeight: theme("fontSize.h4")[1].lineHeight,
+              fontWeight: "bold",
+              fontFamily: theme("fontFamily.vazirmatn").join(","),
+            },
+            h5: {
+              fontSize: theme("fontSize.h5")[0],
+              lineHeight: theme("fontSize.h5")[1].lineHeight,
+              fontWeight: "bold",
+              fontFamily: theme("fontFamily.lato").join(","),
+            },
+          },
+        },
+      }),
     },
-    fontFamily: {
-    vazirmatn: ["var(--font-vazir)", "Vazirmatn", "serif"],
-    lato: ["var(--font-lato)", "Lato","serif"], 
-    },
-    fontSize: {
-      h1: ["3rem", { lineHeight: "1.3" }],
-      h2: ["2.5rem", { lineHeight: "1.2" }],
-      h3: ["2rem", { lineHeight: "1.2" }],
-      h4: ["1.5rem", { lineHeight: "1.2" }],
-      h5: ["1.25rem", { lineHeight: "1" }],
-      bodyMd: ["1rem", { lineHeight: "1" }],
-      bodySm: ["0.875rem", { lineHeight: "0.9" }],
-      quote: ["0.625rem", { lineHeight: "0.8" }],
-    },},
   },
-  plugins: [],
-}
+  plugins: [require("@tailwindcss/typography")],
+};
