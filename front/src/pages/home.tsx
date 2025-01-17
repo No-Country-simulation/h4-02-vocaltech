@@ -32,10 +32,10 @@ const Home = () => {
       <section id='solution' className='bg-gray-100'>
         <Solution />
       </section>
-      <section id='reviews' className=' bg-white'>
+      <section id='reviews'>
         <Review />
       </section>
-      <section id='about-us' className=' bg-white'>
+      <section id='about-us'>
         <AboutUs />
       </section>
       <section id='questions' className=' bg-white'>
