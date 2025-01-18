@@ -1,12 +1,7 @@
 import passport from 'passport';
 import { Strategy as OAuth2Strategy, VerifyCallback } from 'passport-oauth2';
 import { CLIENT_ID, CALLBACK_URL, CLIENT_SECRET, TOKEN_URL, AUTHORIZATION_URL } from '../config/validateEnv';
-import Airtable from 'airtable';
-import { validateEnv } from '../config/validateEnv';
-
-
-const { apiKey, baseId } = validateEnv();
-const base = new Airtable({ apiKey }).base(baseId);
+import { base } from '../utils/repositoryAirTable';
 
 // Configuración de la estrategia OAuth2
 export const configureOAuth2Strategy = () => {

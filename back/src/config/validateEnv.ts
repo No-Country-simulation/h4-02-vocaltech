@@ -1,21 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-// VALIDACION DE VARIABLES DE AIRTABLE
-export function validateEnv() {
-  const apiKey = process.env.AIRTABLE_API_KEY;
-  const baseId = process.env.AIRTABLE_BASE_ID;
-
-  if (!apiKey || !baseId) {
-    throw new Error(
-      "Missing required environment variables: AIRTABLE_API_KEY or AIRTABLE_BASE_ID"
-    );
-  }
-
-  return { apiKey, baseId };
-}
-
-// VALIDACION DE VARIABLES DE OAUTH2.0 
+// Función genérica para validar variables de entorno
 const getEnvVar = (key: string): string => {
   const value = process.env[key];
   if (!value) {
@@ -24,17 +10,12 @@ const getEnvVar = (key: string): string => {
   return value;
 };
 
-// Valida y asigna las variables necesarias
-const AUTHORIZATION_URL = getEnvVar('AUTH_URL');
-const TOKEN_URL = getEnvVar('TOKEN_URL');
-const CLIENT_ID = getEnvVar('CLIENT_ID_GOOGLE');
-const CLIENT_SECRET = getEnvVar('CLIENT_SECRET');
-const CALLBACK_URL = getEnvVar('CALLBACK_URL');
-
-export { AUTHORIZATION_URL, TOKEN_URL, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL };
-
-// Validacion de JWT
-
-export const JWT_SECRET = getEnvVar('JWT_SECRET');
+// VALIDACIÓN DE VARIABLES DE ENTORNO
 export const AIRTABLE_API_KEY = getEnvVar('AIRTABLE_API_KEY');
 export const AIRTABLE_BASE_ID = getEnvVar('AIRTABLE_BASE_ID');
+export const AUTHORIZATION_URL = getEnvVar('AUTH_URL');
+export const TOKEN_URL = getEnvVar('TOKEN_URL');
+export const CLIENT_ID = getEnvVar('CLIENT_ID_GOOGLE');
+export const CLIENT_SECRET = getEnvVar('CLIENT_SECRET');
+export const CALLBACK_URL = getEnvVar('CALLBACK_URL');
+export const JWT_SECRET = getEnvVar('JWT_SECRET');
