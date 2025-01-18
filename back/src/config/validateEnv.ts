@@ -32,3 +32,9 @@ const CLIENT_SECRET = getEnvVar('CLIENT_SECRET');
 const CALLBACK_URL = getEnvVar('CALLBACK_URL');
 
 export { AUTHORIZATION_URL, TOKEN_URL, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL };
+
+// Validacion de JWT
+
+export const JWT_SECRET = getEnvVar('JWT_SECRET');
+export const AIRTABLE_API_KEY = getEnvVar('AIRTABLE_API_KEY');
+export const AIRTABLE_BASE_ID = getEnvVar('AIRTABLE_BASE_ID');
