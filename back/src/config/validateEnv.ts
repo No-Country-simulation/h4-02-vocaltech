@@ -10,12 +10,19 @@ const getEnvVar = (key: string): string => {
   return value;
 };
 
-// VALIDACIÓN DE VARIABLES DE ENTORNO
-export const AIRTABLE_API_KEY = getEnvVar('AIRTABLE_API_KEY');
-export const AIRTABLE_BASE_ID = getEnvVar('AIRTABLE_BASE_ID');
-export const AUTHORIZATION_URL = getEnvVar('AUTH_URL');
-export const TOKEN_URL = getEnvVar('TOKEN_URL');
-export const CLIENT_ID = getEnvVar('CLIENT_ID_GOOGLE');
-export const CLIENT_SECRET = getEnvVar('CLIENT_SECRET');
-export const CALLBACK_URL = getEnvVar('CALLBACK_URL');
-export const JWT_SECRET = getEnvVar('JWT_SECRET');
+// Encapsulamos las variables de entorno en un objeto
+export const config = {
+  AIRTABLE_API_KEY: getEnvVar('AIRTABLE_API_KEY'),
+  AIRTABLE_BASE_ID: getEnvVar('AIRTABLE_BASE_ID'),
+  AUTHORIZATION_URL: getEnvVar('AUTH_URL'),
+  TOKEN_URL: getEnvVar('TOKEN_URL'),
+  CLIENT_ID: getEnvVar('CLIENT_ID_GOOGLE'),
+  CLIENT_SECRET: getEnvVar('CLIENT_SECRET'),
+  CALLBACK_URL: getEnvVar('CALLBACK_URL'),
+  JWT_SECRET: getEnvVar('JWT_SECRET'),
+  LOCAL_CALLBACK_URL: getEnvVar('LOCAL_CALLBACK_URL'),
+  AWS_ACCESS_KEY_ID: getEnvVar('AWS_ACCESS_KEY_ID'),
+  AWS_SECRET_ACCESS_KEY: getEnvVar('AWS_SECRET_ACCESS_KEY'),
+  AWS_BUCKET_NAME: getEnvVar('AWS_BUCKET_NAME'),
+  AWS_REGION: getEnvVar('AWS_REGION'),
+};
