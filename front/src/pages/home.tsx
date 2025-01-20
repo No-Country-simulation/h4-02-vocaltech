@@ -9,7 +9,7 @@ import Footer from '../components/Footer'
 const Home = () => {
   return (
     <div>
-      <div className='bg-azul py-40 flex items-center justify-center gap-10 px-15'>
+      <div className='bg-azul lg:py-40 flex flex-col lg:flex-row items-center justify-center gap-10 px-15 px-6 text-center md:py-30 py-20'>
         <div className='px-10'>
           <img
             src='./voz.webp'
