@@ -45,7 +45,7 @@ const Home = () => {
       <section id='questions' className=' bg-white'>
         <Questions />
       </section>
-      <section id='footer' className=' bg-white'>
+      <section id='footer'>
         <Footer />
       </section>
     </div>

@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens:{
+        'mm':'880px',
+      },
       colors: {
         primary: "#CE9DF9",
         azul: "#000115",
@@ -70,7 +73,7 @@ export default {
           },
         },
       }),
-    },
+    }
   },
   plugins: [require("@tailwindcss/typography")],
 };
