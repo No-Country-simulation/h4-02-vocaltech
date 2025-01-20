@@ -8,8 +8,7 @@ const router = Router();
 router.use("/airtable", airTableRoutes);
 router.use("/user", AuthRouter);
 /*
-router.use("/leads",);
-router.use("/user",);
+router.use("/leads", ledsRoutes);
 router.use("/diagnostics",);
 router.use("/notifications");
 router.use("/admin",);
