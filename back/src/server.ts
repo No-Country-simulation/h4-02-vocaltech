@@ -5,7 +5,7 @@ import passport from "passport";
 import indexRouter from "./router/index";
 import OAuthRouter from "./modules/auth/routes/authRoutes";
 import { configureOAuth2Strategy } from "./passport/oauth2.strategy";
-
+import bodyParser from 'body-parser';
 
 const server = express();
 
@@ -19,6 +19,7 @@ server.use(cors({
 
 // Middleware de Passport
 server.use(passport.initialize());
+server.use(bodyParser.json());
 
 // Usar las rutas de autenticación
 server.use("/auth", OAuthRouter);
