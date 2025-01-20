@@ -1,10 +1,4 @@
-import Airtable from "airtable";
-import { validateEnv } from "./validateEnv";
-
-const { apiKey, baseId } = validateEnv();
-
-// Inicialización de AirTable
-const base = new Airtable({ apiKey }).base(baseId);
+import { base } from "../utils/repositoryAirTable"; 
 
 // Función para obtener registros
 async function getRecords(table: string) {
@@ -24,3 +18,4 @@ async function getRecords(table: string) {
 }
 
 export default getRecords;
+

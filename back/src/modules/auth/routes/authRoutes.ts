@@ -3,12 +3,22 @@ import passport from 'passport';
 
 const router = express.Router();
 
-// Ruta de inicio de sesión con OAuth
-router.get('/auth/', passport.authenticate('oauth2'));
+// Ruta de autenticación con OAuth2 (Google)
+router.get('/', passport.authenticate('oauth2', {
+  scope: ['profile', 'email'],  // Asegúrate de agregar los scopes necesarios
+}));
 
-// Ruta de callback de OAuth2
-router.get('/auth/google/callback', passport.authenticate('oauth2', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/dashboard'); // Redirige al dashboard u otra página después de un login exitoso
-});
+// Ruta de callback después de la autenticación
+router.get('/callback',
+  passport.authenticate('oauth2', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Aquí puedes redirigir al usuario a la página deseada después de la autenticación exitosa
+    res.redirect('/api/create_user');  // O cualquier página que desees
+  }
+);
 
 export default router;
+
+
+
+
