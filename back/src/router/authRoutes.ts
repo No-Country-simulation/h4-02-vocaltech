@@ -1,24 +1,31 @@
-import express from 'express';
-import passport from 'passport';
+import { Router } from "express";
+import { authController } from "../controllers/authController";
 
-const router = express.Router();
+const AuthRouter = Router();
 
-// Ruta de autenticación con OAuth2 (Google)
-router.get('/', passport.authenticate('oauth2', {
-  scope: ['profile', 'email'],  // Asegúrate de agregar los scopes necesarios
-}));
-
-// Ruta de callback después de la autenticación
-router.get('/callback',
-  passport.authenticate('oauth2', { failureRedirect: '/login' }),
-  (req, res) => {
-    // Aquí puedes redirigir al usuario a la página deseada después de la autenticación exitosa
-    res.redirect('/api/create_user');  // O cualquier página que desees
+// Ruta para registrar un usuario
+AuthRouter.post("/register", async (req, res) => {
+  try {
+    await authController.register(req, res); // Espera la resolución de la promesa
+  } catch (error) {
+    res.status(500).json({
+      message: "Error registering user",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
   }
-);
+});
 
-export default router;
+// Ruta para loguear un usuario
+AuthRouter.post("/login", async (req, res) => {
+  try {
+    await authController.login(req, res); // Espera la resolución de la promesa
+  } catch (error) {
+    res.status(500).json({
+      message: "Error logging in user",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+});
 
-
-
+export default AuthRouter;
 

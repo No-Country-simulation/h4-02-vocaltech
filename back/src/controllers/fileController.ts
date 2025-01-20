@@ -1,4 +1,4 @@
-import s3 from '../utils/awsConfig';
+import s3 from '../config/awsConfig';
 import AWS from 'aws-sdk';
 
 export const uploadFileToS3 = (file: Express.Multer.File): Promise<AWS.S3.ManagedUpload.SendData> => {

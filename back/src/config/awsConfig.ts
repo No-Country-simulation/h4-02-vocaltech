@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { config } from '../config/validateEnv';
+import { config } from './validateEnv';
 
 // Configurar AWS SDK con las variables de entorno
 const s3 = new AWS.S3({

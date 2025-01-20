@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 import multer from 'multer';
-import s3 from './awsConfig';
+import s3 from '../config/awsConfig';
 import { config } from '../config/validateEnv';
 
 // Tipos MIME permitidos

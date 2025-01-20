@@ -3,7 +3,7 @@ import morgan from "morgan";
 import express from "express";
 import passport from "passport";
 import indexRouter from "./router/index";
-import OAuthRouter from "./router/authRoutes";
+import OAuthRouter from "./router/oAuth2Routes";
 import corsConfig from "./utils/corsConfig";
 import { configureOAuth2Strategy } from "./passport/oauth2.strategy";
 import fileRouter from "./router/fileRouter";
@@ -25,7 +25,7 @@ server.use(morgan("dev"))
 
 // Rutas definidas
 server.use("/auth", OAuthRouter);
-server.use("/api", indexRouter);
 server.use("/file", fileRouter);
+server.use("/api", indexRouter);
 
 export default server;
