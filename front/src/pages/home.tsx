@@ -1,7 +1,7 @@
 import React from 'react'
 import '../index.css'
 import Solution from './solution'
-import Review from '../components/Review'
+import Review from '../pages/reviews'
 import AboutUs from '../pages/aboutUs'
 import Questions from '../pages/questions'
 import Footer from '../components/Footer'
