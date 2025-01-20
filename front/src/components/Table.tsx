@@ -7,12 +7,15 @@ import {
 import React, { useMemo, useEffect, useState } from "react";
 import { IUser } from "../types/User";
 import { Edit, Delete } from "@mui/icons-material";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, Tooltip, Box, Button } from "@mui/material";
+import { mkConfig, generateCsv, download } from "export-to-csv";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 
 function Table() {
   const [data, setData] = useState<IUser[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  //https://h4-02-vocaltech.onrender.com/api/airtable/leads
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -32,6 +35,8 @@ function Table() {
           company: item.fields.company,
           description: item.fields.description,
           phone: item.fields.phone,
+          role: item.fields.role,
+          status: item.fields.status,
         }));
 
         setData(transformedData);
@@ -48,34 +53,29 @@ function Table() {
   const columns = useMemo<MRT_ColumnDef<IUser>[]>(
     () => [
       {
-        accessorKey: "id",
-        header: "ID",
-        muiTableBodyCellProps: { style: { color: "black" } },
-        enableHiding: false,
-      },
-      {
         accessorKey: "name",
         header: "Name",
         muiTableBodyCellProps: { style: { color: "black" } },
-        enableHiding: false,
+      },
+      {
+        accessorKey: "role",
+        header: "Role",
       },
       {
         accessorKey: "company",
         header: "Company",
-        muiTableBodyCellProps: { style: { color: "black" } },
-        enableHiding: false,
       },
       {
         accessorKey: "email",
         header: "Email",
-        muiTableBodyCellProps: { style: { color: "black" } },
-        enableHiding: false,
       },
       {
         accessorKey: "phone",
         header: "Phone",
-        muiTableBodyCellProps: { style: { color: "black" } },
-        enableHiding: false,
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
       },
       {
         id: "actions", // Columna personalizada
@@ -99,6 +99,17 @@ function Table() {
     []
   );
 
+  const csvConfig = mkConfig({
+    fieldSeparator: ",",
+    decimalSeparator: ".",
+    useKeysAsHeaders: true,
+  });
+
+  const handleExportData = () => {
+    const csv = generateCsv(csvConfig)(data);
+    download(csvConfig)(csv);
+  };
+
   const table = useMaterialReactTable<IUser>({
     columns,
     data,
@@ -111,12 +122,27 @@ function Table() {
         pageIndex: 0,
       },
     },
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "16px",
+            padding: "8px",
+            flexWrap: "wrap",
+          }}
+        />
+        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
+          Export All Data
+        </Button>
+      </>
+    ),
   });
 
   if (isLoading) {
     return <div>Cargando usuarios...</div>;
   }
 
-  return <MaterialReactTable columns={columns} data={data} table={table}/>;
+  return <MaterialReactTable columns={columns} data={data} table={table} />;
 }
 export default Table;

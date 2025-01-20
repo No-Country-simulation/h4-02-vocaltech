@@ -6,4 +6,6 @@ export interface IUser{
     company: string;
     description: string;
     phone: string;
+    role: string;
+    status: string;
 }
