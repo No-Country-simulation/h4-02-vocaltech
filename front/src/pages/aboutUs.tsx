@@ -4,7 +4,7 @@ import nocountry from "../assets/img-nocountry.png";
 
 const aboutUs = () => {
   return (
-    <div className="py-24 px-10 bg-anaranjado_claro">
+    <div className="py-24 px-10">
       <div className="mb-8 text-center ">
         <h2 className="font-bold mb-4 text-4xl ">¿Quienes somos?</h2>
         <p>

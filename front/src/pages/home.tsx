@@ -8,8 +8,8 @@ import Footer from '../components/Footer'
 
 const Home = () => {
   return (
-    <div>
-      <div className='bg-azul lg:py-40 flex flex-col lg:flex-row items-center justify-center gap-10 px-15 px-6 text-center md:py-30 py-20'>
+    <div className='background-home'>
+      <div className='lg:py-40 flex flex-col lg:flex-row items-center justify-center gap-10 px-15 px-6 text-center md:py-30 py-20'>
         <div className='px-10'>
           <img
             src='./voz.webp'
@@ -33,7 +33,7 @@ const Home = () => {
         </div>
       </div>
 
-      <section id='solution' className='bg-gray-100'>
+      <section id='solution'>
         <Solution />
       </section>
       <section id='reviews'>
@@ -42,7 +42,7 @@ const Home = () => {
       <section id='about-us'>
         <AboutUs />
       </section>
-      <section id='questions' className=' bg-white'>
+      <section id='questions'>
         <Questions />
       </section>
       <section id='footer'>

@@ -17,7 +17,7 @@ const Review = () => {
         fusce egestas risus purus suspendisse turpis volutpat onare”
       </p>
       <div className="flex">
-        <CgProfile className="text-5xl mr-2"/>
+        <CgProfile className="text-5xl mr-2 text-white"/>
         <div className="flex flex-col">
           <p className="font-semibold">Nombre</p>
           <p className="font-extralight text-slate-400 text-xs mt-0">CEO & Founder</p>

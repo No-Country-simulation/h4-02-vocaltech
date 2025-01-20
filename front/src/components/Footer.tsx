@@ -7,7 +7,7 @@ import { FaSquareInstagram, FaSquareXTwitter, FaLinkedin, FaSquareYoutube } from
 
 const Footer = () => {
     return (
-        <div className='flex flex-col justify-center items-center h-16 gap-4 bg-azul_claro text-white pt-10 pb-16 mm:flex-row'>
+        <div className='flex flex-col justify-center items-center h-16 gap-4  text-white pt-10 pb-16 mm:flex-row'>
             <div>
                 <p>Copyright © 2025 Vocaltech | All Rights Reserved</p>
             </div>

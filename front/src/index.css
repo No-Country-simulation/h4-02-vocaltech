@@ -8,3 +8,11 @@ body {
   padding: 0;
   text-decoration: none;
 }
+
+.background-home{
+  background: linear-gradient(rgba(0,1,21,1), rgba(23,42,179,1))
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  color: #FFF;
+}
