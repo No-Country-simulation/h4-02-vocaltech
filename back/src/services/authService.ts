@@ -3,8 +3,9 @@ import jwt from "jsonwebtoken";
 import { config } from "../config/validateEnv";
 import { RegisterUserDto, LoginUserDto } from "../dtos/authDtos";
 import { AirtableResponse } from "../utils/airtableInterfaces"; 
-const fetch = require('node-fetch');
 import zxcvbn from "zxcvbn";
+
+const fetch = require('node-fetch');
 
 export const authService = {
   // Registro de usuario
