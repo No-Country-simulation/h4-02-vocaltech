@@ -6,7 +6,7 @@ const aboutUs = () => {
   return (
     <div className="py-24 px-20 bg-anaranjado_claro">
       <div className="px-8 mb-8 text-center">
-        <h2 className="text-h4 font-bold mb-4">¿Quienes somos?</h2>
+        <h2 className="font-bold mb-4 text-4xl ">¿Quienes somos?</h2>
         <p>
           En Vocaltech, somos el resultado de una alianza estratégica entre No
           Country y Vos y Tu Voz, uniendo fuerzas para crear un espacio donde la
@@ -15,8 +15,8 @@ const aboutUs = () => {
         </p>
         <hr className="mt-8 border-black" />
       </div>
-      <div className="flex flex-row justify-center gap-8">
-        <div className="flex flex-col w-2/4">
+      <div className="flex flex-col justify-center gap-8 md:flex-row">
+        <div className="flex flex-col w-full">
           <h5 className="text-h5 font-bold mb-4">Mision</h5>
           <p className="text-justify">
             Apoyar a emprendedores y empresas en su camino al éxito,
@@ -34,7 +34,7 @@ const aboutUs = () => {
             />
           </div>
         </div>
-        <div className="flex flex-col w-2/4">
+        <div className="flex flex-col w-full">
           <h5 className="text-h5 font-bold mb-4">Vision</h5>
           <p className="text-justify">
             Creemos en el poder del conocimiento y la colaboración para
