@@ -18,13 +18,17 @@ const Home = () => {
           />
         </div>
         <div className='text-white pb-10 max-w-xl'>
-          <h1 className='text-6xl pb-3 font-bold my-4'>
-            Lorem Ipsum simply dummy
+          <h1 className='text-5xl pb-3 font-bold my-4'>
+            ¿Qué desafíos enfrentan nuestros clientes?
           </h1>
           <p className='text-xl'>
-            Welcome to Burger Bliss, where we take your cravings to a whole new
-            level! Our mouthwatering burgers are made from 100% beef and are
-            served on freshly baked buns.
+            Empresas y emprendedores enfrentan desafíos que límitan su
+            comunicación, liderazgo y desarrollo. En VocalTech abordamos
+            problemas como comunicación interna ineficaz. liderazgo poco
+            inspirador y presentaciones sin impacto en las organizaciones, así
+            como inseguridad para presentar ideas, dificultad para estructurar
+            pitchs y falta de validación de mercado en emprendedores. Ofrecemos
+            soluciones que potencian sus habilidades y fomentan su crecimiento.
           </p>
         </div>
       </div>
