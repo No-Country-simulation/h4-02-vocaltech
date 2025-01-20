@@ -9,6 +9,7 @@ export default {
       colors: {
         primary: "#CE9DF9",
         azul: "#000115",
+        azul_claro: "#172AB3",
         anaranjado: "#E26105",
         negro: "#151419",
         anaranjado_claro: "#FFC107",
