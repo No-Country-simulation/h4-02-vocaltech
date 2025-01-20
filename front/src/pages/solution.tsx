@@ -10,9 +10,9 @@ const Solution = () => {
 
   return (
     <>
-      <div className="solution flex-col px-16 pt-10">
-        <h3 className="font-bold mb-8 text-4xl">Nuestros servicios</h3>
-        <p>
+      <div className="solution flex-col px-10 pt-10">
+        <h3 className="font-bold mb-8 text-4xl text-center md:text-left">Nuestros servicios</h3>
+        <p className="text-center md:text-left">
           En Vocaltech, entendemos que cada proyecto y negocio tiene necesidades
           únicas. Por eso, ofrecemos soluciones diseñadas para potenciar tu
           comunicación, integrar tecnología de manera efectiva y ayudarte a

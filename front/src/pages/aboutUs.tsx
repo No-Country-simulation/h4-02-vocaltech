@@ -4,8 +4,8 @@ import nocountry from "../assets/img-nocountry.png";
 
 const aboutUs = () => {
   return (
-    <div className="py-24 px-20 bg-anaranjado_claro">
-      <div className="px-8 mb-8 text-center">
+    <div className="py-24 px-10 bg-anaranjado_claro">
+      <div className="mb-8 text-center ">
         <h2 className="font-bold mb-4 text-4xl ">¿Quienes somos?</h2>
         <p>
           En Vocaltech, somos el resultado de una alianza estratégica entre No

@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Review = () => {
   return (
-    <div className="flex flex-col w-full sm:w-full lg:w-1/3 p-3 sm:p-6 lg:p-6">
+    <div className="flex flex-col my-3 w-full sm:w-full lg:w-1/3 p-3 sm:p-6 lg:p-6">
       <div className="flex text-orange-200">
         <FaStar />
         <FaStar />
