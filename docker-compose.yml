@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  back:
+    build: ./back
+    ports:
+      - "3001:3000"
+    env_file:
+      - ./back/.env
+    depends_on: []
+
+
