@@ -4,11 +4,45 @@ import { config } from "../config/validateEnv";
 import { RegisterUserDto, LoginUserDto } from "../dtos/authDtos";
 import { AirtableResponse } from "../utils/airtableInterfaces"; 
 const fetch = require('node-fetch');
+import zxcvbn from "zxcvbn";
 
 export const authService = {
+  // Registro de usuario
   async registerUser(registerDto: RegisterUserDto): Promise<any> {
     const { AIRTABLE_API_KEY, usersTableUrl } = config;
 
+    // Validamos la fortaleza de la contraseña
+    const passwordStrength = zxcvbn(registerDto.password);
+    if (passwordStrength.score < 3) {
+      throw new Error("Password is too weak. Please choose a stronger password.");
+    }
+
+    // Comprobamos si el email ya está registrado
+    const response = await fetch(usersTableUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to fetch users from Airtable: ${errorText}`);
+    }
+
+    const data = (await response.json()) as AirtableResponse;
+
+    const users = data.records.map((record) => ({
+      id: record.id,
+      ...record.fields,
+    }));
+
+    const existingUser = users.find((user) => user.email === registerDto.email);
+    if (existingUser) {
+      throw new Error("Email is already registered.");
+    }
+
+    // Si no existe, procedemos a crear el nuevo usuario
     const hashedPassword = await bcrypt.hash(registerDto.password, 10);
     const newUser = {
       fields: {
@@ -20,7 +54,7 @@ export const authService = {
       },
     };
 
-    const response = await fetch(usersTableUrl, {
+    const createResponse = await fetch(usersTableUrl, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${AIRTABLE_API_KEY}`,
@@ -29,14 +63,15 @@ export const authService = {
       body: JSON.stringify(newUser),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    if (!createResponse.ok) {
+      const errorText = await createResponse.text();
       throw new Error(`Failed to register user in Airtable: ${errorText}`);
     }
 
-    return await response.json();
+    return await createResponse.json();
   },
 
+  // Login de usuario
   async loginUser(loginDto: LoginUserDto): Promise<string> {
     const { AIRTABLE_API_KEY, usersTableUrl, JWT_SECRET } = config;
 

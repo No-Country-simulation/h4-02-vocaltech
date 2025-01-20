@@ -13,8 +13,19 @@ export const authController = {
         user: newUser,
       });
     } catch (error) {
-      // Manejo explícito del tipo de error
+      // Manejo de errores específicos para las nuevas validaciones
       if (error instanceof Error) {
+        if (error.message === "Password is too weak. Please choose a stronger password.") {
+          return res.status(400).json({
+            message: "Password is too weak.",
+            error: error.message,
+          });
+        } else if (error.message === "Email is already registered.") {
+          return res.status(400).json({
+            message: "Email is already registered.",
+            error: error.message,
+          });
+        }
         console.error("Error registering user:", error.message);
         return res.status(500).json({
           message: "Failed to register user.",
@@ -39,11 +50,17 @@ export const authController = {
         token,
       });
     } catch (error) {
-      // Manejo explícito del tipo de error
+      // Manejo de errores específicos para login
       if (error instanceof Error) {
+        if (error.message === "Invalid email or password.") {
+          return res.status(401).json({
+            message: "Invalid credentials.",
+            error: error.message,
+          });
+        }
         console.error("Error logging in user:", error.message);
-        return res.status(401).json({
-          message: "Invalid credentials.",
+        return res.status(500).json({
+          message: "Failed to login.",
           error: error.message,
         });
       } else {
@@ -55,6 +72,7 @@ export const authController = {
     }
   },
 };
+
 
 
 
