@@ -1,13 +1,30 @@
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import api from '../services/api'
 
 interface RegisterFormInputs {
   name: string
   surname: string
   email: string
   password: string
+}
+
+interface ApiErrorResponse {
+  message?: string
+}
+
+const isApiErrorResponse = (
+  error: unknown
+): error is { response: { data: ApiErrorResponse } } => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'response' in error &&
+    typeof (error as { response: unknown }).response === 'object' &&
+    'data' in (error as { response: { data: unknown } }).response
+  )
 }
 
 const Register: React.FC = () => {
@@ -17,10 +34,28 @@ const Register: React.FC = () => {
     formState: { errors }
   } = useForm<RegisterFormInputs>()
 
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
+  const [registerError, setRegisterError] = useState<string | null>(null)
 
-  const onSubmit: SubmitHandler<RegisterFormInputs> = (data) => {
-    console.log('Datos del formulario:', data)
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    try {
+      const response = await api.post('/user/register', data)
+
+      alert('¡Registro exitoso! Por favor inicia sesión.')
+      navigate('/login')
+    } catch (error) {
+      if (isApiErrorResponse(error)) {
+        // Si es un error con respuesta, extraemos el mensaje
+        const errorMessage =
+          error.response.data.message ||
+          'Hubo un problema en el servidor. Intenta nuevamente.'
+        setRegisterError(errorMessage)
+      } else {
+        // Si el error no es de la API, mostramos un mensaje genérico
+        setRegisterError('Error de conexión. Por favor verifica tu red.')
+      }
+    }
   }
 
   return (
@@ -152,6 +187,10 @@ const Register: React.FC = () => {
               </p>
             )}
           </div>
+
+          {registerError && (
+            <div className='text-red-500 text-sm mb-4'>{registerError}</div>
+          )}
 
           <button
             type='submit'
