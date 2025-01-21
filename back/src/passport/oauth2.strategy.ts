@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as OAuth2Strategy, VerifyCallback } from 'passport-oauth2';
-import { CLIENT_ID, CALLBACK_URL, CLIENT_SECRET, TOKEN_URL, AUTHORIZATION_URL } from '../config/validateEnv';
+import { config } from '../config/validateEnv';
 import { base } from '../utils/repositoryAirTable';
 
 // Configuración de la estrategia OAuth2
@@ -9,11 +9,11 @@ export const configureOAuth2Strategy = () => {
     'oauth2',
     new OAuth2Strategy(
       {
-        authorizationURL: AUTHORIZATION_URL,
-        tokenURL: TOKEN_URL,
-        clientID: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        callbackURL: CALLBACK_URL,
+        authorizationURL: config.AUTHORIZATION_URL,
+        tokenURL: config.TOKEN_URL,
+        clientID: config.CLIENT_ID,
+        clientSecret: config.CLIENT_SECRET,
+        callbackURL: config.CALLBACK_URL || config.LOCAL_CALLBACK_URL,
       },
       async (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) => {
         try {

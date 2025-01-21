@@ -1,7 +1,13 @@
-import { base } from "../utils/repositoryAirTable"; 
+import { base } from "../utils/repositoryAirTable";
 
-// Función para obtener registros
-async function getRecords(table: string) {
+// Definición del tipo genérico para un registro de Airtable
+interface AirtableRecord<T = any> {
+  id: string;
+  fields: T;
+}
+
+// Función genérica para obtener registros de una tabla de Airtable
+async function getRecords<T>(table: string): Promise<AirtableRecord<T>[]> {
   try {
     const records = await base(table)
       .select()
@@ -9,7 +15,7 @@ async function getRecords(table: string) {
 
     return records.map((record) => ({
       id: record.id,
-      fields: record.fields,
+      fields: record.fields as T,
     }));
   } catch (error) {
     console.error(`Error retrieving records from table ${table}:`, error);
@@ -18,4 +24,5 @@ async function getRecords(table: string) {
 }
 
 export default getRecords;
+
 
