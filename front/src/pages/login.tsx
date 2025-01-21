@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
+import api from '../services/api'
 
 interface LoginFormInputs {
   email: string
   password: string
+}
+
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string
+    }
+  }
 }
 
 const Login: React.FC = () => {
@@ -15,10 +24,24 @@ const Login: React.FC = () => {
     formState: { errors }
   } = useForm<LoginFormInputs>()
 
+  const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
+  const [loginError, setLoginError] = useState<string | null>(null)
 
-  const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log('Datos del formulario:', data)
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    try {
+      const response = await api.post('/user/login', data)
+      const { token } = response.data
+      localStorage.setItem('token', token)
+
+      alert('Inicio de sesión exitoso')
+      navigate('/')
+    } catch (err) {
+      const error = err as ApiError
+      setLoginError(
+        error.response?.data?.message || 'Ocurrió un error al iniciar sesión'
+      )
+    }
   }
 
   return (
@@ -44,8 +67,7 @@ const Login: React.FC = () => {
           </h1>
           <p className='text-lg mb-20'>
             Accede a tu cuenta para aprovechar al máximo nuestras herramientas y
-            servicios diseñados para potenciar tus habilidades y conectar
-            oportunidades.
+            servicios.
           </p>
           <Link to='/register'>
             <button className='bg-azul px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
@@ -84,7 +106,7 @@ const Login: React.FC = () => {
             )}
           </div>
 
-          <div className='mb-10 relative'>
+          <div className='mb-10'>
             <label htmlFor='password' className='block text-lg font-medium'>
               Contraseña
             </label>
@@ -133,25 +155,16 @@ const Login: React.FC = () => {
             </Link>
           </div>
 
+          {loginError && (
+            <div className='text-red-500 text-sm mb-4'>{loginError}</div>
+          )}
+
           <button
             type='submit'
             className='bg-orange-500 w-full text-white py-2 mt-10 rounded-lg font-semibold hover:bg-orange-600 transition'
           >
             Iniciar sesión
           </button>
-
-          <div className='flex items-center my-6'>
-            <div className='flex-grow h-px bg-gray-300'></div>
-            <span className='px-4 text-gray-300 font-bold text-lg'>O</span>
-            <div className='flex-grow h-px bg-gray-300'></div>
-          </div>
-
-          <div className='flex gap-4 justify-center'>
-            <button className='flex items-center gap-2 bg-white text-slate-600 font-semibold py-2 px-4 rounded-lg w-full justify-center hover:bg-gray-200 transition'>
-              <img src='./logo_google.png' alt='Google' className='w-5' />
-              Iniciar con Google
-            </button>
-          </div>
         </form>
       </section>
     </div>
