@@ -1,5 +1,4 @@
 // src/models/User.ts
-
 export interface UserFields {
   name: string;
   phone: string;
