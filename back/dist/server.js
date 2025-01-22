@@ -25,4 +25,5 @@ server.use((0, morgan_1.default)("dev"));
 server.use("/api", index_1.default);
 server.use("/auth", oAuth2Routes_1.default);
 server.use("/file", fileRouter_1.default);
+// server.use("/userdata", UserRouter);
 exports.default = server;

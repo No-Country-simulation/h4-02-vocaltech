@@ -7,7 +7,7 @@ import OAuthRouter from "./router/oAuth2Routes";
 import corsConfig from "./utils/corsConfig";
 import { configureOAuth2Strategy } from "./passport/oauth2.strategy";
 import fileRouter from "./router/fileRouter";
-
+import UserRouter from './router/userRoutes';
 
 const server = express();
 
@@ -27,5 +27,6 @@ server.use(morgan("dev"))
 server.use("/api", indexRouter);
 server.use("/auth", OAuthRouter);
 server.use("/file", fileRouter);
+server.use("/user", UserRouter);
 
 export default server;

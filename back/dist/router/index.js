@@ -10,8 +10,8 @@ const userRoutes_1 = __importDefault(require("./userRoutes"));
 const router = (0, express_1.Router)();
 // Rutas para AirTable
 router.use("/airtable", RouterAirTable_1.default);
-router.use("/user", authRoutes_1.default);
-router.use("/userdata", userRoutes_1.default);
+router.use("/auth", authRoutes_1.default);
+router.use("/user", userRoutes_1.default);
 /*
 router.use("/leads", ledsRoutes);
 router.use("/diagnostics",);

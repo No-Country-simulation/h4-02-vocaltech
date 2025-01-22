@@ -18,15 +18,3 @@ UserRouter.get("/:id", async (req, res) => {
 export default UserRouter;
 
 
-
-// import express from "express";
-// import * as userController from "../controllers/userController";
-
-// const router = express.Router();
-
-// // Route to get a user by ID
-// router.get("/:id", userController.getUserById);
-// // Route to delete a user by ID
-// router.delete("/:id", userController.deleteUser);
-
-// export default router;
