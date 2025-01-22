@@ -6,7 +6,7 @@ import api from '../services/api'
 
 interface RegisterFormInputs {
   name: string
-  surname: string
+  phone: number
   email: string
   password: string
 }
@@ -57,19 +57,32 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className='flex h-screen bg-azul'>
-      <section className='w-1/2 bg-anaranjado flex items-center justify-center'>
+    <div className='flex flex-col lg:flex-row min-h-screen bg-sky-950'>
+      <section className='flex-1 bg-anaranjado flex items-center justify-center relative'>
+        <div className='absolute top-5 left-5 lg:hidden'>
+          <Link to='/'>
+            <img src='./logo.png' alt='Logo Home' className='w-40' />
+          </Link>
+        </div>
+        <div className='absolute top-5 right-5 lg:hidden'>
+          <Link to='/login'>
+            <button className='bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition'>
+              Iniciar sesión
+            </button>
+          </Link>
+        </div>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='w-full px-16 max-w-4xl'
+          className='w-3/4 max-w-4xl px-6 lg:px-16'
         >
-          <div className='flex gap-8 mb-6'>
+          <div className='flex flex-col lg:flex-row gap-6 mb-6'>
             <div className='flex-1'>
               <label
                 htmlFor='name'
                 className='block text-sm font-medium text-white mb-1'
               >
-                Nombre
+                Nombre completo
               </label>
               <input
                 type='text'
@@ -81,31 +94,33 @@ const Register: React.FC = () => {
                 placeholder='Tu nombre'
               />
               {errors.name && (
-                <p className='text-grey text-sm mt-1'>{errors.name.message}</p>
+                <p className='text-red-500 text-sm mt-1'>
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
             <div className='flex-1'>
               <label
-                htmlFor='surname'
+                htmlFor='phone'
                 className='block text-sm font-medium text-white mb-1'
               >
-                Apellido
+                Teléfono
               </label>
               <input
-                type='text'
-                id='surname'
-                {...register('surname', {
-                  required: 'El apellido es obligatorio'
+                type='number'
+                id='phone'
+                {...register('phone', {
+                  required: 'El teléfono es obligatorio'
                 })}
                 className={`w-full border rounded-lg px-3 py-2 ${
-                  errors.surname ? 'border-red-500' : 'border-gray-300'
+                  errors.phone ? 'border-red-500' : 'border-gray-300'
                 } focus:ring-orange-500 focus:border-orange-500`}
-                placeholder='Tu apellido'
+                placeholder='Tu teléfono'
               />
-              {errors.surname && (
-                <p className='text-grey text-sm mt-1'>
-                  {errors.surname.message}
+              {errors.phone && (
+                <p className='text-red-500 text-sm mt-1'>
+                  {errors.phone.message}
                 </p>
               )}
             </div>
@@ -134,7 +149,9 @@ const Register: React.FC = () => {
               placeholder='ejemplo@gmail.com'
             />
             {errors.email && (
-              <p className='text-grey text-sm mt-1'>{errors.email.message}</p>
+              <p className='text-red-500 text-sm mt-1'>
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -180,7 +197,7 @@ const Register: React.FC = () => {
               </button>
             </div>
             {errors.password && (
-              <p className='text-grey text-sm mt-1'>
+              <p className='text-red-500 text-sm mt-1'>
                 {errors.password.message}
               </p>
             )}
@@ -192,7 +209,7 @@ const Register: React.FC = () => {
 
           <button
             type='submit'
-            className='bg-azul w-full text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition'
+            className='bg-sky-950 w-full text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition'
           >
             Registrarme
           </button>
@@ -213,7 +230,7 @@ const Register: React.FC = () => {
       </section>
 
       <section
-        className='w-1/2 flex flex-col justify-center items-center gap-40 text-white p-10 relative'
+        className='flex-1 hidden lg:flex flex-col justify-center items-center gap-40 text-white p-10 relative'
         style={{
           backgroundImage: `url('./fondo-azul.png')`,
           backgroundSize: 'cover',
@@ -234,9 +251,11 @@ const Register: React.FC = () => {
             servicios diseñados para potenciar tus habilidades y conectar
             oportunidades.
           </p>
-          <button className='bg-anaranjado px-24 py-3 mt-10 rounded-md text-white hover:bg-blue-700 transition'>
-            Iniciar sesión
-          </button>
+          <Link to='/login'>
+            <button className='bg-anaranjado px-24 py-3 mt-10 rounded-md text-white hover:bg-orange-600 transition'>
+              Iniciar sesión
+            </button>
+          </Link>
         </div>
       </section>
     </div>

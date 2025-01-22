@@ -45,9 +45,9 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className='flex h-screen bg-anaranjado'>
+    <div className='flex min-h-screen bg-anaranjado'>
       <section
-        className='w-1/2 flex flex-col justify-center items-center gap-16 text-white p-10'
+        className='hidden lg:flex lg:w-1/2 flex-col justify-center items-center gap-16 text-white p-10'
         style={{
           backgroundImage: `url('./fondo-naranja.png')`,
           backgroundSize: 'cover',
@@ -70,14 +70,27 @@ const Login: React.FC = () => {
             servicios.
           </p>
           <Link to='/register'>
-            <button className='bg-azul px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
+            <button className='bg-sky-950 px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
               Registrarme
             </button>
           </Link>
         </div>
       </section>
 
-      <section className='w-1/2 bg-azul flex items-center justify-center'>
+      <section className='flex flex-1 lg:w-1/2 bg-sky-950 items-center justify-center relative'>
+        <div className='absolute top-5 left-5 flex lg:hidden'>
+          <Link to='/'>
+            <img src='./logo.png' alt='Logo Home' className='w-40' />
+          </Link>
+        </div>
+        <div className='absolute top-5 right-5 flex lg:hidden'>
+          <Link to='/register'>
+            <button className='bg-orange-500 px-5 py-2 rounded-md text-white hover:bg-orange-600 transition'>
+              Registrarme
+            </button>
+          </Link>
+        </div>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className='text-white w-3/4 max-w-3xl'
@@ -147,12 +160,14 @@ const Login: React.FC = () => {
                 {errors.password.message}
               </span>
             )}
-            <Link
-              to='/forgot-password'
-              className='text-sm text-gray-300 hover:text-white mt-3 absolute bottom-[-25px] right-0 underline'
-            >
-              Olvidé mi contraseña
-            </Link>
+            <div className='mt-2 text-right'>
+              <Link
+                to='/forgot-password'
+                className='text-sm text-gray-300 hover:text-white underline'
+              >
+                Olvidé mi contraseña
+              </Link>
+            </div>
           </div>
 
           {loginError && (
@@ -161,10 +176,22 @@ const Login: React.FC = () => {
 
           <button
             type='submit'
-            className='bg-orange-500 w-full text-white py-2 mt-10 rounded-lg font-semibold hover:bg-orange-600 transition'
+            className='bg-orange-500 w-full text-white py-3 mt-10 rounded-lg font-semibold hover:bg-orange-600 transition'
           >
             Iniciar sesión
           </button>
+          <div className='flex items-center my-6'>
+            <div className='flex-grow h-px bg-white'></div>
+            <span className='px-4 text-white font-bold text-lg'>O</span>
+            <div className='flex-grow h-px bg-white'></div>
+          </div>
+
+          <div className='flex justify-center'>
+            <button className='flex items-center gap-4 w-full justify-center bg-white text-gray-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition'>
+              <img src='./logo_google.png' alt='Google' className='w-5' />
+              Registrarme con Google
+            </button>
+          </div>
         </form>
       </section>
     </div>
