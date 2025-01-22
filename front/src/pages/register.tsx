@@ -46,13 +46,11 @@ const Register: React.FC = () => {
       navigate('/login')
     } catch (error) {
       if (isApiErrorResponse(error)) {
-        // Si es un error con respuesta, extraemos el mensaje
         const errorMessage =
           error.response.data.message ||
           'Hubo un problema en el servidor. Intenta nuevamente.'
         setRegisterError(errorMessage)
       } else {
-        // Si el error no es de la API, mostramos un mensaje genérico
         setRegisterError('Error de conexión. Por favor verifica tu red.')
       }
     }
