@@ -15,7 +15,7 @@ const entrepreneurs = () => {
   return (
     <div className="bcbody flex flex-col">
       <div className="flex flex-col justify-center items-center p-20 lg:p-40">
-        <h1 className="font-bold text-center text-3xl mb-12">
+        <h1 className="font-bold text-center text-3xl mb-12 md:text-4xl">
           Empodera a los emprendedores con VocalTech
         </h1>
         <p className="text-justify">
@@ -32,7 +32,7 @@ const entrepreneurs = () => {
       </div>
       <Carrousel />
       <div className="flex flex-col justify-center items-center p-20 lg:p-40">
-        <h4 className="font-bold text-center text-2xl mb-12">
+        <h4 className="font-bold text-center text-2xl mb-12 md:text-3xl">
           Nuestra solución
         </h4>
         <p className="text-justify">
@@ -71,7 +71,7 @@ Ideal para presentaciones de pitch y captación de inversores."
         />
       </div>
       <div className="flex flex-col justify-center items-center p-20 lg:p-40">
-        <h4 className="font-bold text-center text-2xl mb-12">
+        <h4 className="font-bold text-center text-2xl mb-12 md:text-3xl">
           Testimonios de Emprendedores
         </h4>
         <p className="text-justify">
@@ -85,14 +85,14 @@ Ideal para presentaciones de pitch y captación de inversores."
         </div>
       </div>
       <div className="flex flex-col justify-center items-center p-20 lg:p-40">
-        <h3 className="font-bold text-center text-2xl mb-12">
+        <h3 className="font-bold text-center text-2xl mb-12 md:text-4xl">
           ¡Potencia tu emprendimiento con VocalTech!
         </h3>
         <button className="bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition">
           Registrarse
         </button>
       </div>
-      <div className="bg-azul-claro">
+      <div className="bg-azul_claro">
         <Footer />
       </div>
     </div>
