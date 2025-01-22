@@ -4,6 +4,7 @@ const allowedOrigins = [
     'http://localhost:3001',
     'http://localhost:3000',
     'https://h4-02-vocaltech.onrender.com',
+    'http://localhost:5173'
 ];
 
 const corsConfig: CorsOptions = {
