@@ -14,4 +14,11 @@ export interface AirtableResponse {
   records: AirtableRecordUser[];
 }
   
-  
+export interface AirtableRecord {
+    id: string;
+    fields: {
+      name?: string;
+      email?: string;
+      [key: string]: any; // Allows other dynamic fields
+    };
+  }  
