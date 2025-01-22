@@ -3,20 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CALLBACK_URL = exports.CLIENT_SECRET = exports.CLIENT_ID = exports.TOKEN_URL = exports.AUTHORIZATION_URL = void 0;
-exports.validateEnv = validateEnv;
+exports.config = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// VALIDACION DE VARIABLES DE AIRTABLE
-function validateEnv() {
-    const apiKey = process.env.AIRTABLE_API_KEY;
-    const baseId = process.env.AIRTABLE_BASE_ID;
-    if (!apiKey || !baseId) {
-        throw new Error("Missing required environment variables: AIRTABLE_API_KEY or AIRTABLE_BASE_ID");
-    }
-    return { apiKey, baseId };
-}
-// VALIDACION DE VARIABLES DE OAUTH2.0 
+// Función genérica para validar variables de entorno
 const getEnvVar = (key) => {
     const value = process.env[key];
     if (!value) {
@@ -24,14 +14,30 @@ const getEnvVar = (key) => {
     }
     return value;
 };
-// Valida y asigna las variables necesarias
-const AUTHORIZATION_URL = getEnvVar('AUTH_URL');
-exports.AUTHORIZATION_URL = AUTHORIZATION_URL;
-const TOKEN_URL = getEnvVar('TOKEN_URL');
-exports.TOKEN_URL = TOKEN_URL;
-const CLIENT_ID = getEnvVar('CLIENT_ID_GOOGLE');
-exports.CLIENT_ID = CLIENT_ID;
-const CLIENT_SECRET = getEnvVar('CLIENT_SECRET');
-exports.CLIENT_SECRET = CLIENT_SECRET;
-const CALLBACK_URL = getEnvVar('CALLBACK_URL');
-exports.CALLBACK_URL = CALLBACK_URL;
+// Encapsulamos las variables de entorno en un objeto
+exports.config = {
+    // Variables de entorno para la base de datos Airtable
+    AIRTABLE_URL_BASE: getEnvVar('AIRTABLE_URL_BASE'),
+    AIRTABLE_API_KEY: getEnvVar('AIRTABLE_API_KEY'),
+    AIRTABLE_BASE_ID: getEnvVar('AIRTABLE_BASE_ID'),
+    // URL de las tablas de Airtable
+    diagnosticsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Diagnostics`,
+    usersTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Users`,
+    messagesTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Messages`,
+    productsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Products`,
+    leadsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Leads`,
+    // Variables de entorno para la estrategia OAuth2
+    AUTHORIZATION_URL: getEnvVar('AUTH_URL'),
+    TOKEN_URL: getEnvVar('TOKEN_URL'),
+    CLIENT_ID: getEnvVar('CLIENT_ID_GOOGLE'),
+    CLIENT_SECRET: getEnvVar('CLIENT_SECRET'),
+    CALLBACK_URL: getEnvVar('CALLBACK_URL'),
+    LOCAL_CALLBACK_URL: getEnvVar('LOCAL_CALLBACK_URL'),
+    // Variables de entorno para JWT
+    JWT_SECRET: getEnvVar('JWT_SECRET'),
+    // Variables de entorno para AWS
+    AWS_ACCESS_KEY_ID: getEnvVar('AWS_ACCESS_KEY_ID'),
+    AWS_SECRET_ACCESS_KEY: getEnvVar('AWS_SECRET_ACCESS_KEY'),
+    AWS_BUCKET_NAME: getEnvVar('AWS_BUCKET_NAME'),
+    AWS_REGION: getEnvVar('AWS_REGION'),
+};

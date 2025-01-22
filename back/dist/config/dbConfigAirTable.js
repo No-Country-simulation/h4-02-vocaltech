@@ -8,20 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const airtable_1 = __importDefault(require("airtable"));
-const validateEnv_1 = require("./validateEnv");
-const { apiKey, baseId } = (0, validateEnv_1.validateEnv)();
-// Inicialización de AirTable
-const base = new airtable_1.default({ apiKey }).base(baseId);
-// Función para obtener registros
+const repositoryAirTable_1 = require("../utils/repositoryAirTable");
+// Función genérica para obtener registros de una tabla de Airtable
 function getRecords(table) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const records = yield base(table)
+            const records = yield (0, repositoryAirTable_1.base)(table)
                 .select()
                 .all();
             return records.map((record) => ({

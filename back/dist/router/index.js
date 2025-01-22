@@ -5,12 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const RouterAirTable_1 = __importDefault(require("../router/RouterAirTable"));
+const authRoutes_1 = __importDefault(require("./authRoutes"));
 const router = (0, express_1.Router)();
 // Rutas para AirTable
 router.use("/airtable", RouterAirTable_1.default);
+router.use("/user", authRoutes_1.default);
 /*
-router.use("/auth",);
-router.use("/leads",);
+router.use("/leads", ledsRoutes);
 router.use("/diagnostics",);
 router.use("/notifications");
 router.use("/admin",);
