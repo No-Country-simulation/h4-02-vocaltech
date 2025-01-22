@@ -31,18 +31,18 @@ const Companies = () => {
         </p>
       </section>
 
-      <section className='bg-white py-16 px-6 sm:px-12 md:px-20 lg:px-32'>
-        <div className='text-center mb-12'>
-          <h3 className='text-3xl py-10 md:text-4xl font-bold text-black mb-4'>
+      <section className='bg-white py-12 px-4 sm:px-12 md:px-20 lg:px-32'>
+        <div className='text-center mb-8'>
+          <h3 className='text-3xl py-6 md:text-4xl font-bold text-black mb-4'>
             Nuestra solución
           </h3>
-          <p className='text-slate-500 pb-20 text-lg md:text-xl leading-relaxed'>
+          <p className='text-slate-500 text-lg md:text-xl leading-relaxed'>
             Descubre cómo VocalTech puede transformar la comunicación y
             liderazgo empresarial con sus servicios especializados.
           </p>
         </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center'>
           <Card
             title='Liderar a través de la voz'
             text='Curso para empresas y profesionales de todas las jerarquías.
@@ -87,33 +87,35 @@ const Companies = () => {
         </div>
       </section>
 
-      <section className='bg-white py-16 px-6 sm:px-12 md:px-20 lg:px-32'>
-        <div className='text-center mb-12'>
-          <h3 className='text-3xl py-10 md:text-5xl font-bold text-black mb-4'>
+      <section className='bg-white py-12 px-4 sm:px-12 md:px-20 lg:px-32'>
+        <div className='text-center mb-8'>
+          <h3 className='text-3xl py-6 md:text-5xl font-bold text-black mb-4'>
             Testimonios de Clientes Satisfechos
           </h3>
-          <p className='text-slate-500 pb-20 text-lg md:text-xl leading-relaxed'>
+          <p className='text-slate-500 text-lg md:text-xl leading-relaxed'>
             Descubre lo que nuestros clientes tienen que decir sobre cómo
             VocalTech ha transformado sus empresas y liderazgo empresarial.
           </p>
+        </div>
 
-          <div className='grid grid-cols-1 pb-4 sm:grid-cols-2 lg:grid-cols-2 gap-6'>
-            <ReviewCard
-              name='John Doe'
-              description='El impacto de los programas de VocalTech en nuestra empresa ha sido increíble. Nos ayudaron a mejorar nuestra comunicación y liderazgo de manera notable.'
-              image='./perfil.png'
-              color='text-black'
-              bg='bg-gray-400'
-            />
-            <ReviewCard
-              name='Jane Smith'
-              description='Trabajar con VocalTech nos dio herramientas valiosas para fortalecer nuestra cultura corporativa y optimizar el desempeño de nuestros equipos.'
-              image='./perfil.png'
-              color='text-black'
-              bg='bg-gray-400'
-            />
-          </div>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 justify-center'>
+          <ReviewCard
+            name='John Doe'
+            description='El impacto de los programas de VocalTech en nuestra empresa ha sido increíble. Nos ayudaron a mejorar nuestra comunicación y liderazgo de manera notable.'
+            image='./perfil.png'
+            color='text-black'
+            bg='bg-gray-400'
+          />
+          <ReviewCard
+            name='Jane Smith'
+            description='Trabajar con VocalTech nos dio herramientas valiosas para fortalecer nuestra cultura corporativa y optimizar el desempeño de nuestros equipos.'
+            image='./perfil.png'
+            color='text-black'
+            bg='bg-gray-400'
+          />
+        </div>
 
+        <div className='flex justify-center pt-6'>
           <ReviewCard
             name='Robert Brown'
             description='VocalTech nos ayudó a redefinir nuestra estrategia de comunicación y mejorar las relaciones con nuestros clientes.'
@@ -124,13 +126,13 @@ const Companies = () => {
         </div>
       </section>
 
-      <section className='bg-white py-16 px-6 sm:px-12 md:px-20 lg:px-32'>
-        <div className='text-center mb-12'>
-          <h3 className='text-3xl py-10 md:text-5xl font-bold text-black mb-4'>
+      <section className='bg-white py-12 px-4 sm:px-12 md:px-20 lg:px-32'>
+        <div className='text-center mb-8'>
+          <h3 className='text-3xl py-6 md:text-5xl font-bold text-black mb-4'>
             Transforma la comunicación y liderazgo empresarial con VocalTech
           </h3>
           <Link to='/register'>
-            <button className='bg-anaranjado w-60 text-white py-2 mt-10 rounded-lg font-semibold hover:bg-orange-700 transition'>
+            <button className='bg-anaranjado w-60 text-white py-2 mt-8 rounded-lg font-semibold hover:bg-orange-700 transition'>
               Registrarse
             </button>
           </Link>

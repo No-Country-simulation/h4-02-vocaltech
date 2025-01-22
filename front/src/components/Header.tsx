@@ -36,12 +36,12 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to='/entrepreneurs' onClick={toggleMenu}>
+                <Link to='/emprendedores' onClick={toggleMenu}>
                   Emprendedores
                 </Link>
               </li>
               <li>
-                <Link to='/companies' onClick={toggleMenu}>
+                <Link to='/empresas' onClick={toggleMenu}>
                   Empresas
                 </Link>
               </li>
