@@ -1,6 +1,8 @@
 import React from 'react'
 import Footer from '../components/Footer'
 import { Link } from 'react-router-dom'
+import Card from '../components/Card'
+import ReviewCard from '../components/ReviewCard'
 
 const Companies = () => {
   return (
@@ -28,6 +30,7 @@ const Companies = () => {
           liderazgo, aprovechar oportunidades y fortalecer su marca.
         </p>
       </section>
+
       <section className='bg-white py-16 px-6 sm:px-12 md:px-20 lg:px-32'>
         <div className='text-center mb-12'>
           <h3 className='text-3xl py-10 md:text-4xl font-bold text-black mb-4'>
@@ -40,50 +43,87 @@ const Companies = () => {
         </div>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-          <div className='aspect-w-4 aspect-h-3 bg-gray-200 rounded-xl overflow-hidden shadow-md'>
-            <img
-              src='./fondo-azul.png'
-              alt='Placeholder 1'
-              className='w-full h-full object-cover'
-            />
-          </div>
-          <div className='aspect-w-4 aspect-h-3 bg-gray-200 rounded-xl overflow-hidden shadow-md'>
-            <img
-              src='./fondo-naranja.png'
-              alt='Placeholder 1'
-              className='w-full h-full object-cover'
-            />
-          </div>
-          <div className='aspect-w-4 aspect-h-3 bg-gray-200 rounded-xl overflow-hidden shadow-md'>
-            <img
-              src='./header_companies.png'
-              alt='Placeholder 1'
-              className='w-full h-full object-cover'
-            />
-          </div>
-          <div className='aspect-w-4 aspect-h-3 bg-gray-200 rounded-xl overflow-hidden shadow-md'>
-            <img
-              src='./fondo-naranja.png'
-              alt='Placeholder 1'
-              className='w-full h-full object-cover'
-            />
-          </div>
-          <div className='aspect-w-4 aspect-h-3 bg-gray-200 rounded-xl overflow-hidden shadow-md'>
-            <img
-              src='./fondo-naranja.png'
-              alt='Placeholder 1'
-              className='w-full h-full object-cover'
-            />
-          </div>
-          <div className='aspect-w-4 aspect-h-3 bg-gray-200 rounded-xl overflow-hidden shadow-md'>
-            <img
-              src='./fondo-naranja.png'
-              alt='Placeholder 1'
-              className='w-full h-full object-cover'
-            />
-          </div>
+          <Card
+            title='Liderar a través de la voz'
+            text='Curso para empresas y profesionales de todas las jerarquías.
+            Transforma la comunicación y el liderazgo a través del poder de la voz.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Capacitaciones para empresas'
+            text='Programas diseñados para mejorar la comunicación interna y externa. Fortalece el liderazgo en equipos y el impacto en reuniones o presentaciones.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Fortalecer la voz de la empresa'
+            text='Programa para empresas familiares. Mejora la cohesión y comunicación interna, alineando visión y valores para reflejar unidad y liderazgo.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Charlas inspiradoras'
+            text='Programas diseñados para mejorar la comunicación interna y externa. Fortalece el liderazgo en equipos y el impacto en reuniones o presentaciones.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Validación de Mercado'
+            text='Prueba y ajusta tus ideas en una comunidad activa de más de 30,000 miembros.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Equipos Tech Validados'
+            text='Equipos junior productivos validados mediante simulaciones laborales. Ideal para reducir costos y asegurar la calidad en desarrollos tecnológicos.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Reducción de Riesgos'
+            text='Optimiza costos, tiempos de desarrollo y riesgos asociados con la creación de MVPs.'
+            className='bg-blue-700'
+          />
+          <Card
+            title='Talento Liberado'
+            text='Talento validado culturalmente listo para contratación después del MVP.'
+            className='bg-blue-700'
+          />
         </div>
       </section>
+
+      <section className='bg-white py-16 px-6 sm:px-12 md:px-20 lg:px-32'>
+        <div className='text-center mb-12'>
+          <h3 className='text-3xl py-10 md:text-5xl font-bold text-black mb-4'>
+            Testimonios de Clientes Satisfechos
+          </h3>
+          <p className='text-slate-500 pb-20 text-lg md:text-xl leading-relaxed'>
+            Descubre lo que nuestros clientes tienen que decir sobre cómo
+            VocalTech ha transformado sus empresas y liderazgo empresarial.
+          </p>
+
+          <div className='grid grid-cols-1 pb-4 sm:grid-cols-2 lg:grid-cols-2 gap-6'>
+            <ReviewCard
+              name='John Doe'
+              description='El impacto de los programas de VocalTech en nuestra empresa ha sido increíble. Nos ayudaron a mejorar nuestra comunicación y liderazgo de manera notable.'
+              image='./perfil.png'
+              color='text-black'
+              bg='bg-gray-400'
+            />
+            <ReviewCard
+              name='Jane Smith'
+              description='Trabajar con VocalTech nos dio herramientas valiosas para fortalecer nuestra cultura corporativa y optimizar el desempeño de nuestros equipos.'
+              image='./perfil.png'
+              color='text-black'
+              bg='bg-gray-400'
+            />
+          </div>
+
+          <ReviewCard
+            name='Robert Brown'
+            description='VocalTech nos ayudó a redefinir nuestra estrategia de comunicación y mejorar las relaciones con nuestros clientes.'
+            image='./perfil.png'
+            color='text-black'
+            bg='bg-gray-400'
+          />
+        </div>
+      </section>
+
       <section className='bg-white py-16 px-6 sm:px-12 md:px-20 lg:px-32'>
         <div className='text-center mb-12'>
           <h3 className='text-3xl py-10 md:text-5xl font-bold text-black mb-4'>
@@ -96,6 +136,7 @@ const Companies = () => {
           </Link>
         </div>
       </section>
+
       <div className='bg-azul_claro flex items-center justify-center'>
         <Footer />
       </div>
