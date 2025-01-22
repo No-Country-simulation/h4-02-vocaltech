@@ -19,7 +19,7 @@ const Solution = () => {
           alcanzar tus metas de forma estratégica.
         </p>
       </div>
-      <div className="cards flex flex-col justify-around mx-8 my-9 pb-10 md:flex-row">
+      <div className="cards flex flex-col items-center justify-around mx-8 my-9 pb-10 md:flex-row md:items-stretch">
         <Card
           title="Entrenamiento vocal efectivo"
           text="Mejora tu habilidad para conectar e inspirar con tu mensaje. Trabajamos en desarrollar empatía y transmitir mensajes convincentes que impulsen tanto el crecimiento individual como grupal en tu negocio."
