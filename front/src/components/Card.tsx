@@ -4,7 +4,7 @@ import '../App.css'
 type CardProps = {
   title: string;
   text: string;
-  className: string;
+  className?: string;
 };
 
 const Card: React.FC<CardProps> = ({ title, text, className }) => {
