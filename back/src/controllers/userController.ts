@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { userService } from "../services/userService";
+import User, { UserFields } from "../models/User";
 
 export const userController = {
   async getUserById(req: Request, res: Response): Promise<Response> {
@@ -98,5 +99,42 @@ export const userController = {
       });
     }
   },
+
+  async createUser(req: Request, res: Response): Promise<Response> {
+    try {
+      const userData: UserFields = req.body;
+
+      // Basic validation for required fields
+      const requiredFields: (keyof UserFields)[] = [
+        "name",
+        "phone",
+        "email"
+      ];
+
+      const missingFields = requiredFields.filter((field) => !userData[field]);
+      if (missingFields.length > 0) {
+        return res.status(400).json({
+          message: `Missing required fields: ${missingFields.join(", ")}`,
+        });
+      }
+
+      // Create new user in Airtable
+      const newUser = await userService.createUser(userData);
+
+      return res.status(201).json({
+        message: "User created successfully",
+        user: newUser,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unexpected error";
+      console.error("Error creating user:", errorMessage);
+
+      return res.status(500).json({
+        message: "Failed to create user",
+        error: errorMessage,
+      });
+    }
+  },
+
 
 };

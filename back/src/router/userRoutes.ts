@@ -51,5 +51,17 @@ UserRouter.patch("/:id", async (req, res) => {
     }
   });
 
+// Route to create a new user
+UserRouter.post("/new", async (req, res) => {
+    try {
+      await userController.createUser(req, res);
+    } catch (error) {
+      res.status(500).json({
+        message: "Unexpected error in user route",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  });
+
 export default UserRouter;
 
