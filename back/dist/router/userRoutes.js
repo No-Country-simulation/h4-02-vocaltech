@@ -36,6 +36,30 @@ UserRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         });
     }
 }));
+// Route to edit user by ID
+UserRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield userController_1.userController.editUserById(req, res);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Unexpected error in user route",
+            error: error instanceof Error ? error.message : "Unknown error",
+        });
+    }
+}));
+// Route to patch user by ID (partial update)
+UserRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield userController_1.userController.patchUserById(req, res);
+    }
+    catch (error) {
+        res.status(500).json({
+            message: "Unexpected error in user route",
+            error: error instanceof Error ? error.message : "Unknown error",
+        });
+    }
+}));
 exports.default = UserRouter;
 // import { Router } from "express";
 // import { userController } from "../controllers/userController";

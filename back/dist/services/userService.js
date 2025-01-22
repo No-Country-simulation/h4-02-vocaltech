@@ -46,6 +46,35 @@ exports.userService = {
             return true;
         });
     },
+    updateUserById(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { AIRTABLE_API_KEY, usersTableUrl } = validateEnv_1.config;
+            const response = yield fetch(`${usersTableUrl}/${id}`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ fields: data }),
+            });
+            if (!response.ok) {
+                const errorText = yield response.text();
+                throw new Error(`Failed to update user in Airtable: ${errorText}`);
+            }
+            const updatedUser = (yield response.json());
+            return updatedUser.fields;
+        });
+    },
+    patchUserById(id, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const existingUser = yield this.findUserById(id);
+            if (!existingUser) {
+                throw new Error(`User with ID ${id} not found`);
+            }
+            const updatedData = Object.assign(Object.assign({}, existingUser), data);
+            return this.updateUserById(id, updatedData);
+        });
+    },
 };
 // import { config } from "../config/validateEnv";
 // import { AirtableResponse } from "../utils/airtableInterfaces";

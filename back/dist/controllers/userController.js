@@ -61,6 +61,48 @@ exports.userController = {
             }
         });
     },
+    editUserById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const userData = req.body;
+                const updatedUser = yield userService_1.userService.updateUserById(id, userData);
+                return res.status(200).json({
+                    message: "User updated successfully",
+                    user: updatedUser,
+                });
+            }
+            catch (error) {
+                const errorMessage = error instanceof Error ? error.message : "Unexpected error";
+                console.error("Error updating user:", errorMessage);
+                return res.status(500).json({
+                    message: "Failed to update user",
+                    error: errorMessage,
+                });
+            }
+        });
+    },
+    patchUserById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const userData = req.body;
+                const updatedUser = yield userService_1.userService.patchUserById(id, userData);
+                return res.status(200).json({
+                    message: "User patched successfully",
+                    user: updatedUser,
+                });
+            }
+            catch (error) {
+                const errorMessage = error instanceof Error ? error.message : "Unexpected error";
+                console.error("Error patching user:", errorMessage);
+                return res.status(500).json({
+                    message: "Failed to patch user",
+                    error: errorMessage,
+                });
+            }
+        });
+    },
 };
 // import { Request, Response } from "express";
 // import { userService } from "../services/userService";

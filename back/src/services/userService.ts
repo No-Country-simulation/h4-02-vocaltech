@@ -39,32 +39,38 @@ export const userService = {
 
     return true;
   },
+
+  async updateUserById(id: string, data: Partial<AirtableRecord["fields"]>): Promise<AirtableRecord["fields"]> {
+    const { AIRTABLE_API_KEY, usersTableUrl } = config;
+
+    const response = await fetch(`${usersTableUrl}/${id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fields: data }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to update user in Airtable: ${errorText}`);
+    }
+
+    const updatedUser = (await response.json()) as AirtableRecord;
+    return updatedUser.fields;
+  },
+
+  async patchUserById(id: string, data: Partial<AirtableRecord["fields"]>): Promise<AirtableRecord["fields"]> {
+    const existingUser = await this.findUserById(id);
+    if (!existingUser) {
+      throw new Error(`User with ID ${id} not found`);
+    }
+
+    const updatedData = { ...existingUser, ...data };
+
+    return this.updateUserById(id, updatedData);
+  },  
+
 };
-  
-
-// import { config } from "../config/validateEnv";
-// import { AirtableResponse } from "../utils/airtableInterfaces";
-
-// const fetch = require("node-fetch");
-
-// export const userService = {
-//   async findUserById(id: string): Promise<any | null> {
-//     const { AIRTABLE_API_KEY, usersTableUrl } = config;
-
-//     const response = await fetch(`${usersTableUrl}/${id}`, {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer ${AIRTABLE_API_KEY}`,
-//       },
-//     });
-
-//     if (!response.ok) {
-//       const errorText = await response.text();
-//       throw new Error(`Failed to fetch user from Airtable: ${errorText}`);
-//     }
-
-//     const user = await response.json();
-//     return user.fields || null;
-//   },
-// };
-
+ 
