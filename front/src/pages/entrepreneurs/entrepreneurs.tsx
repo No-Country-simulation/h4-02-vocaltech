@@ -1,6 +1,5 @@
 import React from "react";
-import Carrousel from "../../components/Carrousel";
-import FeedbackCard from "../../components/FeedbackCard";
+import FeedbackCard from "../../components/ReviewCard";
 import Card from "../../components/Card";
 import { Link } from "react-router-dom";
 import "./entrepreneurs.css";
@@ -14,11 +13,11 @@ const entrepreneurs = () => {
   };
   return (
     <div className="bcbody flex flex-col">
-      <div className="flex flex-col justify-center items-center p-20 lg:p-40">
-        <h1 className="font-bold text-center text-3xl mb-12 md:text-4xl">
+      <div className="head-cont flex flex-col justify-center items-center p-10 lg:p-40">
+        <h1 className="font-bold text-center text-3xl mb-20 leading-tight drop-shadow-[0_0_8px_rgba(0,0,0,1)] md:text-4xl lg:text-5xl">
           Empodera a los emprendedores con VocalTech
         </h1>
-        <p className="text-justify">
+        <p className="text-justify text-lg drop-shadow-[0_0_8px_rgba(0,0,0,1)] leading-relaxed lg:text-xl">
           Los emprendedores enfrentan obstáculos que limitan su éxito, como la
           inseguridad al presentar ideas y la dificultad para estructurar pitchs
           convincentes que atraigan clientes e inversores. La falta de
@@ -30,12 +29,11 @@ const entrepreneurs = () => {
           ideas en negocios sostenibles y competitivos.
         </p>
       </div>
-      <Carrousel />
       <div className="flex flex-col justify-center items-center p-20 lg:p-40">
-        <h4 className="font-bold text-center text-2xl mb-12 md:text-3xl">
+        <h4 className="font-bold text-center text-xl mb-12 md:text-3xl">
           Nuestra solución
         </h4>
-        <p className="text-justify">
+        <p className="text-justify text-lg lg:text-xl">
           Descubre cómo los servicios de VocalTech pueden ayudarte a superar los
           desafíos que enfrentan los emprendedores.
         </p>
@@ -74,17 +72,32 @@ Ideal para presentaciones de pitch y captación de inversores."
         <h4 className="font-bold text-center text-2xl mb-12 md:text-3xl">
           Testimonios de Emprendedores
         </h4>
-        <p className="text-justify">
+        <p className="text-justify text-lg lg:text-xl">
           Descubre lo que dicen los emprendedores que han utilizado los
           servicios de VocalTech para impulsar sus proyectos.
         </p>
-        <div>
-          <FeedbackCard />
-          <FeedbackCard />
-          <FeedbackCard />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
+          <FeedbackCard
+          name='John Doe'
+          description='El impacto de los programas de VocalTech en nuestra empresa ha sido increíble. Nos ayudaron a mejorar nuestra comunicación y liderazgo de manera notable.'
+          image='./perfil.png'
+          color='text-black'
+          bg='bg-gray-400'/>
+          <FeedbackCard
+          name='Jane Smith'
+          description='Trabajar con VocalTech nos dio herramientas valiosas para fortalecer nuestra cultura corporativa y optimizar el desempeño de nuestros equipos.'
+          image='./perfil.png'
+          color='text-black'
+          bg='bg-gray-400'/>
+          <FeedbackCard
+          name='Robert Brown'
+          description='VocalTech nos ayudó a redefinir nuestra estrategia de comunicación y mejorar las relaciones con nuestros clientes.'
+          image='./perfil.png'
+          color='text-black'
+          bg='bg-gray-400'/>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center p-20 lg:p-40">
+      <div className="flex flex-col justify-center items-center px-20 pb-10 lg:px-40 lg:pb-20">
         <h3 className="font-bold text-center text-2xl mb-12 md:text-4xl">
           ¡Potencia tu emprendimiento con VocalTech!
         </h3>

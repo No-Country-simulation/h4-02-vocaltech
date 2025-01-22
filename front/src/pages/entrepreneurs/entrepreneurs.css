@@ -3,3 +3,9 @@
     background-size: cover;
     margin: 0;
 }
+
+.head-cont{
+    background-image: url('header_companies.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
