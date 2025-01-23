@@ -154,9 +154,8 @@ import {
   MRT_Row
 } from 'material-react-table'
 import React, { useMemo, useEffect, useState } from 'react'
-import { IUser } from '../types/User'
 import { Edit, Delete } from '@mui/icons-material'
-import { IconButton, Tooltip, Box, Button } from '@mui/material'
+import { IconButton, Tooltip, Button } from '@mui/material'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
@@ -170,7 +169,7 @@ export interface IUser {
   phone: string
   role: string
   status: string
-  [key: string]: any // Agregado para compatibilidad
+  [key: string]: string | boolean | undefined // Index signature agregada
 }
 
 function Table() {
@@ -239,7 +238,7 @@ function Table() {
         header: 'Status'
       },
       {
-        id: 'actions', // Columna personalizada
+        id: 'actions',
         header: 'Actions',
         Cell: ({ row }: { row: MRT_Row<IUser> }) => (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -278,7 +277,7 @@ function Table() {
   return (
     <MaterialReactTable
       columns={columns}
-      data={data} // Usa data transformada si es necesario
+      data={data}
       enableRowSelection={true}
       enableColumnOrdering={true}
       enableGlobalFilter={true}
