@@ -2,6 +2,8 @@ import { config } from "../config/validateEnv";
 import { AirtableRecord } from "../utils/airtableInterfaces";
 import User, { UserFields } from "../models/User";
 
+const fetch = require('node-fetch');
+
 export const userService = {
   async findUserById(id: string): Promise<AirtableRecord["fields"] | null> {
     const { AIRTABLE_API_KEY, usersTableUrl } = config;

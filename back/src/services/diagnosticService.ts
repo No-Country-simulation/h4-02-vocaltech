@@ -2,6 +2,8 @@ import { config } from "../config/validateEnv";
 import { AirtableRecordDiagnostic, AirtableRecordDiagnosticPatch } from "../utils/airtableInterfaces";
 import Diagnostic, { DiagnosticFields } from "../models/Diagnostic";
 
+const fetch = require('node-fetch');
+
 export const diagnosticService = {
   async findDiagnosticById(id: string): Promise<AirtableRecordDiagnostic["fields"] | null> {
     const { AIRTABLE_API_KEY, diagnosticsTableUrl } = config;
