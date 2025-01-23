@@ -8,5 +8,4 @@ export interface IUser {
   phone: string
   role: string
   status: string
-  [key: string]: any
 }

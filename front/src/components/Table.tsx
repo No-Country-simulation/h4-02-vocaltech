@@ -160,6 +160,19 @@ import { IconButton, Tooltip, Box, Button } from '@mui/material'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
+export interface IUser {
+  id: string
+  email: string
+  name: string
+  active: boolean
+  company: string
+  description?: string
+  phone: string
+  role: string
+  status: string
+  [key: string]: any // Agregado para compatibilidad
+}
+
 function Table() {
   const [data, setData] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -265,7 +278,7 @@ function Table() {
   return (
     <MaterialReactTable
       columns={columns}
-      data={data}
+      data={data} // Usa data transformada si es necesario
       enableRowSelection={true}
       enableColumnOrdering={true}
       enableGlobalFilter={true}
