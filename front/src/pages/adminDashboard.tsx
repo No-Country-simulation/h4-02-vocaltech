@@ -1,4 +1,4 @@
-import Table from '../components/Table'
+/* import Table from '../components/Table'
 import React from 'react'
 
 const adminDashboard = () => {
@@ -9,4 +9,4 @@ const adminDashboard = () => {
   )
 }
 
-export default adminDashboard
+export default adminDashboard */
