@@ -1,5 +1,5 @@
 import { config } from "../config/validateEnv";
-import { AirtableRecordDiagnostic } from "../utils/airtableInterfaces";
+import { AirtableRecordDiagnostic, AirtableRecordDiagnosticPatch } from "../utils/airtableInterfaces";
 import Diagnostic, { DiagnosticFields } from "../models/Diagnostic";
 
 export const diagnosticService = {
@@ -62,7 +62,7 @@ export const diagnosticService = {
     return updatedDiagnostic.fields;
   },
 
-  async patchDiagnosticById(id: string, data: Partial<AirtableRecordDiagnostic["fields"]>): Promise<AirtableRecordDiagnostic["fields"]> {
+  async patchDiagnosticById(id: string, data: Partial<AirtableRecordDiagnosticPatch["fields"]>): Promise<AirtableRecordDiagnosticPatch["fields"]> {
     const existingDiagnostic = await this.findDiagnosticById(id);
     if (!existingDiagnostic) {
       throw new Error(`Diagnostic with ID ${id} not found`);
