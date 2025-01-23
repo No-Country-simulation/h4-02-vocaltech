@@ -110,6 +110,12 @@ function Table() {
     download(csvConfig)(csv);
   };
 
+  const handleExportRows = (rows: MRT_Row<IUser>[]) => {
+    const rowData = rows.map((row) => row.original);
+    const csv = generateCsv(csvConfig)(rowData);
+    download(csvConfig)(csv);
+  };
+
   const table = useMaterialReactTable<IUser>({
     columns,
     data,
@@ -133,7 +139,27 @@ function Table() {
           }}
         />
         <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-          Export All Data
+          Exportar tabla
+        </Button>
+        <Button
+          disabled={table.getPrePaginationRowModel().rows.length === 0}
+          //export all rows, including from the next page, (still respects filtering and sorting)
+          onClick={() =>
+            handleExportRows(table.getPrePaginationRowModel().rows)
+          }
+          startIcon={<FileDownloadIcon />}
+        >
+          Exportar filas
+        </Button>
+        <Button
+          disabled={
+            !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
+          }
+          //only export selected rows
+          onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+          startIcon={<FileDownloadIcon />}
+        >
+          Exportar filas seleccionadas
         </Button>
       </>
     ),
