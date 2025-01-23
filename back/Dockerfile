@@ -26,4 +26,3 @@ EXPOSE 3000
 
 # Ejecuta el comando de inicio de la aplicación
 CMD ["npm", "start"]
-
