@@ -14,7 +14,7 @@ export interface DiagnosticFields {
   Question3: string;	
   Question4: string;	
   Question5: string;	
-  idUsers: string;
+  idUser: string;
   idProduct: string;
 }
   

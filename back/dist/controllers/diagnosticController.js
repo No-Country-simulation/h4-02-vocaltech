@@ -82,27 +82,24 @@ exports.diagnosticController = {
             }
         });
     },
-    patchDiagnosticById(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { id } = req.params;
-                const diagnosticData = req.body;
-                const updatedDiagnostic = yield diagnosticService_1.diagnosticService.patchDiagnosticById(id, diagnosticData);
-                return res.status(200).json({
-                    message: "Diagnostic patched successfully",
-                    diagnostic: updatedDiagnostic,
-                });
-            }
-            catch (error) {
-                const errorMessage = error instanceof Error ? error.message : "Unexpected error";
-                console.error("Error patching diagnostic:", errorMessage);
-                return res.status(500).json({
-                    message: "Failed to patch diagnostic",
-                    error: errorMessage,
-                });
-            }
-        });
-    },
+    //   async patchDiagnosticById(req: Request, res: Response): Promise<Response> {
+    //     try {
+    //       const { id } = req.params;
+    //       const diagnosticData = req.body;
+    //       const updatedDiagnostic = await diagnosticService.patchDiagnosticById(id, diagnosticData);
+    //       return res.status(200).json({
+    //         message: "Diagnostic patched successfully",
+    //         diagnostic: updatedDiagnostic,
+    //       });
+    //     } catch (error) {
+    //       const errorMessage = error instanceof Error ? error.message : "Unexpected error";
+    //       console.error("Error patching diagnostic:", errorMessage);
+    //       return res.status(500).json({
+    //         message: "Failed to patch diagnostic",
+    //         error: errorMessage,
+    //       });
+    //     }
+    //   },
     createDiagnostic(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -110,7 +107,7 @@ exports.diagnosticController = {
                 // Basic validation for required fields
                 const requiredFields = [
                     "Type",
-                    "idUsers",
+                    "idUser",
                     "idProduct"
                 ];
                 const missingFields = requiredFields.filter((field) => !diagnosticData[field]);

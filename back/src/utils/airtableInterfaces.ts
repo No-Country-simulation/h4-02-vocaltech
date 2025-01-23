@@ -28,7 +28,7 @@ export interface AirtableRecord {
     fields: {
       Type?: string;
       idProduct?: string;
-      idUsers?: string;
+      idUser?: string;
       [key: string]: any; // Allows other dynamic fields
     };
   }    
@@ -50,7 +50,7 @@ export interface AirtableRecord {
       Question3?: string;	
       Question4?: string;	
       Question5?: string;	
-      idUsers?: string;
+      idUser?: string;
       idProduct?: string;
 
     };

@@ -48,18 +48,17 @@ DiagnosticRouter.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, fun
         });
     }
 }));
-// Route to patch diagnostic by ID (partial update)
-DiagnosticRouter.patch("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield diagnosticController_1.diagnosticController.patchDiagnosticById(req, res);
-    }
-    catch (error) {
-        res.status(500).json({
-            message: "Unexpected error in diagnostic route",
-            error: error instanceof Error ? error.message : "Unknown error",
-        });
-    }
-}));
+// // Route to patch diagnostic by ID (partial update)
+// DiagnosticRouter.patch("/:id", async (req, res) => {
+//     try {
+//       await diagnosticController.patchDiagnosticById(req, res);
+//     } catch (error) {
+//       res.status(500).json({
+//         message: "Unexpected error in diagnostic route",
+//         error: error instanceof Error ? error.message : "Unknown error",
+//       });
+//     }
+//   });
 // Route to create a new diagnostic
 DiagnosticRouter.post("/new", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

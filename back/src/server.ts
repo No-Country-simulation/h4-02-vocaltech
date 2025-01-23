@@ -26,9 +26,8 @@ server.use(morgan("dev"))
 
 // Rutas definidas
 server.use("/api", indexRouter);
-server.use("/auth", OAuthRouter);
+server.use("/Oauth", OAuthRouter);
 server.use("/file", fileRouter);
-server.use("/user", UserRouter);
-server.use("/diagnostics", DiagnosticRouter);
+
 
 export default server;

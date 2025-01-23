@@ -65,16 +65,27 @@ exports.diagnosticService = {
             return updatedDiagnostic.fields;
         });
     },
-    patchDiagnosticById(id, data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const existingDiagnostic = yield this.findDiagnosticById(id);
-            if (!existingDiagnostic) {
-                throw new Error(`Diagnostic with ID ${id} not found`);
-            }
-            const updatedData = Object.assign(Object.assign({}, existingDiagnostic), data);
-            return this.updateDiagnosticById(id, updatedData);
-        });
-    },
+    //   async patchDiagnosticById(id: string, data: Partial<AirtableRecordDiagnosticPatch["fields"]>): Promise<AirtableRecordDiagnosticPatch["fields"]> {
+    //     const existingDiagnostic = await this.findDiagnosticById(id);
+    //     if (!existingDiagnostic) {
+    //       throw new Error(`Diagnostic with ID ${id} not found`);
+    //     }
+    //     const updatedData = { 
+    //         ...existingDiagnostic, 
+    //         ...data,
+    //         idUser: data.idUser || existingDiagnostic.idUser, // Only include the id field for idUser
+    //         idProduct: data.idProduct || existingDiagnostic.idProduct, // Only include the id field for idProduct
+    //     };
+    //     console.log(updatedData);
+    //     //Remove computed fields dynamically
+    //     Object.keys(updatedData).forEach((key) => {
+    //         if (key.includes("(from idProduct)") || key.includes("(from idUser)")) {
+    //         delete updatedData[key];
+    //         }
+    //     });
+    //     console.log("Cleaned updatedData:", updatedData);
+    //     return this.updateDiagnosticById(id, updatedData);
+    //   },  
     createDiagnostic(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const { AIRTABLE_API_KEY, diagnosticsTableUrl } = validateEnv_1.config;
