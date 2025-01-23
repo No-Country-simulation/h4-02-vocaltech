@@ -22,3 +22,36 @@ export interface AirtableRecord {
       [key: string]: any; // Allows other dynamic fields
     };
   }  
+
+  export interface AirtableRecordDiagnostic {
+    id: string;
+    fields: {
+      Type?: string;
+      idProduct?: string;
+      idUser?: string;
+      [key: string]: any; // Allows other dynamic fields
+    };
+  }    
+
+  export interface AirtableRecordDiagnosticPatch {
+    id: string;
+    fields: {
+      Diagnostic?: string;	
+      InfoFile?: string;	
+      SoundFile?: string;	
+      NameCorp?: string;	
+      DescripCorp?: string;	
+      Type?: string;	
+      SelectArea?: string;	
+    //   TimeStamp: Date;	
+      Status?: string;		
+      Question1?: string;	
+      Question2?: string;	
+      Question3?: string;	
+      Question4?: string;	
+      Question5?: string;	
+      idUser?: string;
+      idProduct?: string;
+
+    };
+  } 
