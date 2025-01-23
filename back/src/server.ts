@@ -8,6 +8,7 @@ import corsConfig from "./utils/corsConfig";
 import { configureOAuth2Strategy } from "./passport/oauth2.strategy";
 import fileRouter from "./router/fileRouter";
 import UserRouter from './router/userRoutes';
+import DiagnosticRouter from './router/diagnosticRoutes';
 
 const server = express();
 
@@ -28,5 +29,6 @@ server.use("/api", indexRouter);
 server.use("/auth", OAuthRouter);
 server.use("/file", fileRouter);
 server.use("/user", UserRouter);
+server.use("/diagnostics", DiagnosticRouter);
 
 export default server;

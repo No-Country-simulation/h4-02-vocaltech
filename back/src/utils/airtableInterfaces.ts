@@ -22,3 +22,13 @@ export interface AirtableRecord {
       [key: string]: any; // Allows other dynamic fields
     };
   }  
+
+  export interface AirtableRecordDiagnostic {
+    id: string;
+    fields: {
+      Type?: string;
+      idProduct?: string;
+      idUsers?: string;
+      [key: string]: any; // Allows other dynamic fields
+    };
+  }    

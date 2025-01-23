@@ -13,6 +13,7 @@ const corsConfig_1 = __importDefault(require("./utils/corsConfig"));
 const oauth2_strategy_1 = require("./passport/oauth2.strategy");
 const fileRouter_1 = __importDefault(require("./router/fileRouter"));
 const userRoutes_1 = __importDefault(require("./router/userRoutes"));
+const diagnosticRoutes_1 = __importDefault(require("./router/diagnosticRoutes"));
 const server = (0, express_1.default)();
 // Configuracion de Passport
 (0, oauth2_strategy_1.configureOAuth2Strategy)();
@@ -27,4 +28,5 @@ server.use("/api", index_1.default);
 server.use("/auth", oAuth2Routes_1.default);
 server.use("/file", fileRouter_1.default);
 server.use("/user", userRoutes_1.default);
+server.use("/diagnostics", diagnosticRoutes_1.default);
 exports.default = server;

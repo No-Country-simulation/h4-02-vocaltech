@@ -21,7 +21,7 @@ exports.config = {
     AIRTABLE_API_KEY: getEnvVar('AIRTABLE_API_KEY'),
     AIRTABLE_BASE_ID: getEnvVar('AIRTABLE_BASE_ID'),
     // URL de las tablas de Airtable
-    diagnosticsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Diagnostics`,
+    diagnosticsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Diagnostic`,
     usersTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Users`,
     messagesTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Messages`,
     productsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Products`,
