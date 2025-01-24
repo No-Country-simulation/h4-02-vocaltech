@@ -13,5 +13,5 @@ export interface AirtableRecordUser {
 export interface AirtableResponse {
   records: AirtableRecordUser[];
 }
-  
-  
+
+// crear interfaces para los datos que se van a enviar a Airtable

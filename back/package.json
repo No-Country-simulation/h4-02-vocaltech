@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.4",
     "@types/multer": "^1.4.12",
     "airtable": "^0.12.2",
     "aws-sdk": "^2.1692.0",
