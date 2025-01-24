@@ -24,8 +24,9 @@ server.use(express.json());
 server.use(morgan("dev"))
 
 // Rutas definidas
-server.use("/auth", OAuthRouter);
-server.use("/file", fileRouter);
 server.use("/api", indexRouter);
+server.use("/Oauth", OAuthRouter);
+server.use("/file", fileRouter);
+
 
 export default server;

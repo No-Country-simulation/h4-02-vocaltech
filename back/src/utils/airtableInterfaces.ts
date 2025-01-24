@@ -13,5 +13,45 @@ export interface AirtableRecordUser {
 export interface AirtableResponse {
   records: AirtableRecordUser[];
 }
+  
+export interface AirtableRecord {
+    id: string;
+    fields: {
+      name?: string;
+      email?: string;
+      [key: string]: any; // Allows other dynamic fields
+    };
+  }  
 
-// crear interfaces para los datos que se van a enviar a Airtable
+  export interface AirtableRecordDiagnostic {
+    id: string;
+    fields: {
+      Type?: string;
+      idProduct?: string;
+      idUser?: string;
+      [key: string]: any; // Allows other dynamic fields
+    };
+  }    
+
+  export interface AirtableRecordDiagnosticPatch {
+    id: string;
+    fields: {
+      Diagnostic?: string;	
+      InfoFile?: string;	
+      SoundFile?: string;	
+      NameCorp?: string;	
+      DescripCorp?: string;	
+      Type?: string;	
+      SelectArea?: string;	
+    //   TimeStamp: Date;	
+      Status?: string;		
+      Question1?: string;	
+      Question2?: string;	
+      Question3?: string;	
+      Question4?: string;	
+      Question5?: string;	
+      idUser?: string;
+      idProduct?: string;
+
+    };
+  } 
