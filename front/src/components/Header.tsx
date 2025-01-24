@@ -16,10 +16,12 @@ const Header = () => {
       <Link to='/'>
         <img className='text-10' src='./logo.png' alt='Logo' />
       </Link>
-      <div className='hidden md:block'>
+
+      <div className='hidden lg:block'>
         <Navbar />
       </div>
-      <div className='block md:hidden'>
+
+      <div className='block lg:hidden'>
         <button onClick={toggleMenu} aria-label='Toggle Menu'>
           {isMenuOpen ? (
             <IoClose className='text-5xl' />
@@ -29,30 +31,80 @@ const Header = () => {
         </button>
         {isMenuOpen && (
           <div className='absolute top-full left-0 w-full bg-azul text-white z-10'>
-            <ul className='flex flex-col items-center text-2xl gap-6 py-4 mb-6'>
-              <li>
-                <Link to='/' onClick={toggleMenu}>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to='/emprendedores' onClick={toggleMenu}>
-                  Emprendedores
-                </Link>
-              </li>
-              <li>
-                <Link to='/empresas' onClick={toggleMenu}>
-                  Empresas
-                </Link>
-              </li>
-              <li>
-                <Link to='/login' onClick={toggleMenu}>
-                  <button className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'>
-                    Login
-                  </button>
-                </Link>
-              </li>
-            </ul>
+            <nav className='px-4 py-6'>
+              <ul className='flex flex-col items-center justify-center gap-6 text-lg'>
+                <li>
+                  <Link
+                    to='/'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Servicios
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Reseñas
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Nosotros
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Testimonios
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/emprendedores'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Emprendedores
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to='/empresas'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Empresas
+                  </Link>
+                </li>
+                <li>
+                  <Link to='/login' onClick={toggleMenu}>
+                    <button className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'>
+                      Login
+                    </button>
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           </div>
         )}
       </div>

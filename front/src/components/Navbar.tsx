@@ -4,11 +4,31 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
     <>
-      <nav className='px-4 lg:pr-40 md:pr-10'>
-        <ul className='flex justify-between items-center lg:gap-16 md:gap-8 sm:gap-4'>
+      <nav className='px-4 lg:pr-10 md:pr-5'>
+        <ul className='flex justify-between items-center lg:gap-10 md:gap-6 sm:gap-2'>
           <li>
             <Link to='/' className='text-lg hover:text-gray-300'>
               Home
+            </Link>
+          </li>
+          <li>
+            <Link to='/' className='text-lg hover:text-gray-300'>
+              Servicios
+            </Link>
+          </li>
+          <li>
+            <Link to='/' className='text-lg hover:text-gray-300'>
+              Reseñas
+            </Link>
+          </li>
+          <li>
+            <Link to='/' className='text-lg hover:text-gray-300'>
+              Nosotros
+            </Link>
+          </li>
+          <li>
+            <Link to='/' className='text-lg hover:text-gray-300'>
+              Testimonios
             </Link>
           </li>
           <li>
