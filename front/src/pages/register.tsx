@@ -37,8 +37,10 @@ const Register: React.FC = () => {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const [registerError, setRegisterError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    setIsLoading(true)
     try {
       const response = await api.post('/auth/register', data)
 
@@ -53,6 +55,8 @@ const Register: React.FC = () => {
       } else {
         setRegisterError('Error de conexión. Por favor verifica tu red.')
       }
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -72,153 +76,163 @@ const Register: React.FC = () => {
           </Link>
         </div>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='w-3/4 max-w-4xl px-6 lg:px-16'
-        >
-          <div className='flex flex-col lg:flex-row gap-6 mb-6'>
-            <div className='flex-1'>
-              <label
-                htmlFor='name'
-                className='block text-sm font-medium text-white mb-1'
-              >
-                Nombre completo
-              </label>
-              <input
-                type='text'
-                id='name'
-                {...register('name', { required: 'El nombre es obligatorio' })}
-                className={`w-full border rounded-lg px-3 py-2 ${
-                  errors.name ? 'border-red-500' : 'border-gray-300'
-                } focus:ring-orange-500 focus:border-orange-500`}
-                placeholder='Tu nombre'
-              />
-              {errors.name && (
-                <p className='text-red-500 text-sm mt-1'>
-                  {errors.name.message}
-                </p>
-              )}
+        <div className='w-3/4 max-w-4xl px-6 lg:px-16'>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex flex-col lg:flex-row gap-6 mb-6'>
+              <div className='flex-1'>
+                <label
+                  htmlFor='name'
+                  className='block text-sm font-medium text-white mb-1'
+                >
+                  Nombre completo
+                </label>
+                <input
+                  type='text'
+                  id='name'
+                  {...register('name', {
+                    required: 'El nombre es obligatorio',
+                    pattern: {
+                      value: /^[^0-9]*$/,
+                      message: 'El nombre no puede contener números'
+                    }
+                  })}
+                  className={`w-full border rounded-lg px-3 py-2 ${
+                    errors.name ? 'border-red-500' : 'border-gray-300'
+                  } focus:ring-orange-500 focus:border-orange-500`}
+                  placeholder='Tu nombre'
+                />
+                {errors.name && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              <div className='flex-1'>
+                <label
+                  htmlFor='phone'
+                  className='block text-sm font-medium text-white mb-1'
+                >
+                  Teléfono
+                </label>
+                <input
+                  type='number'
+                  id='phone'
+                  {...register('phone', {
+                    required: 'El teléfono es obligatorio'
+                  })}
+                  className={`w-full border rounded-lg px-3 py-2 ${
+                    errors.phone ? 'border-red-500' : 'border-gray-300'
+                  } focus:ring-orange-500 focus:border-orange-500`}
+                  placeholder='Tu teléfono'
+                />
+                {errors.phone && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.phone.message}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div className='flex-1'>
+            <div className='mb-6'>
               <label
-                htmlFor='phone'
+                htmlFor='email'
                 className='block text-sm font-medium text-white mb-1'
               >
-                Teléfono
+                E-mail
               </label>
               <input
-                type='number'
-                id='phone'
-                {...register('phone', {
-                  required: 'El teléfono es obligatorio'
-                })}
-                className={`w-full border rounded-lg px-3 py-2 ${
-                  errors.phone ? 'border-red-500' : 'border-gray-300'
-                } focus:ring-orange-500 focus:border-orange-500`}
-                placeholder='Tu teléfono'
-              />
-              {errors.phone && (
-                <p className='text-red-500 text-sm mt-1'>
-                  {errors.phone.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className='mb-6'>
-            <label
-              htmlFor='email'
-              className='block text-sm font-medium text-white mb-1'
-            >
-              E-mail
-            </label>
-            <input
-              type='email'
-              id='email'
-              {...register('email', {
-                required: 'El correo electrónico es obligatorio',
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: 'El correo electrónico no es válido'
-                }
-              })}
-              className={`w-full border rounded-lg px-3 py-2 ${
-                errors.email ? 'border-red-500' : 'border-gray-300'
-              } focus:ring-orange-500 focus:border-orange-500`}
-              placeholder='ejemplo@gmail.com'
-            />
-            {errors.email && (
-              <p className='text-red-500 text-sm mt-1'>
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          <div className='mb-6 relative'>
-            <label
-              htmlFor='password'
-              className='block text-sm font-medium text-white mb-1'
-            >
-              Contraseña
-            </label>
-            <div className='relative'>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                id='password'
-                {...register('password', {
-                  required: 'La contraseña es obligatoria',
-                  minLength: {
-                    value: 6,
-                    message: 'La contraseña debe tener al menos 6 caracteres'
+                type='email'
+                id='email'
+                {...register('email', {
+                  required: 'El correo electrónico es obligatorio',
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: 'El correo electrónico no es válido'
                   }
                 })}
                 className={`w-full border rounded-lg px-3 py-2 ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
+                  errors.email ? 'border-red-500' : 'border-gray-300'
                 } focus:ring-orange-500 focus:border-orange-500`}
-                placeholder='********'
+                placeholder='ejemplo@gmail.com'
               />
-              <button
-                type='button'
-                onClick={() => setShowPassword(!showPassword)}
-                className='absolute inset-y-0 right-3 flex items-center'
-              >
-                {showPassword ? (
-                  <FiEyeOff
-                    className='text-gray-500 hover:text-gray-700'
-                    size={20}
-                  />
-                ) : (
-                  <FiEye
-                    className='text-gray-500 hover:text-gray-700'
-                    size={20}
-                  />
-                )}
-              </button>
+              {errors.email && (
+                <p className='text-red-500 text-sm mt-1'>
+                  {errors.email.message}
+                </p>
+              )}
             </div>
-            {errors.password && (
-              <p className='text-red-500 text-sm mt-1'>
-                {errors.password.message}
-              </p>
+
+            <div className='mb-6 relative'>
+              <label
+                htmlFor='password'
+                className='block text-sm font-medium text-white mb-1'
+              >
+                Contraseña
+              </label>
+              <div className='relative'>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id='password'
+                  {...register('password', {
+                    required: 'La contraseña es obligatoria',
+                    minLength: {
+                      value: 6,
+                      message: 'La contraseña debe tener al menos 6 caracteres'
+                    }
+                  })}
+                  className={`w-full border rounded-lg px-3 py-2 ${
+                    errors.password ? 'border-red-500' : 'border-gray-300'
+                  } focus:ring-orange-500 focus:border-orange-500`}
+                  placeholder='********'
+                />
+                <button
+                  type='button'
+                  onClick={() => setShowPassword(!showPassword)}
+                  className='absolute inset-y-0 right-3 flex items-center'
+                >
+                  {showPassword ? (
+                    <FiEyeOff
+                      className='text-gray-500 hover:text-gray-700'
+                      size={20}
+                    />
+                  ) : (
+                    <FiEye
+                      className='text-gray-500 hover:text-gray-700'
+                      size={20}
+                    />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className='text-red-500 text-sm mt-1'>
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
+            {registerError && (
+              <div className='text-red-500 text-sm mb-4'>{registerError}</div>
             )}
-          </div>
 
-          {registerError && (
-            <div className='text-red-500 text-sm mb-4'>{registerError}</div>
-          )}
+            <button
+              type='submit'
+              disabled={isLoading}
+              className={`bg-sky-950 w-full text-white py-3 rounded-lg font-semibold transition ${
+                isLoading
+                  ? 'opacity-50 cursor-not-allowed'
+                  : 'hover:bg-blue-700'
+              }`}
+            >
+              {isLoading ? 'Realizando registro...' : 'Registrarme'}
+            </button>
 
-          <button
-            type='submit'
-            className='bg-sky-950 w-full text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition'
-          >
-            Registrarme
-          </button>
-
-          <div className='flex items-center my-6'>
-            <div className='flex-grow h-px bg-white'></div>
-            <span className='px-4 text-white font-bold text-lg'>O</span>
-            <div className='flex-grow h-px bg-white'></div>
-          </div>
+            <div className='flex items-center my-6'>
+              <div className='flex-grow h-px bg-white'></div>
+              <span className='px-4 text-white font-bold text-lg'>O</span>
+              <div className='flex-grow h-px bg-white'></div>
+            </div>
+          </form>
 
           <div className='flex justify-center'>
             <Link to='https://h4-02-vocaltech.onrender.com/auth'>
@@ -228,7 +242,7 @@ const Register: React.FC = () => {
               </button>
             </Link>
           </div>
-        </form>
+        </div>
       </section>
 
       <section
