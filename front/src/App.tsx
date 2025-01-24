@@ -7,6 +7,7 @@ import Companies from './pages/companies'
 import Login from './pages/login'
 import Register from './pages/register'
 import AdminDashboard from './pages/adminDashboard'
+import Diagnostic from './pages/Diagnostic'
 
 function App() {
   const location = useLocation()
@@ -22,6 +23,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<AdminDashboard />} />
         <Route path='/emprendedores' element={<Entrepreneurs />} />
+        <Route path='/diagnostic' element={<Diagnostic />} />
       </Routes>
     </>
   )
