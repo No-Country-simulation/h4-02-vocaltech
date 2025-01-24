@@ -2,10 +2,14 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import api from "../services/api";
+import { Toaster, toast } from "sonner";
 
-//La estructura para Typescript
+// Estructura para Typescript
 interface DiagnosticFormInputs {
   companyName: string;
+  companyDescription: string;
+  area: string;
   leadershipEffectiveness: string;
   messageClarity: string;
   marketValidationTools: string;
@@ -13,16 +17,34 @@ interface DiagnosticFormInputs {
   additionalComments?: string;
 }
 
+interface ApiError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
+const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
+  try {
+    await api.post("/diagnostics/new", data);
+    toast.success("Formulario enviado correctamente!");
+  } catch (err) {
+    const error = err as ApiError;
+    toast.error(
+      error.response?.data?.message || "Ocurrió un error al enviar el formulario."
+    );
+  }
+};
+
 const schema = yup.object({
   companyName: yup.string().required("El nombre de la empresa es obligatorio."),
-  leadershipEffectiveness: yup
-    .string()
-    .required("Por favor, selecciona una opción."),
-  messageClarity: yup.string().required("Por favor, selecciona una opción."),
-  marketValidationTools: yup
-    .string()
-    .required("Por favor, selecciona una opción."),
-  accessToTalent: yup.string().required("Por favor, selecciona una opción."),
+  companyDescription: yup.string().required("El campo es obligatorio."),
+  area: yup.string().required("El campo es obligatorio."),
+  leadershipEffectiveness: yup.string().required("El campo es obligatorio."),
+  messageClarity: yup.string().required("El campo es obligatorio"),
+  marketValidationTools: yup.string().required("El campo es obligatorio"),
+  accessToTalent: yup.string().required("El campo es obligatorio"),
   additionalComments: yup.string().optional(),
 });
 
@@ -35,12 +57,9 @@ const DiagnosticForm: React.FC = () => {
     resolver: yupResolver(schema), // Integrar Yup para validación
   });
 
-  const onSubmit: SubmitHandler<DiagnosticFormInputs> = (data) => {
-    console.log("Datos enviados:", data);
-  };
-
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center">
+      <Toaster position="bottom-right" richColors/>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-2/3 justify-center items-center gap-4 p-8"
@@ -55,18 +74,39 @@ const DiagnosticForm: React.FC = () => {
           />
           {errors.companyName && <p>{errors.companyName.message}</p>}
         </div>
-
+        <div className="flex flex-col w-full gap-2">
+          <label>Descripción del proyecto </label>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="text"
+            {...register("companyDescription")}
+            placeholder="Ingresa el nombre de la empresa"
+          />
+          {errors.companyDescription && (
+            <p>{errors.companyDescription.message}</p>
+          )}
+        </div>
+        <div className="flex flex-col w-full gap-2">
+          <label>Área de trabajo </label>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="text"
+            {...register("area")}
+            placeholder="Ingresa el nombre de la área de trabajo"
+          />
+          {errors.area && <p>{errors.area.message}</p>}
+        </div>
         <div className="flex flex-col w-full gap-2">
           <label>
             ¿Qué tan efectivo consideras tu liderazgo para inspirar y conectar
             con otros?
           </label>
-          <select {...register("leadershipEffectiveness")}>
-            <option value="">Selecciona una opción</option>
-            <option value="muy_efectivo">Muy efectivo</option>
-            <option value="efectivo">Efectivo</option>
-            <option value="poco_efectivo">Poco efectivo</option>
-          </select>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="text"
+            {...register("leadershipEffectiveness")}
+            placeholder="Escribe tu respuesta aquí..."
+          />
           {errors.leadershipEffectiveness && (
             <p>{errors.leadershipEffectiveness.message}</p>
           )}
@@ -77,12 +117,12 @@ const DiagnosticForm: React.FC = () => {
             ¿Qué tan claro y persuasivo es tu mensaje al hablar de tus ideas,
             proyectos o visión?
           </label>
-          <select {...register("messageClarity")}>
-            <option value="">Selecciona una opción</option>
-            <option value="muy_claro">Muy claro</option>
-            <option value="claro">Claro</option>
-            <option value="poco_claro">Poco claro</option>
-          </select>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="text"
+            {...register("messageClarity")}
+            placeholder="Escribe tu respuesta aquí..."
+          />
           {errors.messageClarity && <p>{errors.messageClarity.message}</p>}
         </div>
 
@@ -91,11 +131,12 @@ const DiagnosticForm: React.FC = () => {
             ¿Cuentas con las herramientas necesarias para validar tus ideas o
             proyectos en el mercado?
           </label>
-          <select {...register("marketValidationTools")}>
-            <option value="">Selecciona una opción</option>
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="text"
+            {...register("marketValidationTools")}
+            placeholder="Escribe tu respuesta aquí..."
+          />
           {errors.marketValidationTools && (
             <p>{errors.marketValidationTools.message}</p>
           )}
@@ -106,11 +147,12 @@ const DiagnosticForm: React.FC = () => {
             ¿Tienes acceso a talento o equipos que puedan ayudarte a
             materializar tus ideas o proyectos?
           </label>
-          <select {...register("accessToTalent")}>
-            <option value="">Selecciona una opción</option>
-            <option value="si">Sí</option>
-            <option value="no">No</option>
-          </select>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="text"
+            {...register("accessToTalent")}
+            placeholder="Escribe tu respuesta aquí..."
+          />
           {errors.accessToTalent && <p>{errors.accessToTalent.message}</p>}
         </div>
 
