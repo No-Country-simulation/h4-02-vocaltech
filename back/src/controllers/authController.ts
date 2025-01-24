@@ -44,10 +44,12 @@ export const authController = {
   async login(req: Request, res: Response): Promise<Response> {
     try {
       const loginDto: LoginUserDto = req.body;
-      const token = await authService.loginUser(loginDto);
+      const { token, id } = await authService.loginUser(loginDto); // Desestructuramos el token y el id
+
       return res.status(200).json({
         message: "Login successful.",
         token,
+        id, // Incluimos el id en la respuesta
       });
     } catch (error) {
       // Manejo de errores específicos para login
