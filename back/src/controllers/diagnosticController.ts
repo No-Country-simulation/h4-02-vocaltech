@@ -104,8 +104,8 @@ export const diagnosticController = {
       // Basic validation for required fields
       const requiredFields: (keyof DiagnosticFields)[] = [
         "Type",
-        "idUser",
-        "idProduct"
+        // "idUser",
+        // "idProduct"
       ];
 
       const missingFields = requiredFields.filter((field) => !diagnosticData[field]);
