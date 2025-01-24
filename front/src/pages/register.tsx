@@ -40,7 +40,7 @@ const Register: React.FC = () => {
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     try {
-      const response = await api.post('/user/register', data)
+      const response = await api.post('/auth/register', data)
 
       alert('¡Registro exitoso! Por favor inicia sesión.')
       navigate('/login')
@@ -221,10 +221,12 @@ const Register: React.FC = () => {
           </div>
 
           <div className='flex justify-center'>
-            <button className='flex items-center gap-4 w-full justify-center bg-white text-gray-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition'>
-              <img src='./logo_google.png' alt='Google' className='w-5' />
-              Registrarme con Google
-            </button>
+            <Link to='https://h4-02-vocaltech.onrender.com/auth'>
+              <button className='flex items-center gap-4 w-full justify-center bg-white text-gray-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition'>
+                <img src='./logo_google.png' alt='Google' className='w-5' />
+                Registrarme con Google
+              </button>
+            </Link>
           </div>
         </form>
       </section>
