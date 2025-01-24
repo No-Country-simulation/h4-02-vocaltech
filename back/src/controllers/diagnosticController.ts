@@ -103,7 +103,7 @@ export const diagnosticController = {
 
       // Basic validation for required fields
       const requiredFields: (keyof DiagnosticFields)[] = [
-        "Type",
+        // "Type",
         // "idUser",
         // "idProduct"
       ];
