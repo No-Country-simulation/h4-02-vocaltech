@@ -35,9 +35,10 @@ const Login: React.FC = () => {
 
     try {
       const response = await api.post('/auth/login', data)
-      const { token } = response.data
+      const { token, id } = response.data
 
       localStorage.setItem('token', token)
+      localStorage.setItem('id', id)
       alert('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
