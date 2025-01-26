@@ -13,6 +13,8 @@ export default {
         primary: "#CE9DF9",
         azul: "#000115",
         azul_claro: "#172AB3",
+        azul_card: "#003741",
+        azul_oscuro: "#0A124D",
         anaranjado: "#E26105",
         negro: "#151419",
         anaranjado_claro: "#FFC107",
