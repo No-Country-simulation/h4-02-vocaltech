@@ -10,11 +10,12 @@ const Companies = () => {
       <section
         className='bg-cover bg-center h-screen flex flex-col justify-center items-center gap-10 p-6 sm:gap-12 sm:p-12 md:gap-16 md:p-16 lg:gap-20 lg:p-20 xl:gap-24 xl:p-24'
         style={{
-          backgroundImage: `url('header_companies.png')`
+          backgroundImage: `url('companies.png')`
         }}
       >
         <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-6xl font-bold text-center text-white drop-shadow-[0_0_8px_rgba(0,0,0,1)] leading-tight'>
-          Transforma la Comunicación y Liderazgo empresarial con VocalTech
+          Transforma la Comunicación y Liderazgo empresarial con{' '}
+          <span className='text-anaranjado'>VocalTech</span>
         </h2>
         <p className='text-sm sm:text-base md:text-lg lg:text-xl xl:text-xl text-center text-white drop-shadow-[0_0_5px_rgba(0,0,0,1)] leading-relaxed'>
           Las empresas enfrentan desafíos clave que afectan su crecimiento y
