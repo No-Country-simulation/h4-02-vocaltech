@@ -1,18 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
 import { IoClose } from 'react-icons/io5'
 import { HiMenu } from 'react-icons/hi'
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setIsLoggedIn(!!token)
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('id')
+    setIsLoggedIn(false)
+    setIsMenuOpen(false)
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev)
   }
 
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id)
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
-    <div className='bg-azul text-white flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-slate-500 relative'>
+    <header className='bg-azul text-white flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-slate-500 relative'>
       <Link to='/'>
         <img className='text-10' src='./logo.png' alt='Logo' />
       </Link>
@@ -29,54 +49,54 @@ const Header = () => {
             <HiMenu className='text-5xl' />
           )}
         </button>
+
         {isMenuOpen && (
           <div className='absolute top-full left-0 w-full bg-azul text-white z-10'>
             <nav className='px-4 py-6'>
               <ul className='flex flex-col items-center justify-center gap-6 text-lg'>
                 <li>
-                  <Link
-                    to='/'
+                  <button
+                    onClick={() => {
+                      toggleMenu()
+                      scrollToSection('home')
+                    }}
                     className='hover:text-gray-300'
-                    onClick={toggleMenu}
                   >
                     Home
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    to='/'
+                  <button
+                    onClick={() => {
+                      toggleMenu()
+                      scrollToSection('solution')
+                    }}
                     className='hover:text-gray-300'
-                    onClick={toggleMenu}
                   >
                     Servicios
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    to='/'
+                  <button
+                    onClick={() => {
+                      toggleMenu()
+                      scrollToSection('reviews')
+                    }}
                     className='hover:text-gray-300'
-                    onClick={toggleMenu}
                   >
                     Reseñas
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    to='/'
+                  <button
+                    onClick={() => {
+                      toggleMenu()
+                      scrollToSection('about-us')
+                    }}
                     className='hover:text-gray-300'
-                    onClick={toggleMenu}
                   >
                     Nosotros
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to='/'
-                    className='hover:text-gray-300'
-                    onClick={toggleMenu}
-                  >
-                    Testimonios
-                  </Link>
+                  </button>
                 </li>
                 <li>
                   <Link
@@ -97,18 +117,27 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to='/login' onClick={toggleMenu}>
-                    <button className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'>
-                      Login
+                  {isLoggedIn ? (
+                    <button
+                      onClick={handleLogout}
+                      className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'
+                    >
+                      Logout
                     </button>
-                  </Link>
+                  ) : (
+                    <Link to='/login' onClick={toggleMenu}>
+                      <button className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'>
+                        Login
+                      </button>
+                    </Link>
+                  )}
                 </li>
               </ul>
             </nav>
           </div>
         )}
       </div>
-    </div>
+    </header>
   )
 }
 
