@@ -12,12 +12,12 @@ const Home = () => {
       <div className='lg:py-40 flex flex-col lg:flex-row items-center justify-center gap-10 px-15 px-6 text-center md:py-30 py-20'>
         <div className='px-10'>
           <img
-            src='./voz.webp'
+            src='./home.png'
             alt='logo'
             className='w-full max-w-lg object-cover rounded-xl'
           />
         </div>
-        <div className='text-white pb-10 max-w-xl'>
+        <div className='text-black pb-10 max-w-xl'>
           <h1 className='text-5xl pb-3 font-bold my-4'>
             ¿Qué desafíos enfrentan nuestros clientes?
           </h1>
