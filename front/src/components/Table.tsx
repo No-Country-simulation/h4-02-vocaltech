@@ -1,4 +1,4 @@
-import {
+/* import {
   MaterialReactTable,
   type MRT_ColumnDef,
   useMaterialReactTable,
@@ -145,4 +145,4 @@ function Table() {
 
   return <MaterialReactTable columns={columns} data={data} table={table} />;
 }
-export default Table;
+export default Table; */
