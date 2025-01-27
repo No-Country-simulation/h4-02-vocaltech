@@ -1,12 +1,12 @@
-/* import Table from '../components/Table'
+import Table from '../components/Table'
 import React from 'react'
 
 const adminDashboard = () => {
   return (
     <div>
-        <Table />
+      <Table />
     </div>
   )
 }
 
-export default adminDashboard */
+export default adminDashboard
