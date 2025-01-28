@@ -8,7 +8,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 const Questions = () => {
   return (
     <div className='flex flex-col justify-center items-center py-10'>
-      <h2 className='text-5xl text-black mb-10'>Preguntas frecuentes</h2>
+      <h2 className='text-4xl text-black font-bold mb-10 mt-2'>
+        Preguntas frecuentes
+      </h2>
       <div className='w-full max-w-4xl px-4'>
         <Accordion className='mb-4 rounded-lg '>
           <AccordionSummary
