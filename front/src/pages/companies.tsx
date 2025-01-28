@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import { Link } from 'react-router-dom'
 import Card from '../components/Card'
 import ReviewCard from '../components/ReviewCard'
+import DiagnosticButton from '../components/DiagnosticButton'
 
 const Companies = () => {
   return (
@@ -30,6 +31,7 @@ const Companies = () => {
           corporativa. Estos obstáculos impactan la capacidad de proyectar
           liderazgo, aprovechar oportunidades y fortalecer su marca.
         </p>
+        <DiagnosticButton />
       </section>
 
       <section className='bg-white py-12 px-4 sm:px-12 md:px-20 lg:px-32'>

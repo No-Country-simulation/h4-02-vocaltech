@@ -3,6 +3,7 @@ import FeedbackCard from '../../components/ReviewCard'
 import Card from '../../components/Card'
 import { Link } from 'react-router-dom'
 import Footer from '../../components/Footer'
+import DiagnosticButton from '../../components/DiagnosticButton'
 
 const entrepreneurs = () => {
   type CardProps = {
@@ -18,7 +19,7 @@ const entrepreneurs = () => {
             Empodera a los emprendedores con{' '}
             <span className='text-anaranjado'>VocalTech</span>
           </h1>
-          <p className='text-left text-lg leading-relaxed lg:text-xl'>
+          <p className='text-left text-lg pb-10 leading-relaxed lg:text-xl'>
             Los emprendedores enfrentan obstáculos que limitan su éxito, como la
             inseguridad al presentar ideas y la dificultad para estructurar
             pitchs convincentes que atraigan clientes e inversores. La falta de
@@ -29,8 +30,8 @@ const entrepreneurs = () => {
             riesgos en el desarrollo. Estos desafíos dificultan transformar sus
             ideas en negocios sostenibles y competitivos.
           </p>
+          <DiagnosticButton />
         </div>
-
         <div className='relative w-full lg:w-1/2'>
           <div className='image-column flex justify-center'>
             <img

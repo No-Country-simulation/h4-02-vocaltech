@@ -67,6 +67,11 @@ const Navbar: React.FC = () => {
             Empresas
           </Link>
         </li>
+        <li>
+          <Link to='/dashboard' className='text-lg hover:text-gray-300'>
+            Panel
+          </Link>
+        </li>
         <li className='ml-auto'>
           {isLoggedIn ? (
             <button
