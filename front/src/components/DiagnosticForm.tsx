@@ -4,17 +4,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import api from "../services/api";
 import { Toaster, toast } from "sonner";
+import { useAuth } from "../context/AuthContext";
 
 // Estructura para Typescript
 interface DiagnosticFormInputs {
-  companyName: string;
-  companyDescription: string;
-  area: string;
-  leadershipEffectiveness: string;
-  messageClarity: string;
-  marketValidationTools: string;
-  accessToTalent: string;
-  additionalComments?: string;
+  Type: string;
+  DescripCorp: string;
+  SelectArea: string;
+  Question1: string;
+  Question2: string;
+  Question3: string;
+  Question4: string;
+  Question5?: string;
 }
 
 interface ApiError {
@@ -25,76 +26,80 @@ interface ApiError {
   };
 }
 
-const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
-  try {
-    await api.post("/diagnostics/new", data);
-    toast.success("Formulario enviado correctamente!");
-  } catch (err) {
-    const error = err as ApiError;
-    toast.error(
-      error.response?.data?.message || "Ocurrió un error al enviar el formulario."
-    );
-  }
-};
-
 const schema = yup.object({
-  companyName: yup.string().required("El nombre de la empresa es obligatorio."),
-  companyDescription: yup.string().required("El campo es obligatorio."),
-  area: yup.string().required("El campo es obligatorio."),
-  leadershipEffectiveness: yup.string().required("El campo es obligatorio."),
-  messageClarity: yup.string().required("El campo es obligatorio"),
-  marketValidationTools: yup.string().required("El campo es obligatorio"),
-  accessToTalent: yup.string().required("El campo es obligatorio"),
-  additionalComments: yup.string().optional(),
+  Type: yup.string().required("El campo es obligatorio"),
+  DescripCorp: yup.string().required("El campo es obligatorio."),
+  SelectArea: yup.string().required("El campo es obligatorio."),
+  Question1: yup.string().required("El campo es obligatorio."),
+  Question2: yup.string().required("El campo es obligatorio"),
+  Question3: yup.string().required("El campo es obligatorio"),
+  Question4: yup.string().required("El campo es obligatorio"),
+  Question5: yup.string().optional(),
 });
 
 const DiagnosticForm: React.FC = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<DiagnosticFormInputs>({
-    resolver: yupResolver(schema), // Integrar Yup para validación
-  });
+    const { user } = useAuth();
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<DiagnosticFormInputs>({
+      resolver: yupResolver(schema),
+    });
+
+    const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
+      console.log("Enviando datos:", data);
+      try {
+        await api.post("/diagnostics/new", data);
+        toast.success("Formulario enviado correctamente!");
+      } catch (err) {
+        console.error("Error en la petición:", err);
+        const error = err as ApiError;
+        toast.error(
+          error.response?.data?.message ||
+            "Ocurrió un error al enviar el formulario."
+        );
+      }
+    };
+    
 
   return (
     <div className="flex items-center justify-center">
-      <Toaster position="bottom-right" richColors/>
+      <Toaster position="bottom-right" richColors />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-2/3 justify-center items-center gap-4 p-8"
       >
         <div className="flex flex-col w-full gap-2">
-          <label>Nombre de la empresa/emprendedor</label>
-          <input
+          <label>¿Eres empresa o emprendedor?</label>
+          <select
             className="border-sky-50 border-2 rounded-lg p-1"
-            type="text"
-            {...register("companyName")}
-            placeholder="Ingresa el nombre de la empresa"
-          />
-          {errors.companyName && <p>{errors.companyName.message}</p>}
+            {...register("Type")}
+          >
+            <option value="EMPRENDEDOR">Emprendedor</option>
+            <option value="EMPRESA">Empresa</option>
+          </select>
+          {errors.Type && <p>{errors.Type.message}</p>}
         </div>
         <div className="flex flex-col w-full gap-2">
           <label>Descripción del proyecto </label>
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
             type="text"
-            {...register("companyDescription")}
+            {...register("DescripCorp")}
             placeholder="Ingresa el nombre de la empresa"
           />
-          {errors.companyDescription && (
-            <p>{errors.companyDescription.message}</p>
-          )}
+          {errors.DescripCorp && <p>{errors.DescripCorp.message}</p>}
         </div>
         <div className="flex flex-col w-full gap-2">
           <label>Área de trabajo </label>
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
             type="text"
-            {...register("area")}
+            {...register("SelectArea")}
             placeholder="Ingresa el nombre de la área de trabajo"
           />
-          {errors.area && <p>{errors.area.message}</p>}
+          {errors.SelectArea && <p>{errors.SelectArea.message}</p>}
         </div>
         <div className="flex flex-col w-full gap-2">
           <label>
@@ -104,12 +109,10 @@ const DiagnosticForm: React.FC = () => {
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
             type="text"
-            {...register("leadershipEffectiveness")}
+            {...register("Question1")}
             placeholder="Escribe tu respuesta aquí..."
           />
-          {errors.leadershipEffectiveness && (
-            <p>{errors.leadershipEffectiveness.message}</p>
-          )}
+          {errors.Question1 && <p>{errors.Question1.message}</p>}
         </div>
 
         <div className="flex flex-col w-full gap-2">
@@ -120,10 +123,10 @@ const DiagnosticForm: React.FC = () => {
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
             type="text"
-            {...register("messageClarity")}
+            {...register("Question2")}
             placeholder="Escribe tu respuesta aquí..."
           />
-          {errors.messageClarity && <p>{errors.messageClarity.message}</p>}
+          {errors.Question2 && <p>{errors.Question2.message}</p>}
         </div>
 
         <div className="flex flex-col w-full gap-2">
@@ -134,12 +137,10 @@ const DiagnosticForm: React.FC = () => {
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
             type="text"
-            {...register("marketValidationTools")}
+            {...register("Question3")}
             placeholder="Escribe tu respuesta aquí..."
           />
-          {errors.marketValidationTools && (
-            <p>{errors.marketValidationTools.message}</p>
-          )}
+          {errors.Question3 && <p>{errors.Question3.message}</p>}
         </div>
 
         <div className="flex flex-col w-full gap-2">
@@ -150,16 +151,16 @@ const DiagnosticForm: React.FC = () => {
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
             type="text"
-            {...register("accessToTalent")}
+            {...register("Question4")}
             placeholder="Escribe tu respuesta aquí..."
           />
-          {errors.accessToTalent && <p>{errors.accessToTalent.message}</p>}
+          {errors.Question4 && <p>{errors.Question4.message}</p>}
         </div>
 
         <div className="flex flex-col w-full gap-2">
           <label>¿Necesitas agregar algo más?</label>
           <textarea
-            {...register("additionalComments")}
+            {...register("Question5")}
             placeholder="Escribe tus comentarios aquí..."
           ></textarea>
         </div>

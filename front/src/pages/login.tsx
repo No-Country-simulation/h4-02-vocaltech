@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import api from '../services/api'
+import { useAuth } from '../hooks/useAuth'
 
 interface LoginFormInputs {
   email: string
@@ -29,6 +30,8 @@ const Login: React.FC = () => {
   const [loginError, setLoginError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
+  const { login } = useAuth();
+  
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setIsLoading(true)
     setLoginError(null)
@@ -39,6 +42,7 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', token)
       localStorage.setItem('id', id)
+      login(token, id);
       alert('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
