@@ -25,7 +25,14 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/emprendedores" element={<Entrepreneurs />} />
-          <Route path="/diagnostic" element={<Diagnostic />} />
+          <Route
+            path="/diagnostic"
+            element={
+              <ProtectedRoute>
+                <Diagnostic />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </AuthProvider>
     </>
