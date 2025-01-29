@@ -4,8 +4,7 @@ import DiagnosticForm from '../components/DiagnosticForm'
 const Diagnostic = () => {
   return (
     <div>
-        <h1>Diagnostic</h1>
-        <DiagnosticForm />
+      <DiagnosticForm />
     </div>
   )
 }
