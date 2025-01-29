@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import api from '../services/api'
-import { useAuth } from '../hooks/useAuth'
+import { useAuth } from '../context/AuthContext'
 
 interface LoginFormInputs {
   email: string

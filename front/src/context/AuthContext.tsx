@@ -1,8 +1,13 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
+interface User {
+  id: string;
+  email: string;
+}
+
 interface AuthContextType {
-  user: string | null;
+  user: User | null;
   isAuthenticated: boolean;
   login: (token: string, id: string) => void;
   logout: () => void;
@@ -11,29 +16,34 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<string | null>(null);
   const navigate = useNavigate();
+  
+  const [user, setUser] = useState<User | null>(() => {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id");
+    return token && id ? { id, email: "" } : null;
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const id = localStorage.getItem("id");
-    if (token && id) {
-      setUser(id);
+    if (token && id && !user) {
+      setUser({ id, email: "" });
     }
   }, []);
 
-  const login = (token: string, id: string) => {
+  const login = useCallback((token: string, id: string) => {
     localStorage.setItem("token", token);
     localStorage.setItem("id", id);
-    setUser(id);
-  };
+    setUser({ id, email: "" });
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     setUser(null);
     navigate("/login");
-  };
+  }, [navigate]);
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
