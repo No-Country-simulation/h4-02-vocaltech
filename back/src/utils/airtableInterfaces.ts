@@ -55,3 +55,16 @@ export interface AirtableRecord {
 
     };
   } 
+
+  export interface AirtableRecordLeadPatch {
+    id: string;
+    fields: {
+        Lead: string;
+        Status: 'Request' | 'Negotiation'| 'Approval' | 'Excecuted' | 'Todo';
+        Notes: string;
+        Partner: string;
+        LastContact: string;
+        idUser: string;
+        idDiagnostic: string;
+    };
+  } 
