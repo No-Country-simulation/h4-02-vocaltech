@@ -7,8 +7,7 @@ import OAuthRouter from "./router/oAuth2Routes";
 import corsConfig from "./utils/corsConfig";
 import { configureOAuth2Strategy } from "./passport/oauth2.strategy";
 import fileRouter from "./router/fileRouter";
-import UserRouter from './router/userRoutes';
-import DiagnosticRouter from './router/diagnosticRoutes';
+
 
 const server = express();
 

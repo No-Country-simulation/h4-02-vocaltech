@@ -73,7 +73,7 @@ export const authService = {
   },
 
   // Login de usuario
-  async loginUser(loginDto: LoginUserDto): Promise<string> {
+  async loginUser(loginDto: LoginUserDto): Promise<{ token: string; id: string }> {
     const { AIRTABLE_API_KEY, usersTableUrl, JWT_SECRET } = config;
 
     const response = await fetch(usersTableUrl, {
@@ -111,7 +111,7 @@ export const authService = {
       { expiresIn: "1h" }
     );
 
-    return token;
+    return { token, id: user.id };
   },
 };
 
