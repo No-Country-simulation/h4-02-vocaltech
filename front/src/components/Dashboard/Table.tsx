@@ -150,7 +150,7 @@ export default Table
 
 import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table'
 import React, { useMemo, useEffect, useState } from 'react'
-import { IUser } from '../types/User'
+import { IUser } from '../../types/User'
 import { Edit, Delete } from '@mui/icons-material'
 import { IconButton, Tooltip, Box, Button } from '@mui/material'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
