@@ -1,8 +1,7 @@
 ## h4-02-vocaltech
 
-# VocalTech
-
-
+# <div style="text-align: center;">VocalTech</div>
+Alianza estratégica entre "No Country" y "Vos y Tu Voz", donde las fuerzas se unen para crear un espacio de comunicación y tecnología al servicio de emprendedores y empresas.
 ## ![alt text](./front/public/VocalTech01-copia.webp)
 
 ## ![logo](./front/public/logo1.png) Misión 
@@ -35,14 +34,16 @@ Creemos en el poder del conocimiento y la colaboración para construir un futuro
 
 ## 🎥 Promotional Video
 
-[**VocalTech Video**](https://drive.google.com/file/d/1-GRJgjgiPKwtJshqZ5LrEGZXhxroi6kV/view?usp=drive_link) PENDING
+[**VocalTech Video**](https://drive.google.com/file/d/1-GRJgjgiPKwtJshqZ5LrEGZXhxroi6kV/view?usp=drive_link) (PENDING)
 
 ## 💻 UX-UI Documentation
 [**VocalTech Figma design**](https://www.figma.com/design/LExpmOB6yNJYFO7kgCD1x2/Vocaltech?node-id=1-2&p=f&t=ALcJN60GCs60qR9O-0)
 
 ## 💻 QA Documentation
 [**VocalTech User Stories**](https://docs.google.com/document/d/1jxtkchETVfUYGUclbFcKtSKXUcXTNjwQLEWaDDmANnM/edit?usp=drive_link)
+
 [**VocalTech Acceptance Criteria**](https://docs.google.com/document/d/1wZrrlwxsTaVbkSp-XTaMBemwnlIP-_-R65wyqlZahLY/edit?usp=drive_link)
+
 📂[**VocalTech Google drive**](https://drive.google.com/drive/folders/1FbyCk9MqTLDwHoYWK5MgNJERJB-vPSKt?usp=drive_link)
 
 ## 💻 Thanks
