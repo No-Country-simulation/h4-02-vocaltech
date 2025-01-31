@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 const DashboardHeader = () => {
   return (
-    <div className="lg:col-start-1 lg:col-end-7 p-5">
+    <div className="w-full row-start-1 col-span-3 mb-4 lg:col-start-1 lg:col-end-7 p-5">
       <div className="flex justify-between items-center">
         <div className="text-xl mr-2">
           <GiHamburgerMenu className="burger-menu"/>

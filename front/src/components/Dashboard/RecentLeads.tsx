@@ -1,12 +1,14 @@
+import Table from "./Table";
+
 const RecentLeads = () => {
   return (
-    <div className="mt-10">
-        <p className="font-bold">Leads Recientes</p>
-        <div>
-        <p>Tabla</p>
-        </div>
+    <div>
+      <p className="font-bold p-6">Leads Recientes</p>
+      <div className="p-6">
+        <Table />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default RecentLeads
+export default RecentLeads;

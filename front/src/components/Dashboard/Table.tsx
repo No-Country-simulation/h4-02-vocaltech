@@ -202,10 +202,6 @@ function Table() {
         muiTableBodyCellProps: { style: { color: 'black' } }
       },
       {
-        accessorKey: 'role',
-        header: 'Role'
-      },
-      {
         accessorKey: 'company',
         header: 'Company'
       },

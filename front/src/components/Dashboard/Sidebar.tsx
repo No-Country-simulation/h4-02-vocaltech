@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const Sidebar = () => {
   return (
-    <div className='flex flex-col h-screen p-9 font-bold sidebar justify-end'>
+    <div className='flex flex-col p-9 font-bold sidebar justify-end lg:h-auto'>
         <nav className='flex flex-col'>
             <Link to="/dashboard">Inicio</Link>
             <Link to="/dashboard">Leads</Link>
