@@ -39,17 +39,17 @@ DiagnosticRouter.put("/:id", async (req, res) => {
     }
   });
 
-// // Route to patch diagnostic by ID (partial update)
-// DiagnosticRouter.patch("/:id", async (req, res) => {
-//     try {
-//       await diagnosticController.patchDiagnosticById(req, res);
-//     } catch (error) {
-//       res.status(500).json({
-//         message: "Unexpected error in diagnostic route",
-//         error: error instanceof Error ? error.message : "Unknown error",
-//       });
-//     }
-//   });
+// Route to patch diagnostic by ID (partial update)
+DiagnosticRouter.patch("/:id", async (req, res) => {
+    try {
+      await diagnosticController.patchDiagnosticById(req, res);
+    } catch (error) {
+      res.status(500).json({
+        message: "Unexpected error in diagnostic route",
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  });
 
 // Route to create a new diagnostic
 DiagnosticRouter.post("/new", async (req, res) => {
