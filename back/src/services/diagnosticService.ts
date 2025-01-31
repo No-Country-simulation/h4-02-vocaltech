@@ -1,5 +1,5 @@
 import { config } from "../config/validateEnv";
-import { AirtableRecordDiagnostic, AirtableRecordDiagnosticPatch } from "../utils/airtableInterfaces";
+import { AirtableRecord, AirtableRecordDiagnostic, AirtableRecordDiagnosticPatch } from "../utils/airtableInterfaces";
 import Diagnostic, { DiagnosticFields } from "../models/Diagnostic";
 
 const fetch = require('node-fetch');
@@ -43,7 +43,7 @@ export const diagnosticService = {
     return true;
   },
 
-  async updateDiagnosticById(id: string, data: Partial<AirtableRecordDiagnostic["fields"]>): Promise<AirtableRecordDiagnostic["fields"]> {
+  async updateDiagnosticById(id: string, data: Partial<AirtableRecord["fields"]>): Promise<AirtableRecord["fields"]> {
     const { AIRTABLE_API_KEY, diagnosticsTableUrl } = config;
 
     const response = await fetch(`${diagnosticsTableUrl}/${id}`, {
@@ -60,31 +60,40 @@ export const diagnosticService = {
       throw new Error(`Failed to update diagnostic in Airtable: ${errorText}`);
     }
 
-    const updatedDiagnostic = (await response.json()) as AirtableRecordDiagnostic;
+    const updatedDiagnostic = (await response.json()) as AirtableRecord;
     return updatedDiagnostic.fields;
   },
 
-//   async patchDiagnosticById(id: string, data: Partial<AirtableRecordDiagnosticPatch["fields"]>): Promise<AirtableRecordDiagnosticPatch["fields"]> {
-//     const existingDiagnostic = await this.findDiagnosticById(id);
-//     if (!existingDiagnostic) {
-//       throw new Error(`Diagnostic with ID ${id} not found`);
-//     }
-//     const updatedData = { 
-//         ...existingDiagnostic, 
-//         ...data,
-//         idUser: data.idUser || existingDiagnostic.idUser, // Only include the id field for idUser
-//         idProduct: data.idProduct || existingDiagnostic.idProduct, // Only include the id field for idProduct
-//     };
-//     console.log(updatedData);
-//     //Remove computed fields dynamically
-//     Object.keys(updatedData).forEach((key) => {
-//         if (key.includes("(from idProduct)") || key.includes("(from idUser)")) {
-//         delete updatedData[key];
-//         }
-//     });
-//     console.log("Cleaned updatedData:", updatedData);
-//     return this.updateDiagnosticById(id, updatedData);
-//   },  
+  async patchDiagnosticById(id: string, data: Partial<AirtableRecord["fields"]>): Promise<AirtableRecord["fields"]> {
+    const existingDiagnostic = await this.findDiagnosticById(id);
+    if (!existingDiagnostic) {
+      throw new Error(`Diagnostic with ID ${id} not found`);
+    }
+
+    const updatedData = { ...existingDiagnostic, ...data };
+    console.log("patch", updatedData);
+    // return this.updateDiagnosticById(id, updatedData);
+ 
+    const { AIRTABLE_API_KEY, diagnosticsTableUrl } = config;
+
+    const response = await fetch(`${diagnosticsTableUrl}/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ fields: data }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to update diagnostic in Airtable: ${errorText}`);
+    }
+
+    const updatedDiagnostic = (await response.json()) as AirtableRecordDiagnosticPatch;
+    return updatedDiagnostic.fields;
+    
+  },  
 
   async createDiagnostic(data: DiagnosticFields): Promise<Diagnostic> {
     const { AIRTABLE_API_KEY, diagnosticsTableUrl } = config;
