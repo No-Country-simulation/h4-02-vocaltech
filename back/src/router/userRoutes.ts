@@ -22,7 +22,7 @@ const handleRouteError = (res: any, error: unknown) => {
 
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   get:
  *     summary: Get a user by ID
  *     tags: [Users]
@@ -51,7 +51,7 @@ UserRouter.get("/:id", async (req, res) => {
 
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   delete:
  *     summary: Delete a user by ID
  *     tags: [Users]
@@ -80,7 +80,7 @@ UserRouter.delete("/:id", async (req, res) => {
 
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   put:
  *     summary: Update user details by ID
  *     tags: [Users]
@@ -132,7 +132,7 @@ UserRouter.put("/:id", async (req, res) => {
 
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   patch:
  *     summary: Partially update a user by ID
  *     tags: [Users]
@@ -180,7 +180,7 @@ UserRouter.patch("/:id", async (req, res) => {
 
 /**
  * @swagger
- * /user/new:
+ * /api/user/new:
  *   post:
  *     summary: Create a new user
  *     tags: [Users]
@@ -234,7 +234,7 @@ export default UserRouter;
 //  */
 // /**
 //  * @swagger
-//  * /user/{id}:
+//  * /api/user/{id}:
 //  *   get:
 //  *     summary: Get a user by ID
 //  *     tags: [Users]
