@@ -71,7 +71,7 @@ export const diagnosticService = {
     }
 
     const updatedData = { ...existingDiagnostic, ...data };
-    console.log("patch", updatedData);
+
     // return this.updateDiagnosticById(id, updatedData);
  
     const { AIRTABLE_API_KEY, diagnosticsTableUrl } = config;
