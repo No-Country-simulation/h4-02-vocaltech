@@ -23,7 +23,7 @@ const handleRouteError = (res: any, error: unknown) => {
 // Route to get diagnostic by ID
 /**
  * @swagger
- * /diagnostics/{id}:
+ * /api/diagnostics/{id}:
  *   get:
  *     summary: Get a diagnostic by ID
  *     tags: [Diagnostics]
@@ -56,7 +56,7 @@ DiagnosticRouter.get("/:id", async (req, res) => {
 // Route to delete diagnostic by ID
 /**
  * @swagger
- * /diagnostics/{id}:
+ * /api/diagnostics/{id}:
  *   delete:
  *     summary: Delete a diagnostic by ID
  *     tags: [Diagnostics]
@@ -89,7 +89,7 @@ DiagnosticRouter.delete("/:id", async (req, res) => {
 // Route to edit diagnostic by ID
 /**
  * @swagger
- * /diagnostics/{id}:
+ * /api/diagnostics/{id}:
  *   put:
  *     summary: Update diagnostic details by ID
  *     tags: [Diagnostics]
@@ -146,7 +146,7 @@ DiagnosticRouter.put("/:id", async (req, res) => {
 // Route to patch diagnostic by ID (partial update)
 /**
  * @swagger
- * /diagnostics/{id}:
+ * /api/diagnostics/{id}:
  *   patch:
  *     summary: Partially update a diagnostic by ID
  *     tags: [Diagnostics]
@@ -203,7 +203,7 @@ DiagnosticRouter.patch("/:id", async (req, res) => {
 // Route to create a new diagnostic
 /**
  * @swagger
- * /diagnostics/new:
+ * /api/diagnostics/new:
  *   post:
  *     summary: Create a new diagnostic
  *     tags: [Diagnostics]

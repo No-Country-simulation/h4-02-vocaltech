@@ -23,7 +23,7 @@ const handleRouteError = (res: any, error: unknown) => {
 // Route to get lead by ID
 /**
  * @swagger
- * /leads/{id}:
+ * /api/leads/{id}:
  *   get:
  *     summary: Get a lead by ID
  *     tags: [Leads]
@@ -56,7 +56,7 @@ LeadRouter.get("/:id", async (req, res) => {
 // Route to delete lead by ID
 /**
  * @swagger
- * /leads/{id}:
+ * /api/leads/{id}:
  *   delete:
  *     summary: Delete a lead by ID
  *     tags: [Leads]
@@ -89,7 +89,7 @@ LeadRouter.delete("/:id", async (req, res) => {
 // Route to edit lead by ID
 /**
  * @swagger
- * /leads/{id}:
+ * /api/leads/{id}:
  *   put:
  *     summary: Update lead details by ID
  *     tags: [Leads]
@@ -139,7 +139,7 @@ LeadRouter.put("/:id", async (req, res) => {
 // Route to patch lead by ID (partial update)
 /**
  * @swagger
- * /leads/{id}:
+ * /api/leads/{id}:
  *   patch:
  *     summary: Partially update a lead by ID
  *     tags: [Leads]
@@ -189,7 +189,7 @@ LeadRouter.patch("/:id", async (req, res) => {
 // Route to create a new lead
 /**
  * @swagger
- * /leads/new:
+ * /api/leads/new:
  *   post:
  *     summary: Create a new lead
  *     tags: [Leads]

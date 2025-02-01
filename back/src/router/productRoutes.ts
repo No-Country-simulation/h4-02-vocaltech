@@ -23,7 +23,7 @@ const handleRouteError = (res: any, error: unknown) => {
 // Route to get product by ID
 /**
  * @swagger
- * /products/{id}:
+ * /api/products/{id}:
  *   get:
  *     summary: Get a product by ID
  *     tags: [Products]
@@ -56,7 +56,7 @@ ProductRouter.get("/:id", async (req, res) => {
 // Route to delete product by ID
 /**
  * @swagger
- * /products/{id}:
+ * /api/products/{id}:
  *   delete:
  *     summary: Delete a product by ID
  *     tags: [Products]
@@ -89,7 +89,7 @@ ProductRouter.delete("/:id", async (req, res) => {
 // Route to edit product by ID
 /**
  * @swagger
- * /products/{id}:
+ * /api/products/{id}:
  *   put:
  *     summary: Update product details by ID
  *     tags: [Products]
@@ -138,7 +138,7 @@ ProductRouter.put("/:id", async (req, res) => {
 // Route to patch product by ID (partial update)
 /**
  * @swagger
- * /products/{id}:
+ * /api/products/{id}:
  *   patch:
  *     summary: Partially update a product by ID
  *     tags: [Products]
@@ -187,7 +187,7 @@ ProductRouter.patch("/:id", async (req, res) => {
 // Route to create a new product
 /**
  * @swagger
- * /products/new:
+ * /api/products/new:
  *   post:
  *     summary: Create a new product
  *     tags: [Products]
