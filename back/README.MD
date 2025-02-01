@@ -1,122 +1,70 @@
-# Proyecto Backend con Node Express
+# Backend API
 
-Este proyecto es una aplicación de gestión de leads que proporciona endpoints para la creación y administración de servicios de desarrollo de MVPs y Coaching de voz. Está desarrollado utilizando Node y Express framework.
+This is the backend for a full-stack application using Node.js, Express, Airtable as the database, and React for the frontend. The backend is containerized with Docker.
 
-## Requisitos
+## Features
+- Express.js for handling API requests
+- Airtable as the database
+- JWT authentication
+- File uploads with Multer
+- TypeORM for database management
+- Environment variables using dotenv
+- Docker for containerization
 
-- Python 3.10 o superior
-- Django 3.0 o superior
-- Django REST framework
-- PostgreSQL
+## Prerequisites
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
 
-## Instalación
-
-1. Clonar el repositorio:
-   
+## Installation
+1. Clone the repository:
+   ```sh
    git clone https://github.com/No-Country-simulation/h4-02-vocaltech.git
-   cd tu-repo
+   cd back
+   ```
 
-2. Crear y activar un entorno virtual:
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-    python3 -m venv .venv
-    source .venv/bin/activate
+3. Create a `.env` file with the necessary environment variables:
+   ```sh
+   AIRTABLE_API_KEY=your_airtable_api_key
+   AIRTABLE_BASE_ID=your_airtable_base_id
+   JWT_SECRET=your_jwt_secret
+   ```
 
-3. Instalar las dependencias:
+4. Build the project:
+   ```sh
+   npm run build
+   ```
 
-    pip install -r requirements.txt
-    
-4. Configurar la base de datos en settings.py:
+## Running the Server
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'nombre_base_datos',
-            'USER': 'usuario',
-            'PASSWORD': 'contraseña',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }
+### Locally
+```sh
+npm start
+```
 
-5. Aplicar las migraciones:
+### Using Docker
+1. Build the Docker image:
+   ```sh
+   docker build -t backend-api .
+   ```
+2. Run the container:
+   ```sh
+   docker run -p 3000:3000 --env-file .env backend-api
+   ```
 
-    python manage.py makemigrations
-    python manage.py migrate
+## API Endpoints
+| Method | Endpoint       | Description       |
+|--------|--------------|-----------------|
+| GET    | `/users`      | Get all users   |
+| POST   | `/register`   | Register a user |
+| POST   | `/login`      | Login user      |
 
-6. Crear un superusuario para acceder al admin de Django:
+## Contributing
+Feel free to open issues and submit pull requests.
 
-    python manage.py createsuperuser
-
-7. Ejecutar el servidor de desarrollo:
-
-    python manage.py runserver
-
-
-## Documentación actualizada del proyecto
-
-https://h4-02-vocaltech.onrender.com/api/
-
-
-
-
-
-
-# Documentación: Diseño e Implementación de Microservicios
-
-## Introducción
-
-Esta documentación describe el diseño, la implementación y el despliegue de un conjunto de microservicios independientes para gestionar flujos de WhatsApp, leads, y correos electrónicos automatizados.
-
-- **Endpoints:**
-  - `POST /message`: Procesar mensajes entrantes.
-  - `GET /status/{id}`: Obtener el estado de un flujo.
-  - `POST /start`: Iniciar un flujo para un número de teléfono.
-- **Integraciones:**
-  - WhatsApp Business API (Twilio o Meta).
-- **Estructura del Proyecto:**
-  ```bash
-  src/
-  ├── controllers/
-  ├── services/
-  ├── routes/
-  ├── models/
-  └── utils/
-  ```
-- **Tecnologías:**
-  - Node.js, Express, Redis (para almacenamiento temporal).
-
-### 2. Gestión de Leads
-
-- **Responsabilidad:**
-  - CRUD para leads.
-  - Asignación de leads a bases de datos específicas en Airtable.
-- **Endpoints:**
-  - `POST /leads`: Crear un lead.
-  - `GET /leads/{id}`: Obtener detalles de un lead.
-  - `PUT /leads/{id}`: Actualizar datos de un lead.
-  - `DELETE /leads/{id}`: Eliminar un lead.
-- **Integraciones:**
-  - Airtable SDK para sincronización de datos.
-  - Webhooks para notificaciones.
-- **Optimización:**
-  - Uso de Redis para búsquedas frecuentes.
-
-### 3. Generación y Envío de Correos Electrónicos
-
-- **Responsabilidad:**
-  - Gestión de plantillas y envío de correos.
-- **Endpoints:**
-  - `POST /email`: Enviar un correo.
-  - `GET /templates`: Listar plantillas disponibles.
-- **Integraciones:**
-  - SendGrid o AWS SES para el envío de correos.
-- **Flujo de Trabajo:**
-  - Validación del correo.
-  - Selección de plantillas.
-  - Reintentos en caso de fallos.
-
----
-## Infraestructura
-
-#### Docker Compose (Entorno Local)
-
+## License
