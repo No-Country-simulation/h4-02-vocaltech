@@ -6,10 +6,9 @@ export default function Calendar() {
     <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
-      weekends={false}
       events={[
-        { title: "event 1", date: "2019-04-01" },
-        { title: "event 2", date: "2019-04-02" },
+        { title: "Reunión", date: "2025-02-03" },
+        { title: "Reunión", date: "2025-03-03" },
       ]}
     />
     //Comentario

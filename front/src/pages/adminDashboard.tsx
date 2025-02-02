@@ -33,10 +33,10 @@ const adminDashboard = () => {
       const data = await response.json();
       setLeads(data.map((lead: any) => lead.fields));
       const entrepreneurCount = data.filter(
-        (lead:any) => lead.fields?.Type === "EMPRENDEDOR"
+        (lead: any) => lead.fields?.Type === "EMPRENDEDOR"
       ).length;
       const companyCount = data.filter(
-        (lead:any) => lead.fields?.Type === "EMPRESA"
+        (lead: any) => lead.fields?.Type === "EMPRESA"
       ).length;
 
       setTotalLeads(data.length);
@@ -74,9 +74,9 @@ const adminDashboard = () => {
         <div className="flex flex-col gap-5 col-span-3 mt-7 lg:flex-row lg:row-span-3 lg:col-span-5">
           <Graphic />
         </div>
-        {/* <div className="col-span-2 col-start-6">
+        <div className="flex flex-col gap-5 col-span-3 mt-7 lg:flex-row lg:row-span-3 lg:col-span-5">
           <Calendar />
-        </div> */}
+        </div>
       </div>
 
       <div className="col-span-3 row-auto lg:col-start-2 lg:col-end-7 lg:max-h-[600px] lg:overflow-auto">
