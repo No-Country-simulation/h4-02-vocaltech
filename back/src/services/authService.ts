@@ -4,6 +4,7 @@ import { config } from "../config/validateEnv";
 import { RegisterUserDto, LoginUserDto } from "../dtos/authDtos";
 import { AirtableResponse } from "../utils/airtableInterfaces"; 
 import zxcvbn from "zxcvbn";
+import { emailService } from "../services/emailService";
 
 const fetch = require('node-fetch');
 
@@ -68,6 +69,14 @@ export const authService = {
       const errorText = await createResponse.text();
       throw new Error(`Failed to register user in Airtable: ${errorText}`);
     }
+
+    try {
+      await emailService.sendWelcomeEmail(registerDto.email, registerDto.name);
+      console.log(`Welcome email sent to ${registerDto.email}`);
+    } catch (error) {
+      console.error("Error sending welcome email:", error);
+      throw new Error(`Failed to send welcome email: ${error}`);
+    }    
 
     return await createResponse.json();
   },

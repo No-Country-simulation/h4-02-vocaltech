@@ -41,5 +41,9 @@ export const config = {
   AWS_BUCKET_NAME: getEnvVar('AWS_BUCKET_NAME'),
   AWS_REGION: getEnvVar('AWS_REGION'),
 
+
+  // Variables de entorno para para SendGrid
+  SENDGRID_API_KEY: getEnvVar('SENDGRID_API_KEY'),
+  SENDGRID_EMAIL_FROM: getEnvVar('SENDGRID_EMAIL_FROM'),
 };
 
