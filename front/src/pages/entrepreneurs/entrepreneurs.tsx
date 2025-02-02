@@ -15,11 +15,11 @@ const entrepreneurs = () => {
     <div>
       <div className='flex flex-col lg:gap-10 lg:mx-6 lg:flex-row items-center justify-between py-10 lg:py-20 px-6 lg:px-20'>
         <div className='text-column flex flex-col justify-center w-full lg:w-1/2 mb-8 lg:mb-0'>
-          <h1 className='font-bold text-3xl mb-6 md:text-4xl lg:text-5xl lg:leading-[1.3]'>
+          <h1 className='font-bold text-black  text-3xl mb-6 md:text-4xl lg:text-5xl lg:leading-[1.3]'>
             Empodera a los emprendedores con{' '}
             <span className='text-anaranjado'>VocalTech</span>
           </h1>
-          <p className='text-left text-lg pb-10 leading-relaxed lg:text-xl'>
+          <p className='text-left text-black  text-lg pb-10 leading-relaxed lg:text-xl'>
             Los emprendedores enfrentan obstáculos que limitan su éxito, como la
             inseguridad al presentar ideas y la dificultad para estructurar
             pitchs convincentes que atraigan clientes e inversores. La falta de
@@ -45,10 +45,10 @@ const entrepreneurs = () => {
       </div>
 
       <div className='flex flex-col justify-center items-center px-10'>
-        <h4 className='font-bold text-center mb-12 text-3xl'>
+        <h4 className='font-bold text-black  text-center mb-12 text-3xl'>
           Nuestra solución
         </h4>
-        <p className='text-justify text-lg lg:text-xl'>
+        <p className='text-justify text-black  text-lg lg:text-xl'>
           Descubre cómo los servicios de VocalTech pueden ayudarte a superar los
           desafíos que enfrentan los emprendedores.
         </p>
@@ -84,10 +84,10 @@ Ideal para presentaciones de pitch y captación de inversores.'
         />
       </div>
       <div className='flex flex-col justify-center items-center p-10'>
-        <h4 className='font-bold text-center text-2xl mb-12 md:text-3xl'>
+        <h4 className='font-bold text-black  text-center text-2xl mb-12 md:text-3xl'>
           Testimonios de Emprendedores
         </h4>
-        <p className='text-justify text-lg lg:text-xl'>
+        <p className='text-justify  text-black text-lg lg:text-xl'>
           Descubre lo que dicen los emprendedores que han utilizado los
           servicios de VocalTech para impulsar sus proyectos.
         </p>
@@ -116,7 +116,7 @@ Ideal para presentaciones de pitch y captación de inversores.'
         </div>
       </div>
       <div className='flex flex-col justify-center items-center px-20 pb-10 lg:px-40 lg:pb-20'>
-        <h3 className='font-bold text-center text-2xl mb-12 md:text-4xl'>
+        <h3 className='font-bold text-black  text-center text-2xl mb-12 md:text-4xl'>
           ¡Potencia tu emprendimiento con VocalTech!
         </h3>
         <button className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'>

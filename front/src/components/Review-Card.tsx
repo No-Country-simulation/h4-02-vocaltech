@@ -2,27 +2,22 @@ import React from 'react'
 import { FaStar } from 'react-icons/fa'
 import { CgProfile } from 'react-icons/cg'
 
-const Review = () => {
+const Review = ({ rating, text, name, role }) => {
   return (
     <div className='bg-azul_card text-white flex flex-col my-3 w-full sm:w-full lg:w-1/3 p-3 sm:p-6 lg:p-6'>
       <div className='flex text-yellow-400'>
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
+        {Array(rating)
+          .fill(0)
+          .map((_, i) => (
+            <FaStar key={i} />
+          ))}
       </div>
-      <p className='my-4'>
-        “Lorem ipsum dolor sit amet dolor sit consectetur eget maecenas sapien
-        fusce egestas risus purus suspendisse turpis volutpat onare”
-      </p>
-      <div className='flex'>
+      <p className='my-4'>{text}</p>
+      <div className='flex items-center'>
         <CgProfile className='text-5xl mr-2 text-white' />
         <div className='flex flex-col'>
-          <p className='font-semibold'>Nombre</p>
-          <p className='font-extralight text-slate-400 text-xs mt-0'>
-            CEO & Founder
-          </p>
+          <p className='font-semibold'>{name}</p>
+          <p className='font-extralight text-slate-400 text-xs mt-0'>{role}</p>
         </div>
       </div>
     </div>

@@ -33,10 +33,10 @@ h6 {
 }
 
 .background-aboutUs {
-  background: linear-gradient(#e8b006, #e26105);
+  background: linear-gradient(#ec9558, #ffd559);
 }
 
-input{
-  border:none;
+input {
+  border: none;
   outline: none;
 }
