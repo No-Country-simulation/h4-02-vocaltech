@@ -235,7 +235,7 @@ const Register: React.FC = () => {
           </form>
 
           <div className='flex justify-center'>
-            <Link to='https://h4-02-vocaltech.onrender.com/auth'>
+            <Link to='https://h4-02-vocaltech.onrender.com/Oauth'>
               <button className='flex items-center gap-4 w-full justify-center bg-white text-gray-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-200 transition'>
                 <img src='./logo_google.png' alt='Google' className='w-5' />
                 Registrarme con Google

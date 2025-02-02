@@ -1,0 +1,22 @@
+.logo {
+  display: none;
+}
+.sidebar{
+  display: none;
+}
+body{
+  background-color: #D1D5DB;
+}
+
+
+@media (min-width: 1024px) {
+  .burger-menu{
+    display: none;
+  }
+  .sidebar{
+    display: block;
+  }
+  .logo {
+    display: block;
+  }
+}

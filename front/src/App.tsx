@@ -17,7 +17,8 @@ function App() {
     <>
       <AuthProvider>
         {location.pathname !== "/login" &&
-          location.pathname !== "/register" && <Header />}
+          location.pathname !== "/register" &&
+          location.pathname !== "/dashboard" && <Header />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/empresas" element={<Companies />} />
