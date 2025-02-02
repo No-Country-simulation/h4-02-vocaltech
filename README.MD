@@ -166,5 +166,5 @@ networks:
 
 ---
 
-Esta guía sirve como referencia completa para implementar los microservicios descritos. Si necesitas ejemplos de código específicos o detalles adicionales, por favor házmelo saber.
+Esta guía sirve como referencia completa para implementar los microservicios descritos. Si necesitas ejemplos de código específicos o detalles adicionales, por favor házmelo saber. Muchas gracias por leer
 
