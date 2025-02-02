@@ -30,8 +30,8 @@ const Login: React.FC = () => {
   const [loginError, setLoginError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const { login } = useAuth();
-  
+  const { login } = useAuth()
+
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setIsLoading(true)
     setLoginError(null)
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', token)
       localStorage.setItem('id', id)
-      login(token, id);
+      login(token, id)
       alert('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
@@ -57,7 +57,6 @@ const Login: React.FC = () => {
 
   return (
     <div className='flex min-h-screen bg-anaranjado'>
-      {/* Sección izquierda */}
       <section
         className='hidden lg:flex lg:w-1/2 flex-col justify-center items-center gap-16 text-white p-10'
         style={{
@@ -82,14 +81,14 @@ const Login: React.FC = () => {
             servicios.
           </p>
           <Link to='/register'>
-            <button className='bg-sky-950 px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
+            <button className='bg-[#0B1455] px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
               Registrarme
             </button>
           </Link>
         </div>
       </section>
 
-      <section className='flex flex-1 lg:w-1/2 bg-sky-950 items-center justify-center relative'>
+      <section className='flex flex-1 lg:w-1/2 bg-[#0B1455] items-center justify-center relative'>
         <div className='text-white w-3/4 max-w-3xl'>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='mb-6'>
