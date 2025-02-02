@@ -16,6 +16,7 @@ interface DiagnosticFormInputs {
   Question3: string;
   Question4: string;
   Question5?: string;
+  IdProduct: string[];
 }
 
 interface ApiError {
@@ -35,33 +36,33 @@ const schema = yup.object({
   Question3: yup.string().required("El campo es obligatorio"),
   Question4: yup.string().required("El campo es obligatorio"),
   Question5: yup.string().optional(),
+  IdProduct: yup.array().of(yup.string()).required("El campo es obligatorio"),
 });
 
 const DiagnosticForm: React.FC = () => {
-    const { user } = useAuth();
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<DiagnosticFormInputs>({
-      resolver: yupResolver(schema),
-    });
+  const { user } = useAuth();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<DiagnosticFormInputs>({
+    resolver: yupResolver(schema),
+  });
 
-    const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
-      console.log("Enviando datos:", data);
-      try {
-        await api.post("/diagnostics/new", data);
-        toast.success("Formulario enviado correctamente!");
-      } catch (err) {
-        console.error("Error en la petición:", err);
-        const error = err as ApiError;
-        toast.error(
-          error.response?.data?.message ||
-            "Ocurrió un error al enviar el formulario."
-        );
-      }
-    };
-    
+  const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
+    console.log("Enviando datos:", data);
+    try {
+      await api.post("/diagnostics/new", data);
+      toast.success("Formulario enviado correctamente!");
+    } catch (err) {
+      console.error("Error en la petición:", err);
+      const error = err as ApiError;
+      toast.error(
+        error.response?.data?.message ||
+          "Ocurrió un error al enviar el formulario."
+      );
+    }
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -158,11 +159,50 @@ const DiagnosticForm: React.FC = () => {
         </div>
 
         <div className="flex flex-col w-full gap-2">
+
           <label>¿Necesitas agregar algo más?</label>
           <textarea
             {...register("Question5")}
             placeholder="Escribe tus comentarios aquí..."
           ></textarea>
+        </div>
+        <div className="flex flex-col w-full gap-2 items-start">
+          <label>¿En qué servicios estás interesado?</label>
+          <div>
+            <input
+              type="checkbox"
+              value="Servicio 1"
+              {...register("IdProduct")}
+            />
+            <label className="ml-2">Servicio 1</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              value="Servicio 2"
+              {...register("IdProduct")}
+            />
+            <label className="ml-2">Servicio 2</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              value="Servicio 3"
+              {...register("IdProduct")}
+            />
+            <label className="ml-2">Servicio 3</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              value="Servicio 4"
+              {...register("IdProduct")}
+            />
+            <label className="ml-2">Servicio 4</label>
+          </div>
+          {errors.IdProduct && (
+            <p>{errors.IdProduct.message}</p>
+          )}
         </div>
 
         <button type="submit">Enviar</button>
