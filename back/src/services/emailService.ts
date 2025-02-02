@@ -7,7 +7,7 @@ export const emailService = {
   async sendWelcomeEmail(to: string, name: string) {
     const msg = {
       to,
-      from: config.SENDGRID_EMAIL_FROM, // Email verificado en SendGrid
+      from: 'lms.segovia86@gmail.com', // Email verificado en SendGrid
       subject: "Bienvenido a nuestra plataforma",
       text: `Hola ${name}, gracias por registrarte en nuestra plataforma.`,
       html: `<h1>Hola ${name}!</h1><p>Gracias por registrarte en nuestra plataforma.</p>`,
@@ -22,7 +22,7 @@ export const emailDiagnoticService = {
   async sendWelcomeEmail(to: string, name: string) {
     const msg = {
       to,
-      from: config.SENDGRID_EMAIL_FROM, // Email verificado en SendGrid
+      from: 'lms.segovia86@gmail.com', // Email verificado en SendGrid
       subject: "Hola ${name}",
       text: `Hola ${name}, Gracias por completar nuestro diagnóstico en VocalTech. Hemos recibido tu información y estamos analizando los mejores recursos para ayudarte a potenciar tu comunicación y liderazgo.`,
       html: `<h1>Hola ${name}!</h1><p>Gracias por completar nuestro diagnóstico en VocalTech. Hemos recibido tu información y estamos analizando los mejores recursos para ayudarte a potenciar tu comunicación y liderazgo.</p> <br><br>
