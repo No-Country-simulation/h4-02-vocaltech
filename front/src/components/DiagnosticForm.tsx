@@ -17,7 +17,8 @@ interface DiagnosticFormInputs {
   Question3: string;
   Question4: string;
   Question5?: string;
-  IdProduct: string[];
+  idProduct: string[];
+  Diagnostic?: string;
 }
 
 interface ApiError {
@@ -37,10 +38,7 @@ const schema = yup.object({
   Question3: yup.string().required("El campo es obligatorio"),
   Question4: yup.string().required("El campo es obligatorio"),
   Question5: yup.string().optional(),
-  IdProduct: yup
-    .array()
-    .of(yup.string())
-    .min(1, "Debes seleccionar al menos un servicio."),
+  idProduct: yup.array().of(yup.string()).default([]),
 });
 
 const DiagnosticForm: React.FC = () => {
@@ -48,7 +46,6 @@ const DiagnosticForm: React.FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<DiagnosticFormInputs>({
@@ -58,13 +55,14 @@ const DiagnosticForm: React.FC = () => {
   const [infoFile, setInfoFile] = useState<File | null>(null);
   const [soundFile, setSoundFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      console.log("Subiendo archivo:", file.name);
       const response = await axios.post("https://h4-02-vocaltech.onrender.com/file/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -77,7 +75,18 @@ const DiagnosticForm: React.FC = () => {
     }
   };
 
-  const selectedProducts = watch("IdProduct", []);
+  const handleCheckboxChange = (value: string) => {
+    let updatedProducts = [...selectedProducts];
+    if (updatedProducts.includes(value)) {
+      updatedProducts = updatedProducts.filter((item) => item !== value);
+    } else {
+      updatedProducts.push(value);
+    }
+    setSelectedProducts(updatedProducts);
+    setValue("idProduct", updatedProducts);
+  };
+
+  /* const selectedProducts = watch("idProduct", []); */
 
   const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
     console.log("Enviando datos:", data);
@@ -107,20 +116,18 @@ const DiagnosticForm: React.FC = () => {
         Question3: data.Question3,
         Question4: data.Question4,
         Question5: data.Question5 || "",
-        IdProduct: data.IdProduct || [],
+        idProduct: data.idProduct || [],
         InfoFile: infoFileUrl,
         SoundFile: soundFileUrl,
+        Diagnostic: data.Diagnostic || "Sin diagnóstico aún",
       };
       try {
-        await api.post("/diagnostics/new", data);
+        await api.post("/diagnostics/new", payload);
         toast.success("Formulario enviado correctamente!");
       } catch (err) {
         console.error("Error en la petición:", err);
         const error = err as ApiError;
-        toast.error(
-          error.response?.data?.message ||
-            "Ocurrió un error al enviar el formulario."
-        );
+        toast.error(error.response?.data?.message || "Ocurrió un error.");
       }
     } finally {
       setIsSubmitting(false);
@@ -128,7 +135,7 @@ const DiagnosticForm: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center form-diagnostic">
       <Toaster position="bottom-right" richColors />
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -251,91 +258,100 @@ const DiagnosticForm: React.FC = () => {
             <input
               type="checkbox"
               value="rec0PnF24uiS7REmy"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("rec0PnF24uiS7REmy")}
+              onChange={() => handleCheckboxChange("rec0PnF24uiS7REmy")}
             />
-            <label className="ml-2">OPTIMIZACION DE RECURSOS Y CAPITAL</label>
+            <label className="ml-2">Optimización de recursos y capital</label>
           </div>
           <div>
             <input
               type="checkbox"
               value="rec6rLAB0udFpZaWO"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("rec6rLAB0udFpZaWO")}
+              onChange={() => handleCheckboxChange("rec6rLAB0udFpZaWO")}
               
             />
-            <label className="ml-2">FORTALECER LA VOZ DE LA EMPRESA</label>
+            <label className="ml-2">Fortalecer la voz de la empresa</label>
           </div>
           <div>
             <input
               type="checkbox"
               value="rec7Kvtsi5jibgdw4"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("rec7Kvtsi5jibgdw4")}
+              onChange={() => handleCheckboxChange("rec7Kvtsi5jibgdw4")}
               
             />
-            <label className="ml-2">LIDERAR A TRAVÉS DE LA VOZ</label>
+            <label className="ml-2">Liderar a través de la voz</label>
           </div>
           <div>
             <input
               type="checkbox"
               value="recKBWWjOys1qE09F"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("recKBWWjOys1qE09F")}
+              onChange={() => handleCheckboxChange("recKBWWjOys1qE09F")}
               
             />
-            <label className="ml-2">DESARROLLO DE MVP EN 5 SEMANAS</label>
+            <label className="ml-2">Desarrollo de MVP en 5 semanas</label>
           </div>
           <div>
             <input
               type="checkbox"
               value="recNQqMYvhqxxYHcu"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("recNQqMYvhqxxYHcu")}
+              onChange={() => handleCheckboxChange("recNQqMYvhqxxYHcu")}
               
             />
             <label className="ml-2">
-              OPTIMIZACION DE RECURSOS Y CAPITAL test
+              Optimización de recursos y capital
             </label>
           </div>
           <div>
             <input
               type="checkbox"
               value="recXZadExtWReRdq6"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("recXZadExtWReRdq6")}
+              onChange={() => handleCheckboxChange("recXZadExtWReRdq6")}
               
             />
-            <label className="ml-2">COACHING INDIVIDUAL</label>
+            <label className="ml-2">Coaching individual</label>
           </div>
           <div>
             <input
               type="checkbox"
               value="recfm4Hm4kDmGFI35"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("recfm4Hm4kDmGFI35")}
+              onChange={() => handleCheckboxChange("recfm4Hm4kDmGFI35")}
               
             />
-            <label className="ml-2">CAPACITACIONES PARA EMPRESAS</label>
+            <label className="ml-2">Capacitaciones para empresas</label>
           </div>
           <div>
             <input
               type="checkbox"
               value="reczzG59J7DTbyFYO"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("reczzG59J7DTbyFYO")}
+              onChange={() => handleCheckboxChange("reczzG59J7DTbyFYO")}
               
             />
-            <label className="ml-2">CAPACITACIONES PARA EMPRESAS</label>
+            <label className="ml-2">Charlas inspiradoras</label>
           </div>
 
           <div>
             <input
               type="checkbox"
               value="recMFt1jIenek2lKv"
-              {...register("IdProduct")}
+              checked={selectedProducts.includes("recMFt1jIenek2lKv")}
+              onChange={() => handleCheckboxChange("recMFt1jIenek2lKv")}
               
             />
-            <label className="ml-2">ENTRENAMIENTO PERSONALIZADO</label>
+            <label className="ml-2">Entrenamiento personalizado</label>
           </div>
 
-          {errors.IdProduct && <p>{errors.IdProduct.message}</p>}
+          {errors.idProduct && <p>{errors.idProduct.message}</p>}
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-4"
+          className="bg-anaranjado text-white px-4 py-2 rounded-lg hover:bg-anaranjado_oscuro"
         >
           {isSubmitting ? "Enviando..." : "Enviar"}
         </button>
