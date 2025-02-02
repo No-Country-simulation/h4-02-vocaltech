@@ -78,24 +78,24 @@ export const diagnosticController = {
     }
   },
 
-//   async patchDiagnosticById(req: Request, res: Response): Promise<Response> {
-//     try {
-//       const { id } = req.params;
-//       const diagnosticData = req.body;
-//       const updatedDiagnostic = await diagnosticService.patchDiagnosticById(id, diagnosticData);
-//       return res.status(200).json({
-//         message: "Diagnostic patched successfully",
-//         diagnostic: updatedDiagnostic,
-//       });
-//     } catch (error) {
-//       const errorMessage = error instanceof Error ? error.message : "Unexpected error";
-//       console.error("Error patching diagnostic:", errorMessage);
-//       return res.status(500).json({
-//         message: "Failed to patch diagnostic",
-//         error: errorMessage,
-//       });
-//     }
-//   },
+  async patchDiagnosticById(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const diagnosticData = req.body;
+      const updatedDiagnostic = await diagnosticService.patchDiagnosticById(id, diagnosticData);
+      return res.status(200).json({
+        message: "Diagnostic patched successfully",
+        diagnostic: updatedDiagnostic,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Unexpected error";
+      console.error("Error patching diagnostic:", errorMessage);
+      return res.status(500).json({
+        message: "Failed to patch diagnostic",
+        error: errorMessage,
+      });
+    }
+  },
 
   async createDiagnostic(req: Request, res: Response): Promise<Response> {
     try {

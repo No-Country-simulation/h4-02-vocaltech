@@ -77,7 +77,7 @@ export const leadService = {
     const { AIRTABLE_API_KEY, leadsTableUrl } = config;
 
     const response = await fetch(`${leadsTableUrl}/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${AIRTABLE_API_KEY}`,
         "Content-Type": "application/json",
@@ -92,9 +92,6 @@ export const leadService = {
 
     const updatedLead = (await response.json()) as AirtableRecordLeadPatch;
     return updatedLead.fields;
-
-
-
   },  
 
   async createLead(data: LeadFields): Promise<Lead> {

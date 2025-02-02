@@ -7,6 +7,7 @@ export interface LeadFields {
   LastContact: string;
   idUser: string;
   idDiagnostic: string;
+  Type: 'EMPRESA' | 'EMPRENDEDOR';	
   TimeStart: Date;
   TimeEnd: Date;
 }

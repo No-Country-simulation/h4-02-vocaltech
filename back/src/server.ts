@@ -7,9 +7,13 @@ import OAuthRouter from "./router/oAuth2Routes";
 import corsConfig from "./utils/corsConfig";
 import { configureOAuth2Strategy } from "./passport/oauth2.strategy";
 import fileRouter from "./router/fileRouter";
+import { setupSwagger } from "./config/swaggerConfig"; // Import Swagger configuration
 
 
 const server = express();
+
+// After defining `server` (Express instance), add:
+setupSwagger(server);
 
 // Configuracion de Passport
 configureOAuth2Strategy();

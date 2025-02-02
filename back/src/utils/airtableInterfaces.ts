@@ -41,7 +41,7 @@ export interface AirtableRecord {
       SoundFile?: string;	
       NameCorp?: string;	
       DescripCorp?: string;	
-      Type?: string;	
+      Type: 'EMPRESA' | 'EMPRENDEDOR';	
       SelectArea?: string;	
     //   TimeStamp: Date;	
       Status?: string;		
@@ -66,5 +66,6 @@ export interface AirtableRecord {
         LastContact: string;
         idUser: string;
         idDiagnostic: string;
+        Type: 'EMPRESA' | 'EMPRENDEDOR';	
     };
   } 
