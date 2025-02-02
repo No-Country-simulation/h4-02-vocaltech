@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import api from "../services/api";
 import { Toaster, toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
+import axios from 'axios'
 
 // Estructura para Typescript
 interface DiagnosticFormInputs {
@@ -36,7 +37,10 @@ const schema = yup.object({
   Question3: yup.string().required("El campo es obligatorio"),
   Question4: yup.string().required("El campo es obligatorio"),
   Question5: yup.string().optional(),
-  IdProduct: yup.array().of(yup.string()).required("El campo es obligatorio"),
+  IdProduct: yup
+    .array()
+    .of(yup.string())
+    .min(1, "Debes seleccionar al menos un servicio."),
 });
 
 const DiagnosticForm: React.FC = () => {
@@ -44,23 +48,82 @@ const DiagnosticForm: React.FC = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<DiagnosticFormInputs>({
     resolver: yupResolver(schema),
   });
 
+  const [infoFile, setInfoFile] = useState<File | null>(null);
+  const [soundFile, setSoundFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const uploadFile = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      console.log("Subiendo archivo:", file.name);
+      const response = await axios.post("https://h4-02-vocaltech.onrender.com/file/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      return response.data.data?.Location || null;
+    } catch (error) {
+      console.error("Error al subir el archivo:", error);
+      toast.error("Error al subir el archivo");
+      return null;
+    }
+  };
+
+  const selectedProducts = watch("IdProduct", []);
+
   const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
     console.log("Enviando datos:", data);
+    if (!user?.id) {
+      toast.error("Usuario no autenticado");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      await api.post("/diagnostics/new", data);
-      toast.success("Formulario enviado correctamente!");
-    } catch (err) {
-      console.error("Error en la petición:", err);
-      const error = err as ApiError;
-      toast.error(
-        error.response?.data?.message ||
-          "Ocurrió un error al enviar el formulario."
-      );
+      const infoFileUrl = infoFile ? await uploadFile(infoFile) : null;
+      const soundFileUrl = soundFile ? await uploadFile(soundFile) : null;
+
+      if (!infoFileUrl || !soundFileUrl) {
+        toast.error("Error al subir los archivos");
+        return;
+      }
+
+      const payload = {
+        idUser: [user.id],
+        Type: data.Type,
+        DescripCorp: data.DescripCorp,
+        SelectArea: data.SelectArea,
+        Question1: data.Question1,
+        Question2: data.Question2,
+        Question3: data.Question3,
+        Question4: data.Question4,
+        Question5: data.Question5 || "",
+        IdProduct: data.IdProduct || [],
+        InfoFile: infoFileUrl,
+        SoundFile: soundFileUrl,
+      };
+      try {
+        await api.post("/diagnostics/new", data);
+        toast.success("Formulario enviado correctamente!");
+      } catch (err) {
+        console.error("Error en la petición:", err);
+        const error = err as ApiError;
+        toast.error(
+          error.response?.data?.message ||
+            "Ocurrió un error al enviar el formulario."
+        );
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -157,9 +220,25 @@ const DiagnosticForm: React.FC = () => {
           />
           {errors.Question4 && <p>{errors.Question4.message}</p>}
         </div>
+        <div className="flex flex-col w-full gap-2">
+          <label>Adjunta un documento con información necesaria</label>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="file"
+            onChange={(e) => setInfoFile(e.target.files?.[0] || null)}
+          />
+        </div>
 
         <div className="flex flex-col w-full gap-2">
-
+          <label>Adjunta tu audio para que podamos evaluarte</label>
+          <input
+            className="border-sky-50 border-2 rounded-lg p-1"
+            type="file"
+            accept="audio/*"
+            onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
+          />
+        </div>
+        <div className="flex flex-col w-full gap-2">
           <label>¿Necesitas agregar algo más?</label>
           <textarea
             {...register("Question5")}
@@ -171,41 +250,95 @@ const DiagnosticForm: React.FC = () => {
           <div>
             <input
               type="checkbox"
-              value="Servicio 1"
+              value="rec0PnF24uiS7REmy"
               {...register("IdProduct")}
             />
-            <label className="ml-2">Servicio 1</label>
+            <label className="ml-2">OPTIMIZACION DE RECURSOS Y CAPITAL</label>
           </div>
           <div>
             <input
               type="checkbox"
-              value="Servicio 2"
+              value="rec6rLAB0udFpZaWO"
               {...register("IdProduct")}
+              
             />
-            <label className="ml-2">Servicio 2</label>
+            <label className="ml-2">FORTALECER LA VOZ DE LA EMPRESA</label>
           </div>
           <div>
             <input
               type="checkbox"
-              value="Servicio 3"
+              value="rec7Kvtsi5jibgdw4"
               {...register("IdProduct")}
+              
             />
-            <label className="ml-2">Servicio 3</label>
+            <label className="ml-2">LIDERAR A TRAVÉS DE LA VOZ</label>
           </div>
           <div>
             <input
               type="checkbox"
-              value="Servicio 4"
+              value="recKBWWjOys1qE09F"
               {...register("IdProduct")}
+              
             />
-            <label className="ml-2">Servicio 4</label>
+            <label className="ml-2">DESARROLLO DE MVP EN 5 SEMANAS</label>
           </div>
-          {errors.IdProduct && (
-            <p>{errors.IdProduct.message}</p>
-          )}
-        </div>
+          <div>
+            <input
+              type="checkbox"
+              value="recNQqMYvhqxxYHcu"
+              {...register("IdProduct")}
+              
+            />
+            <label className="ml-2">
+              OPTIMIZACION DE RECURSOS Y CAPITAL test
+            </label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              value="recXZadExtWReRdq6"
+              {...register("IdProduct")}
+              
+            />
+            <label className="ml-2">COACHING INDIVIDUAL</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              value="recfm4Hm4kDmGFI35"
+              {...register("IdProduct")}
+              
+            />
+            <label className="ml-2">CAPACITACIONES PARA EMPRESAS</label>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              value="reczzG59J7DTbyFYO"
+              {...register("IdProduct")}
+              
+            />
+            <label className="ml-2">CAPACITACIONES PARA EMPRESAS</label>
+          </div>
 
-        <button type="submit">Enviar</button>
+          <div>
+            <input
+              type="checkbox"
+              value="recMFt1jIenek2lKv"
+              {...register("IdProduct")}
+              
+            />
+            <label className="ml-2">ENTRENAMIENTO PERSONALIZADO</label>
+          </div>
+
+          {errors.IdProduct && <p>{errors.IdProduct.message}</p>}
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-4"
+        >
+          {isSubmitting ? "Enviando..." : "Enviar"}
+        </button>
       </form>
     </div>
   );
