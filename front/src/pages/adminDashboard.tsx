@@ -31,13 +31,12 @@ const adminDashboard = () => {
         "https://h4-02-vocaltech.onrender.com/api/airtable/leads"
       );
       const data = await response.json();
-      console.log("Data fetched:", data);
-      setLeads(data);
+      setLeads(data.map((lead: any) => lead.fields));
       const entrepreneurCount = data.filter(
-        (lead:any) => lead.Type === "EMPRENDEDOR"
+        (lead:any) => lead.fields?.Type === "EMPRENDEDOR"
       ).length;
       const companyCount = data.filter(
-        (lead:any) => lead.Type === "EMPRESA"
+        (lead:any) => lead.fields?.Type === "EMPRESA"
       ).length;
 
       setTotalLeads(data.length);

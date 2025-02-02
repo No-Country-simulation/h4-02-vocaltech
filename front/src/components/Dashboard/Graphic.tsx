@@ -27,21 +27,16 @@ const LeadsChart = () => {
   const [chartData, setChartData] = useState<any>(null);
 
   useEffect(() => {
-    console.log("se ejecuta");
     const fetchData = async () => {
       try {
         const response = await axios.get(
           "https://h4-02-vocaltech.onrender.com/api/airtable/leads"
         );
         const leads = response.data;
-        console.log("Respuesta de la API:", response);
-        console.log("Leads recibidos:", leads);
-
         const leadsByMonth: { [key: string]: number } = {};
-
-        leads.forEach((lead:any) => {
-          if (lead.TimeStart) {
-            const date = new Date(lead.TimeStart);
+        leads.forEach((lead: any) => {
+          if (lead.fields.TimeStart) {
+            const date = new Date(lead.fields.TimeStart);
             const year = date.getFullYear();
             const month = date.getMonth();
             const key = `${year}-${month + 1}`;
@@ -74,7 +69,7 @@ const LeadsChart = () => {
           labels.push(months[i]);
           data.push(leadsByMonth[key] || 0);
         }
-        
+
         setChartData({
           labels: months,
           datasets: [
@@ -105,9 +100,9 @@ const LeadsChart = () => {
           options={{
             scales: {
               y: {
-                min: 0, 
+                min: 0,
                 ticks: {
-                  stepSize: 10, 
+                  stepSize: 10,
                 },
               },
             },
