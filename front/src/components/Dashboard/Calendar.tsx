@@ -105,19 +105,21 @@ export default function Calendar() {
 
       {modalData && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
-          <div className='bg-white p-6 rounded-lg w-96'>
-            <h2 className='text-xl font-semibold mb-4'>{modalData.title}</h2>
-            <p>
+          <div className='bg-white  p-6 rounded-lg w-96'>
+            <h2 className='text-xl text-black font-semibold mb-4'>
+              {modalData.title}
+            </h2>
+            <p className='text-black'>
               <strong>Fecha:</strong> {modalData.date}
             </p>
-            <p>
+            <p className='text-black'>
               <strong>Hora:</strong> {modalData.time}
             </p>
-            <p className='mt-2'>
+            <p className='mt-2 text-black'>
               <strong>Descripción:</strong> {modalData.description}
             </p>
-            <p>
-              <strong>Persona:</strong> {modalData.person}
+            <p className='text-black'>
+              <strong>Destinatario:</strong> {modalData.person}
             </p>
             <button
               className='mt-4 text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md'
