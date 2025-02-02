@@ -18,8 +18,10 @@ export default {
         anaranjado: "#E26105",
         negro: "#151419",
         anaranjado_claro: "#FFC107",
-        anaranjado_oscuro: "#CE5805",
+        anaranjado_secundario_300: "#EC9558",
         amarillo: "#FFEB3B",
+        amarillo_secundario_300: "#FFD559",
+        azul_secundario_300: "#5C628D",
         blanco: "#FBFBFB",
       },
       fontFamily: {
