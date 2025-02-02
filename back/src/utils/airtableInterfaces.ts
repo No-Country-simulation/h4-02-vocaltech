@@ -68,4 +68,5 @@ export interface AirtableRecord {
         idDiagnostic: string;
         Type: 'EMPRESA' | 'EMPRENDEDOR';	
     };
-  } 
+} 
+
