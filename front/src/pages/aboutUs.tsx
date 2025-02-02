@@ -6,8 +6,8 @@ const AboutUs = () => {
   return (
     <div className='background-aboutUs py-24 mx-10 px-20 text-black'>
       <div className='mb-8 text-center'>
-        <h2 className='font-bold mb-4 text-4xl'>Sobre nosotros</h2>
-        <p>
+        <h2 className='text-black font-bold mb-4 text-4xl'>Sobre nosotros</h2>
+        <p className='text-black'>
           En Vocaltech, somos el resultado de una alianza estratégica entre No
           Country y Vos y Tu Voz, uniendo fuerzas para crear un espacio donde la
           comunicación y la tecnología se encuentren al servicio de
@@ -17,8 +17,8 @@ const AboutUs = () => {
       </div>
       <div className='flex flex-col lg:gap-20 justify-center gap-8 md:flex-row'>
         <div className='flex flex-col w-full'>
-          <h5 className='text-h5 font-bold mb-4'>Misión</h5>
-          <p className='text-justify'>
+          <h5 className='text-h5 text-black font-bold mb-4'>Misión</h5>
+          <p className='text-black text-justify'>
             Apoyar a emprendedores y empresas en su camino al éxito,
             enfocándonos en los pilares fundamentales: comunicación y
             tecnología. A través de un enfoque estratégico y personalizado,
@@ -28,15 +28,15 @@ const AboutUs = () => {
           </p>
           <div className='flex items-center'>
             <img
-              className='rounded-xl mt-5 max-h-80 md:max-h-[400px] w-full object-cover'
+              className='rounded-xl mt-5 max-h-80 md:max-h-[340px] w-full object-cover'
               src={tuvoz}
               alt=''
             />
           </div>
         </div>
         <div className='flex flex-col w-full'>
-          <h5 className='text-h5 font-bold mb-4'>Visión</h5>
-          <p className='text-justify'>
+          <h5 className='text-h5 text-black font-bold mb-4'>Visión</h5>
+          <p className='text-justify text-black'>
             Creemos en el poder del conocimiento y la colaboración para
             construir un futuro innovador y dinámico. Queremos empoderar a todos
             nuestros leads, difundiendo oportunidades y fortaleciendo el poder
