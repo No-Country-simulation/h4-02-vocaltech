@@ -113,6 +113,9 @@ export const diagnosticService = {
     }
 
     const newDiagnostic = (await response.json()) as Diagnostic;
+    
+
+
     return newDiagnostic;
   },
 
