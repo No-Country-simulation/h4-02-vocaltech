@@ -15,6 +15,10 @@ const options = {
         url: "http://localhost:3000",
         description: "Local development server",
       },
+      {
+        url: "https://h4-02-vocaltech.onrender.com",
+        description: "Development server",
+      },
     ],
   },
   apis: ["./src/router/*.ts", "./src/controllers/*.ts"], // Adjust based on actual structure
