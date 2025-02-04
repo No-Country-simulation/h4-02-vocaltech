@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/adminDashboard";
 import Diagnostic from "./pages/Diagnostic";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 function App() {
   const location = useLocation();
@@ -35,6 +36,10 @@ function App() {
             }
           />
         </Routes>
+              {/* Conditionally show FloatingWhatsApp button */}
+              {location.pathname !== '/login' && location.pathname !== '/register' && (
+                  <FloatingWhatsApp />
+              )}        
       </AuthProvider>
     </>
   );
