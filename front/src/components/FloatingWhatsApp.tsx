@@ -11,9 +11,9 @@ const FloatingWhatsApp = () => {
       href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 right-5 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300"
+      className="fixed bottom-5 right-5 bg-green-500 text-white p-1.5 rounded-full shadow-lg hover:bg-green-600 transition-all duration-300"
     >
-      <FaWhatsapp size={32} />
+      <FaWhatsapp size={26} />
     </a>
   );
 };
