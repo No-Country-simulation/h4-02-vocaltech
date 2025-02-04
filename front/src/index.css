@@ -8,3 +8,35 @@ body {
   padding: 0;
   text-decoration: none;
 }
+
+.background-home {
+  background: whitesmoke;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #fff;
+}
+
+.form-diagnostic input,
+.form-diagnostic select,
+.form-diagnostic textarea {
+  background-color: rgb(252, 241, 227);
+  border-color: #e2610580;
+  outline: none;
+  accent-color: #e26105;
+}
+
+.background-aboutUs {
+  background: linear-gradient(#ec9558, #ffd559);
+}
+
+input {
+  border: none;
+  outline: none;
+}
