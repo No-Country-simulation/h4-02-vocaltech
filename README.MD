@@ -34,7 +34,7 @@ Creemos en el poder del conocimiento y la colaboración para construir un futuro
 
 ## 🎥 Promotional Video
 
-[**VocalTech Video**](https://drive.google.com/file/d/1-GRJgjgiPKwtJshqZ5LrEGZXhxroi6kV/view?usp=drive_link) (PENDING)
+[**VocalTech Video**](https://drive.google.com/file/d/1zoXMSyAm-Ny8wIgYLUqHCWL2qCplmiaZ/view)
 
 ## 💻 UX-UI Documentation
 [**VocalTech Figma design**](https://www.figma.com/design/LExpmOB6yNJYFO7kgCD1x2/Vocaltech?node-id=1-2&p=f&t=ALcJN60GCs60qR9O-0)
