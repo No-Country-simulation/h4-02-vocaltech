@@ -115,8 +115,8 @@ export const diagnosticService = {
     }
 
     const newDiagnostic = (await response.json()) as Diagnostic;
-    
-    // Obtener información del producto seleccionado
+  /*  
+    // Obtener información del producto seleccionado. ARREGLAR LA FUNCION
     const product = await productService.findProductById(data.idProduct);
 
     if (!product) {
@@ -124,7 +124,7 @@ export const diagnosticService = {
     }
 
     // Enviar correo con recomendaciones basadas en el producto
-    await emailDiagnoticService.sendWelcomeEmail(data.idUser, data.Diagnostic, product.fields);
+    await emailDiagnoticService.sendDiagnosticEmail(data.idUser, data.Diagnostic, product.fields); */
 
     return newDiagnostic;
   },

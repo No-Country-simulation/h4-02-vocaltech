@@ -19,7 +19,7 @@ export const emailService = {
 };
 
 export const emailDiagnoticService = {
-  async sendWelcomeEmail(to: string, name: string, product: ProductFields) {
+  async sendDiagnosticEmail(to: string, name: string, product: ProductFields) {
     const msg = {
       to,
       from: "lms.segovia86@gmail.com",
