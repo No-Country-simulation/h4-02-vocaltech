@@ -13,12 +13,11 @@ router.get('/callback',
   passport.authenticate('oauth2', { failureRedirect: '/login' }),
   (req, res) => {
     // Aquí puedes redirigir al usuario a la página deseada después de la autenticación exitosa
-    res.redirect('/api/create_user');  // O cualquier página que desees
+    res.redirect('/api/home');  // O cualquier página que desees
   }
 );
 
 export default router;
-
 
 
 

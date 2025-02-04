@@ -17,11 +17,12 @@ COPY src ./src
 COPY . .
 
 # Compila TypeScript a JavaScript
-RUN npx tsc
+# RUN npx tsc
+# Libera memoria antes de correr npx tsc
+RUN NODE_OPTIONS="--max-old-space-size=2048" npx tsc
 
 # Expone el puerto
 EXPOSE 3000
 
 # Ejecuta el comando de inicio de la aplicación
 CMD ["npm", "start"]
-
