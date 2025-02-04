@@ -11,9 +11,17 @@ const options = {
       description: "API documentation for the Node + Express + Airtable project",
     },
     servers: [
+        {
+          url: "https://h4-02-vocaltech.onrender.com",
+          description: "Development server",
+        },
       {
         url: "http://localhost:3000",
         description: "Local development server",
+      },
+            {
+        url: "http://localhost:3001",
+        description: "Local development docker server",
       },
     ],
   },
