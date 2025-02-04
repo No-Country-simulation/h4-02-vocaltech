@@ -1,6 +1,8 @@
 import { config } from "../config/validateEnv";
 import { AirtableRecord, AirtableRecordDiagnostic, AirtableRecordDiagnosticPatch } from "../utils/airtableInterfaces";
 import Diagnostic, { DiagnosticFields } from "../models/Diagnostic";
+import { productService } from "./productService";
+import { emailDiagnoticService } from "./emailService";
 
 const fetch = require('node-fetch');
 
@@ -114,7 +116,15 @@ export const diagnosticService = {
 
     const newDiagnostic = (await response.json()) as Diagnostic;
     
+    // Obtener información del producto seleccionado
+    const product = await productService.findProductById(data.idProduct);
 
+    if (!product) {
+      throw new Error(`Producto con ID ${data.idProduct} no encontrado`);
+    }
+
+    // Enviar correo con recomendaciones basadas en el producto
+    await emailDiagnoticService.sendWelcomeEmail(data.idUser, data.Diagnostic, product.fields);
 
     return newDiagnostic;
   },
