@@ -7,7 +7,6 @@ import { Toaster, toast } from 'sonner'
 import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
 
-// Estructura para Typescript
 interface DiagnosticFormInputs {
   Type: string
   DescripCorp: string
@@ -19,17 +18,8 @@ interface DiagnosticFormInputs {
   Question5?: string
   idProduct: (string | undefined)[]
   Diagnostic?: string
-}
-
-interface DiagnosticFormInputs {
-  Type: string
-  DescripCorp: string
-  SelectArea: string
-  Question1: string
-  Question2: string
-  Question3: string
-  Question4: string
-  Question5?: string
+  InfoFile?: File | null
+  SoundFile?: File | null
 }
 
 const schema = yup.object({
@@ -41,7 +31,23 @@ const schema = yup.object({
   Question3: yup.string().required('El campo es obligatorio'),
   Question4: yup.string().required('El campo es obligatorio'),
   Question5: yup.string().optional(),
-  idProduct: yup.array().of(yup.string().optional()).default([])
+  idProduct: yup.array().of(yup.string().optional()).default([]),
+  InfoFile: yup
+    .mixed()
+    .notRequired()
+    .test(
+      'file',
+      'El archivo debe ser un archivo válido',
+      (value) => !value || value instanceof File
+    ),
+  SoundFile: yup
+    .mixed()
+    .notRequired()
+    .test(
+      'file',
+      'El archivo debe ser un archivo válido',
+      (value) => !value || value instanceof File
+    )
 })
 
 const DiagnosticForm: React.FC = () => {
@@ -104,14 +110,17 @@ const DiagnosticForm: React.FC = () => {
     setIsSubmitting(true)
 
     try {
-      const infoFileUrl = infoFile ? await uploadFile(infoFile) : null
-      const soundFileUrl = soundFile ? await uploadFile(soundFile) : null
+      // Solo subimos los archivos si han sido seleccionados
+      const infoFileUrl = infoFile ? await uploadFile(infoFile) : ''
+      const soundFileUrl = soundFile ? await uploadFile(soundFile) : ''
 
-      if (!infoFileUrl || !soundFileUrl) {
+      // Solo mostramos el mensaje de error si los archivos fueron seleccionados pero no se pudieron subir
+      if ((infoFile && !infoFileUrl) || (soundFile && !soundFileUrl)) {
         toast.error('Error al subir los archivos')
         return
       }
 
+      // Construir el payload para el formulario
       const payload = {
         idUser: [user.id],
         Type: data.Type,
@@ -123,10 +132,11 @@ const DiagnosticForm: React.FC = () => {
         Question4: data.Question4,
         Question5: data.Question5 || '',
         idProduct: data.idProduct || [],
-        InfoFile: infoFileUrl,
-        SoundFile: soundFileUrl,
+        InfoFile: infoFileUrl || '', // Si no hay archivo, se manda como string vacío
+        SoundFile: soundFileUrl || '', // Igual para el archivo de sonido
         Diagnostic: data.Diagnostic || 'Sin diagnóstico aún'
       }
+
       try {
         await api.post('/diagnostics/new', payload)
         toast.success('Formulario enviado correctamente!')
