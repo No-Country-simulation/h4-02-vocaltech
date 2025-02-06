@@ -2,6 +2,9 @@ import { config } from "../config/validateEnv";
 import { AirtableRecord } from "../utils/airtableInterfaces";
 import User, { UserFields } from "../models/User";
 
+import bcrypt from "bcryptjs";
+import zxcvbn from "zxcvbn";
+
 const fetch = require('node-fetch');
 
 export const userService = {
@@ -44,6 +47,14 @@ export const userService = {
   },
 
   async updateUserById(id: string, data: Partial<AirtableRecord["fields"]>): Promise<AirtableRecord["fields"]> {
+    if (data.password) {
+        const passwordStrength = zxcvbn(data.password);
+        if (passwordStrength.score < 3) {
+          throw new Error("Password is too weak. Please choose a stronger password.");
+        }
+        data.password = await bcrypt.hash(data.password, 10);
+      }
+
     const { AIRTABLE_API_KEY, usersTableUrl } = config;
 
     const response = await fetch(`${usersTableUrl}/${id}`, {
@@ -70,6 +81,14 @@ export const userService = {
       throw new Error(`User with ID ${id} not found`);
     }
 
+    if (data.password) {
+        const passwordStrength = zxcvbn(data.password);
+        if (passwordStrength.score < 3) {
+          throw new Error("Password is too weak. Please choose a stronger password.");
+        }
+        data.password = await bcrypt.hash(data.password, 10);
+      }
+
     const updatedData = { ...existingUser, ...data };
 
     return this.updateUserById(id, updatedData);
@@ -77,6 +96,15 @@ export const userService = {
 
   async createUser(data: UserFields): Promise<User> {
     const { AIRTABLE_API_KEY, usersTableUrl } = config;
+
+    // Validate password strength
+    const passwordStrength = zxcvbn(data.password);
+    if (passwordStrength.score < 3) {
+      throw new Error("Password is too weak. Please choose a stronger password.");
+    }
+
+    // Hash password before saving
+    data.password = await bcrypt.hash(data.password, 10);
 
     const response = await fetch(usersTableUrl, {
       method: "POST",
