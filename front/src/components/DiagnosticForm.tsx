@@ -16,38 +16,28 @@ interface DiagnosticFormInputs {
   Question3: string
   Question4: string
   Question5?: string
-  idProduct: (string | undefined)[]
+  idProduct: string[]
   Diagnostic?: string
   InfoFile?: File | null
   SoundFile?: File | null
 }
 
-const schema = yup.object({
-  Type: yup.string().required('El campo es obligatorio'),
-  DescripCorp: yup.string().required('El campo es obligatorio.'),
-  SelectArea: yup.string().required('El campo es obligatorio.'),
-  Question1: yup.string().required('El campo es obligatorio.'),
-  Question2: yup.string().required('El campo es obligatorio'),
-  Question3: yup.string().required('El campo es obligatorio'),
-  Question4: yup.string().required('El campo es obligatorio'),
+const schema = yup.object().shape({
+  Type: yup.string().required('El tipo es obligatorio'),
+  DescripCorp: yup.string().required('La descripción es obligatoria'),
+  SelectArea: yup.string().required('El área es obligatoria'),
+  Question1: yup.string().required('Esta pregunta es obligatoria'),
+  Question2: yup.string().required('Esta pregunta es obligatoria'),
+  Question3: yup.string().required('Esta pregunta es obligatoria'),
+  Question4: yup.string().required('Esta pregunta es obligatoria'),
   Question5: yup.string().optional(),
-  idProduct: yup.array().of(yup.string().optional()).default([]),
-  InfoFile: yup
-    .mixed()
-    .notRequired()
-    .test(
-      'file',
-      'El archivo debe ser un archivo válido',
-      (value) => !value || value instanceof File
-    ),
-  SoundFile: yup
-    .mixed()
-    .notRequired()
-    .test(
-      'file',
-      'El archivo debe ser un archivo válido',
-      (value) => !value || value instanceof File
-    )
+  idProduct: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, 'Debe seleccionar al menos un producto'),
+  Diagnostic: yup.string().optional(),
+  InfoFile: yup.mixed<File>().nullable(),
+  SoundFile: yup.mixed<File>().nullable()
 })
 
 const DiagnosticForm: React.FC = () => {
@@ -58,7 +48,10 @@ const DiagnosticForm: React.FC = () => {
     setValue,
     formState: { errors }
   } = useForm<DiagnosticFormInputs>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      idProduct: []
+    }
   })
 
   const [infoFile, setInfoFile] = useState<File | null>(null)
