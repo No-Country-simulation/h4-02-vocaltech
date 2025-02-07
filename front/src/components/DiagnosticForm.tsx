@@ -34,6 +34,7 @@ const schema = yup.object().shape({
   idProduct: yup
     .array()
     .of(yup.string().required())
+    .default([])
     .min(1, 'Debe seleccionar al menos un producto'),
   Diagnostic: yup.string().optional(),
   InfoFile: yup.mixed<File>().nullable(),
@@ -80,7 +81,7 @@ const DiagnosticForm: React.FC = () => {
     }
   }
 
-  const handleCheckboxChange = (value: string) => {
+  /* const handleCheckboxChange = (value: string) => {
     let updatedProducts = [...selectedProducts]
     if (updatedProducts.includes(value)) {
       updatedProducts = updatedProducts.filter((item) => item !== value)
@@ -89,6 +90,16 @@ const DiagnosticForm: React.FC = () => {
     }
     setSelectedProducts(updatedProducts)
     setValue('idProduct', updatedProducts)
+  } */
+  const handleCheckboxChange = (value: string) => {
+    setSelectedProducts((prev) => {
+      const updatedProducts = prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
+
+      setValue('idProduct', updatedProducts, { shouldValidate: true })
+      return updatedProducts
+    })
   }
 
   /* const selectedProducts = watch("idProduct", []); */
