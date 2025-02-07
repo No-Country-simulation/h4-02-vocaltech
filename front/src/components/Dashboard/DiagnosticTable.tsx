@@ -13,8 +13,7 @@
 import {
   MaterialReactTable,
   useMaterialReactTable,
-  type MRT_ColumnDef,
-  MRT_Row
+  type MRT_ColumnDef
 } from 'material-react-table'
 import React, { useMemo, useEffect, useState } from 'react'
 import { IDiagnostic } from '../../types/Diagnostic'
@@ -24,8 +23,6 @@ import {
   Tooltip,
   Box,
   Button,
-  Modal,
-  TextField,
   Select,
   MenuItem
 } from '@mui/material'
@@ -35,16 +32,11 @@ import EmailIcon from '@mui/icons-material/Email'
 
 const DiagnosticTable = () => {
   const [data, setData] = useState<IDiagnostic[]>([])
-  const [products, setProducts] = useState<any[]>([]) // Guardamos los productos
-  const [users, setUsers] = useState<any[]>([]) // Guardamos los usuarios
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [editingCategoryId, setEditingCategoryId] = useState<string | null>(
     null
   )
   const [newCategory, setNewCategory] = useState<string>('')
-
-  const [openModal, setOpenModal] = useState(false)
-  const [selectedEmail, setSelectedEmail] = useState<string>('')
 
   useEffect(() => {
     const fetchUsersAndProducts = async () => {
@@ -52,49 +44,54 @@ const DiagnosticTable = () => {
         const response = await fetch(
           'https://h4-02-vocaltech.onrender.com/api/airtable/diagnostics'
         )
-        if (!response.ok) {
-          throw new Error('Error al obtener los diagnósticos')
-        }
+        if (!response.ok) throw new Error('Error al obtener los diagnósticos')
+
         const apiData = await response.json()
 
-        let productsMap = {}
+        let productsMap: Record<
+          string,
+          { NameProduct: string; Category: string[] }
+        > = {}
         try {
           const productResponse = await fetch(
             'https://h4-02-vocaltech.onrender.com/api/airtable/products'
           )
           if (productResponse.ok) {
             const productData = await productResponse.json()
-
-            productsMap = productData.reduce((acc: any, item: any) => {
-              acc[item.id] = {
-                NameProduct: item.fields.NameProduct,
-                Category: item.fields.Category
-              }
-              return acc
-            }, {})
+            productsMap = productData.reduce(
+              (acc: typeof productsMap, item: any) => {
+                acc[item.id] = {
+                  NameProduct: item.fields.NameProduct,
+                  Category: item.fields.Category
+                    ? [item.fields.Category]
+                    : ['Sin categoría']
+                }
+                return acc
+              },
+              {}
+            )
           }
-        } catch (productError) {
-          console.error('Error al obtener los productos', productError)
+        } catch (error) {
+          console.error('Error al obtener los productos', error)
         }
 
-        let usersMap = {}
+        let usersMap: Record<string, string> = {}
         try {
           const userResponse = await fetch(
             'https://h4-02-vocaltech.onrender.com/api/airtable/users'
           )
           if (userResponse.ok) {
             const userData = await userResponse.json()
-
-            usersMap = userData.reduce((acc: any, user: any) => {
+            usersMap = userData.reduce((acc: typeof usersMap, user: any) => {
               acc[user.id] = user.fields.email
               return acc
             }, {})
           }
-        } catch (userError) {
-          console.error('Error al obtener los usuarios', userError)
+        } catch (error) {
+          console.error('Error al obtener los usuarios', error)
         }
 
-        const transformedData = apiData.map((item: any) => ({
+        const transformedData: IDiagnostic[] = apiData.map((item: any) => ({
           idUser: item.fields.idUser,
           Type: item.fields.Type,
           DescripCorp: item.fields.DescripCorp,
@@ -120,10 +117,7 @@ const DiagnosticTable = () => {
               ? productsMap[item.fields.idProduct[0]]?.NameProduct ||
                 'Producto no encontrado'
               : 'Producto no encontrado',
-          email:
-            item.fields.idUser && usersMap[item.fields.idUser]
-              ? usersMap[item.fields.idUser]
-              : 'Email no disponible'
+          email: usersMap[item.fields.idUser] || 'Email no disponible'
         }))
 
         setData(transformedData)
@@ -139,126 +133,15 @@ const DiagnosticTable = () => {
 
   const columns = useMemo<MRT_ColumnDef<IDiagnostic>[]>(
     () => [
-      {
-        accessorKey: 'Type',
-        header: 'Type',
-        muiTableBodyCellProps: { style: { color: 'black' } }
-      },
-      {
-        accessorKey: 'DescripCorp',
-        header: 'Descripción'
-      },
-      {
-        accessorKey: 'SelectArea',
-        header: 'Área'
-      },
-      {
-        accessorKey: 'InfoFile',
-        header: 'Archivo'
-      },
-      {
-        accessorKey: 'SoundFile',
-        header: 'Audio'
-      },
-      {
-        accessorKey: 'TimeStamp',
-        header: 'Tiempo'
-      },
-      {
-        accessorKey: 'Status',
-        header: 'Status'
-      },
-      {
-        accessorKey: 'Question1',
-        header: 'Pregunta 1'
-      },
-      {
-        accessorKey: 'Question2',
-        header: 'Pregunta 2'
-      },
-      {
-        accessorKey: 'Question3',
-        header: 'Pregunta 3'
-      },
-      {
-        accessorKey: 'Question4',
-        header: 'Pregunta 4'
-      },
-      {
-        accessorKey: 'Question5',
-        header: 'Pregunta 5'
-      },
-      {
-        accessorKey: 'email',
-        header: 'Email',
-        Cell: ({ cell, row }: any) => (
-          <Button
-            startIcon={<EmailIcon />}
-            onClick={() => {
-              const email = cell.getValue()
-              const subject = 'Detalles del diagnóstico'
-
-              const getQuestionText = (question: any) => {
-                if (Array.isArray(question)) {
-                  return question.join(', ')
-                }
-                return question || 'N/A'
-              }
-
-              const body = `
-Hola,
-
-Aquí tienes los detalles del diagnóstico:
-
-------------------------------------
-**Tipo**: ${row.original.Type}
-**Descripción**: ${row.original.DescripCorp}
-**Área seleccionada**: ${row.original.SelectArea}
-**Fecha**: ${row.original.TimeStamp}
-**Estado**: ${row.original.Status}
-
-------------------------------------
-**Preguntas**:
-
-- **Pregunta 1**: ${getQuestionText(row.original.Question1)}
-- **Pregunta 2**: ${getQuestionText(row.original.Question2)}
-- **Pregunta 3**: ${getQuestionText(row.original.Question3)}
-- **Pregunta 4**: ${getQuestionText(row.original.Question4)}
-- **Pregunta 5**: ${getQuestionText(row.original.Question5)}
-
-------------------------------------
-**Producto relacionado**: ${row.original.NameProduct}
-**Categoría**: ${row.original.Category?.join(', ') || 'Sin categoría'}
-
-------------------------------------
-
-
-Pronto contactaremos contigo para darte una solución,
-
-Si necesitas más información o detalles adicionales, no dudes en contactarnos.
-
-Saludos cordiales,  
-VocalTech
-`
-
-              const formattedBody = body
-                .replace(/\n/g, '%0A')
-                .replace(/ /g, '%20')
-
-              window.location.href = `mailto:${email}?subject=${subject}&body=${formattedBody}`
-            }}
-          >
-            Enviar Email
-          </Button>
-        )
-      },
-      {
-        accessorKey: 'NameProduct',
-        header: 'Product Name'
-      },
+      { accessorKey: 'Type', header: 'Tipo' },
+      { accessorKey: 'DescripCorp', header: 'Descripción' },
+      { accessorKey: 'SelectArea', header: 'Área' },
+      { accessorKey: 'TimeStamp', header: 'Tiempo' },
+      { accessorKey: 'Status', header: 'Estado' },
+      { accessorKey: 'NameProduct', header: 'Producto' },
       {
         accessorKey: 'Category',
-        header: 'Category',
+        header: 'Categoría',
         Cell: ({ cell, row }: any) => (
           <>
             {editingCategoryId === row.id ? (
@@ -273,23 +156,20 @@ VocalTech
                 ))}
               </Select>
             ) : (
-              <span>{cell.getValue()}</span>
+              <span>{cell.getValue()?.join(', ')}</span>
             )}
             <IconButton
-              sx={{
-                fontSize: '1rem',
-                padding: '4px'
-              }}
+              sx={{ fontSize: '1rem', padding: '4px' }}
               onClick={() => {
                 if (editingCategoryId === row.id) {
                   const updatedData = [...data]
                   updatedData[row.index] = {
                     ...updatedData[row.index],
-                    Category: newCategory
+                    Category: [newCategory]
                   }
                   setData(updatedData)
                 } else {
-                  setNewCategory(cell.getValue())
+                  setNewCategory(cell.getValue()[0] || 'Sin categoría')
                 }
                 setEditingCategoryId(
                   editingCategoryId === row.id ? null : row.id
@@ -300,81 +180,74 @@ VocalTech
             </IconButton>
           </>
         )
+      },
+      { accessorKey: 'Question1', header: 'Pregunta 1' },
+      { accessorKey: 'Question2', header: 'Pregunta 2' },
+      { accessorKey: 'Question3', header: 'Pregunta 3' },
+      { accessorKey: 'Question4', header: 'Pregunta 4' },
+      { accessorKey: 'Question5', header: 'Pregunta 5' },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+        Cell: ({ cell, row }: any) => {
+          const email = cell.getValue()
+          const subject = 'Detalles del diagnóstico'
+          const body = `
+Hola,
+
+Aquí tienes los detalles del diagnóstico:
+
+Tipo: ${row.original.Type}
+Descripción: ${row.original.DescripCorp}
+Área: ${row.original.SelectArea}
+Fecha: ${row.original.TimeStamp}
+Estado: ${row.original.Status}
+
+Preguntas:
+1. ${row.original.Question1}
+2. ${row.original.Question2}
+3. ${row.original.Question3}
+4. ${row.original.Question4}
+5. ${row.original.Question5}
+
+Producto relacionado: ${row.original.NameProduct}
+Categoría: ${row.original.Category?.join(', ') || 'Sin categoría'}
+
+Transformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.
+
+Recomendamos trabajar:
+La voz conectada con el cuerpo,Tu voz y la relación con el otro
+
+¿Qué vas a lograr?
+Persuadir a través de tu voz,Mayor confianza y credibilidad,Transmitir un mensaje convincente
+
+En breve, recibirás una recomendación personalizada con las mejores soluciones para ti.
+
+¡Nos emociona acompañarte en este camino!
+
+
+Saludos,
+VocalTech`.replace(/\n/g, '%0A')
+
+          return (
+            <Button
+              startIcon={<EmailIcon />}
+              onClick={() =>
+                (window.location.href = `mailto:${email}?subject=${subject}&body=${body}`)
+              }
+            >
+              Enviar Email
+            </Button>
+          )
+        }
       }
     ],
     [data, editingCategoryId, newCategory]
   )
 
-  const csvConfig = mkConfig({
-    fieldSeparator: ',',
-    decimalSeparator: '.',
-    useKeysAsHeaders: true
-  })
+  if (isLoading) return <div>Cargando diagnósticos...</div>
 
-  const handleExportData = () => {
-    const csvData = data.map((diagnostic) => ({
-      ...diagnostic
-    }))
-    const csv = generateCsv(csvConfig)(csvData)
-    download(csvConfig)(csv)
-  }
-
-  if (isLoading) {
-    return <div>Cargando diagnósticos...</div>
-  }
-
-  return (
-    <MaterialReactTable
-      columns={columns}
-      data={data}
-      enableRowSelection
-      enableColumnOrdering
-      enableGlobalFilter
-      initialState={{
-        pagination: {
-          pageSize: 10,
-          pageIndex: 0
-        }
-      }}
-      renderTopToolbarCustomActions={({ table }) => (
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '16px',
-            padding: '8px',
-            flexWrap: 'wrap'
-          }}
-        >
-          <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-            Export All Data
-          </Button>
-        </Box>
-      )}
-      muiTableBodyCellProps={{
-        sx: {
-          fontSize: '0.875rem',
-          padding: '8px'
-        }
-      }}
-      muiTableHeadCellProps={{
-        sx: {
-          fontSize: '1rem',
-          fontWeight: 'bold'
-        }
-      }}
-      muiTableContainerProps={{
-        sx: {
-          maxHeight: '500px',
-          overflowY: 'auto'
-        }
-      }}
-      muiTablePaginationProps={{
-        sx: {
-          fontSize: '0.875rem'
-        }
-      }}
-    />
-  )
+  return <MaterialReactTable columns={columns} data={data} />
 }
 
 export default DiagnosticTable
