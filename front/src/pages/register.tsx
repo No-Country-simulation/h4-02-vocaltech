@@ -61,8 +61,8 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className='flex flex-col lg:flex-row min-h-screen bg-[#0B1455]'>
-      <section className='flex-1 bg-anaranjado flex items-center justify-center relative'>
+    <div className='flex flex-col lg:flex-row min-h-screen bg-anaranjado'>
+      <section className='flex-1 bg-azul_oscuro flex items-center justify-center relative'>
         <div className='absolute top-5 left-5 lg:hidden'>
           <Link to='/'>
             <img src='./logo.png' alt='Logo Home' className='w-40' />
@@ -179,6 +179,12 @@ const Register: React.FC = () => {
                     minLength: {
                       value: 6,
                       message: 'La contraseña debe tener al menos 6 caracteres'
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+                      message:
+                        'La contraseña debe contener al menos 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial'
                     }
                   })}
                   className={`w-full border rounded-lg px-3 py-2 ${
@@ -218,10 +224,10 @@ const Register: React.FC = () => {
             <button
               type='submit'
               disabled={isLoading}
-              className={`bg-[#0B1455] w-full text-white py-3 rounded-lg font-semibold transition ${
+              className={`bg-anaranjado w-full text-white py-3 rounded-lg font-semibold transition ${
                 isLoading
                   ? 'opacity-50 cursor-not-allowed'
-                  : 'hover:bg-blue-700'
+                  : 'hover:anaranjado_claro'
               }`}
             >
               {isLoading ? 'Realizando registro...' : 'Registrarme'}
@@ -248,7 +254,7 @@ const Register: React.FC = () => {
       <section
         className='flex-1 hidden lg:flex flex-col justify-center items-center gap-40 text-white p-10 relative'
         style={{
-          backgroundImage: `url('./fondo-azul.png')`,
+          backgroundImage: `url('./fondo-naranja.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
@@ -268,7 +274,7 @@ const Register: React.FC = () => {
             oportunidades.
           </p>
           <Link to='/login'>
-            <button className='bg-anaranjado px-24 py-3 mt-10 rounded-md text-white hover:bg-orange-600 transition'>
+            <button className='bg-azul_oscuro px-24 py-3 mt-10 rounded-md text-white hover:bg-azul_claro transition'>
               Iniciar sesión
             </button>
           </Link>
