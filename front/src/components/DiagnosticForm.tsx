@@ -7,7 +7,6 @@ import { Toaster, toast } from 'sonner'
 import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
 
-// Estructura para Typescript
 interface DiagnosticFormInputs {
   Type: string
   DescripCorp: string
@@ -17,31 +16,29 @@ interface DiagnosticFormInputs {
   Question3: string
   Question4: string
   Question5?: string
-  idProduct: (string | undefined)[]
+  idProduct: string[]
   Diagnostic?: string
+  InfoFile?: File | null
+  SoundFile?: File | null
 }
 
-interface DiagnosticFormInputs {
-  Type: string
-  DescripCorp: string
-  SelectArea: string
-  Question1: string
-  Question2: string
-  Question3: string
-  Question4: string
-  Question5?: string
-}
-
-const schema = yup.object({
-  Type: yup.string().required('El campo es obligatorio'),
-  DescripCorp: yup.string().required('El campo es obligatorio.'),
-  SelectArea: yup.string().required('El campo es obligatorio.'),
-  Question1: yup.string().required('El campo es obligatorio.'),
-  Question2: yup.string().required('El campo es obligatorio'),
-  Question3: yup.string().required('El campo es obligatorio'),
-  Question4: yup.string().required('El campo es obligatorio'),
+const schema = yup.object().shape({
+  Type: yup.string().required('El tipo es obligatorio'),
+  DescripCorp: yup.string().required('La descripción es obligatoria'),
+  SelectArea: yup.string().required('El área es obligatoria'),
+  Question1: yup.string().required('Esta pregunta es obligatoria'),
+  Question2: yup.string().required('Esta pregunta es obligatoria'),
+  Question3: yup.string().required('Esta pregunta es obligatoria'),
+  Question4: yup.string().required('Esta pregunta es obligatoria'),
   Question5: yup.string().optional(),
-  idProduct: yup.array().of(yup.string().optional()).default([])
+  idProduct: yup
+    .array()
+    .of(yup.string().required())
+    .default([])
+    .min(1, 'Debe seleccionar al menos un producto'),
+  Diagnostic: yup.string().optional(),
+  InfoFile: yup.mixed<File>().nullable(),
+  SoundFile: yup.mixed<File>().nullable()
 })
 
 const DiagnosticForm: React.FC = () => {
@@ -52,7 +49,10 @@ const DiagnosticForm: React.FC = () => {
     setValue,
     formState: { errors }
   } = useForm<DiagnosticFormInputs>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
+    defaultValues: {
+      idProduct: []
+    }
   })
 
   const [infoFile, setInfoFile] = useState<File | null>(null)
@@ -81,7 +81,7 @@ const DiagnosticForm: React.FC = () => {
     }
   }
 
-  const handleCheckboxChange = (value: string) => {
+  /* const handleCheckboxChange = (value: string) => {
     let updatedProducts = [...selectedProducts]
     if (updatedProducts.includes(value)) {
       updatedProducts = updatedProducts.filter((item) => item !== value)
@@ -90,6 +90,16 @@ const DiagnosticForm: React.FC = () => {
     }
     setSelectedProducts(updatedProducts)
     setValue('idProduct', updatedProducts)
+  } */
+  const handleCheckboxChange = (value: string) => {
+    setSelectedProducts((prev) => {
+      const updatedProducts = prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
+
+      setValue('idProduct', updatedProducts, { shouldValidate: true })
+      return updatedProducts
+    })
   }
 
   /* const selectedProducts = watch("idProduct", []); */
@@ -104,14 +114,17 @@ const DiagnosticForm: React.FC = () => {
     setIsSubmitting(true)
 
     try {
-      const infoFileUrl = infoFile ? await uploadFile(infoFile) : null
-      const soundFileUrl = soundFile ? await uploadFile(soundFile) : null
+      // Solo subimos los archivos si han sido seleccionados
+      const infoFileUrl = infoFile ? await uploadFile(infoFile) : ''
+      const soundFileUrl = soundFile ? await uploadFile(soundFile) : ''
 
-      if (!infoFileUrl || !soundFileUrl) {
+      // Solo mostramos el mensaje de error si los archivos fueron seleccionados pero no se pudieron subir
+      if ((infoFile && !infoFileUrl) || (soundFile && !soundFileUrl)) {
         toast.error('Error al subir los archivos')
         return
       }
 
+      // Construir el payload para el formulario
       const payload = {
         idUser: [user.id],
         Type: data.Type,
@@ -123,10 +136,11 @@ const DiagnosticForm: React.FC = () => {
         Question4: data.Question4,
         Question5: data.Question5 || '',
         idProduct: data.idProduct || [],
-        InfoFile: infoFileUrl,
-        SoundFile: soundFileUrl,
+        InfoFile: infoFileUrl || '', // Si no hay archivo, se manda como string vacío
+        SoundFile: soundFileUrl || '', // Igual para el archivo de sonido
         Diagnostic: data.Diagnostic || 'Sin diagnóstico aún'
       }
+
       try {
         await api.post('/diagnostics/new', payload)
         toast.success('Formulario enviado correctamente!')

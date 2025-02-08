@@ -13,16 +13,6 @@ body {
   background: whitesmoke;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #fff;
-}
-
 .form-diagnostic input,
 .form-diagnostic select,
 .form-diagnostic textarea {
