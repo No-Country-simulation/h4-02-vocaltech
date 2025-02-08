@@ -150,7 +150,7 @@ export default Table
 
 import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table'
 import React, { useMemo, useEffect, useState } from 'react'
-import { IUser } from '../types/User'
+import { IUser } from '../../types/User'
 import { Edit, Delete } from '@mui/icons-material'
 import { IconButton, Tooltip, Box, Button } from '@mui/material'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
@@ -202,7 +202,6 @@ function Table() {
         muiTableBodyCellProps: { style: { color: 'black' } }
       },
       {
-<<<<<<<<< Temporary merge branch 1:front/src/components/Dashboard/Table.tsx
         accessorKey: 'company',
         header: 'Company'
       },
@@ -219,10 +218,7 @@ function Table() {
         header: 'Status'
       },
       {
-        id: 'actions', // Columna personalizada
-=========
         id: 'actions',
->>>>>>>>> Temporary merge branch 2:front/src/components/Table.tsx
         header: 'Actions',
         Cell: ({ row }) => (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
