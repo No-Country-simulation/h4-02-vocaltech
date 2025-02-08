@@ -96,6 +96,76 @@ export const emailDiagnosticService = {
   };
   
 
+  export const emailResponseDiagnosticService = {
+    async sendResponseDiagnosticEmail(to: string, name: string, productIds: string[], Diagnostic: string) {
+      let productSections = "";
+      let productDetails: any[] = [];
+
+      if (productIds && productIds.length > 0) {
+        productDetails = await Promise.all(
+          productIds.map(async (productId) => {
+            return await productService.findProductById(productId);
+          })
+        );
+      }
+      
+      const validProducts = productDetails.filter(product => product && (product.NameProduct || product.id));
+            
+    //   console.log("Product IDs: ", productIds);
+    //   console.log("valid IDs: ", validProducts);
+  
+      // Build HTML product sections
+      productSections = validProducts
+        .map((product, index) => `
+          <h3>Producto sugerido ${index + 1}: ${product.NameProduct}</h3>
+          <p>${product.Description}</p>
+        `)
+        .join("\n");
+  
+      // Build plain text version
+      const textProductSections = validProducts
+        .map((product, index) => 
+          `Producto sugerido ${index + 1}: ${product.NameProduct}
+  Descripción: ${product.Description}
+        `)
+        .join("\n");
+  
+      const msg = {
+        to,
+        from: "lms.segovia86@gmail.com",
+        subject: `Hola ${name}`,
+        text: `Hola ${name}, gracias por completar nuestro diagnóstico en VocalTech.  
+        Analizando tu información lo recomendable sería.
+  
+  ${textProductSections}
+  
+ ¿Qué vas a lograr?
+  - ${Diagnostic}
+  
+  ¡Nos emociona acompañarte en este camino!
+  
+  Saludos,
+  El equipo de VocalTech`,
+        html: `<h1>Hola ${name}!</h1>
+          <p>Gracias por completar nuestro diagnóstico en VocalTech.</p>
+          <p>Analizando tu información lo recomendable sería.</p> 
+          ${productSections}
+          <p>¿Qué vas a lograr?</p>
+          <p>${Diagnostic}</p>
+          <br>
+          <p>¡Nos emociona acompañarte en este camino!</p>
+          <p>Saludos, 
+          <br>El equipo de VocalTech
+        </p>`
+      };
+  
+      await sgMail.send(msg);
+    },
+  };
+
+
+
+
 
   //**************version original KO***************** */
 // export const emailDiagnosticService = {
