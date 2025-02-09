@@ -23,14 +23,9 @@ router.get(
     }
 
     // Si el login fue exitoso, redirigir a la ruta principal del backend o frontend
-    // Aquí puedes personalizar según tu flujo de trabajo:
-    // Backend: redirigir a alguna página o devolver un token
-    // Frontend: redirigir al frontend con información de usuario
-    res.redirect("/api/home"); // O redirigir al frontend, por ejemplo: /dashboard
+    res.redirect("/api/home"); 
   }
 );
-
-// Puedes agregar más rutas si necesitas otros flujos de autenticación, como cerrar sesión
 
 export default router;
 
