@@ -61,7 +61,7 @@ const Register: React.FC = () => {
   }
 
   return (
-    <div className='flex flex-col lg:flex-row min-h-screen bg-sky-950'>
+    <div className='flex flex-col lg:flex-row min-h-screen bg-[#0B1455]'>
       <section className='flex-1 bg-anaranjado flex items-center justify-center relative'>
         <div className='absolute top-5 left-5 lg:hidden'>
           <Link to='/'>
@@ -218,7 +218,7 @@ const Register: React.FC = () => {
             <button
               type='submit'
               disabled={isLoading}
-              className={`bg-sky-950 w-full text-white py-3 rounded-lg font-semibold transition ${
+              className={`bg-[#0B1455] w-full text-white py-3 rounded-lg font-semibold transition ${
                 isLoading
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:bg-blue-700'

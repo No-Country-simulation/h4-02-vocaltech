@@ -9,8 +9,8 @@ body {
   text-decoration: none;
 }
 
-.background-home{
-  background: linear-gradient(rgba(0,1,21,1), rgba(23,42,179,1))
+.background-home {
+  background: whitesmoke;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
@@ -22,4 +22,8 @@ p, h1, h2, h3, h4, h5, h6 {
   border-color: #E2610580;
   outline: none;
   accent-color: #E26105;
+}
+
+.background-aboutUs {
+  background: linear-gradient(#e8b006, #e26105);
 }

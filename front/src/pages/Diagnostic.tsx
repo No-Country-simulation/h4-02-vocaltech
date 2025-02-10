@@ -18,5 +18,4 @@ const Diagnostic = () => {
     </div>
   );
 };
-
 export default Diagnostic;
