@@ -21,18 +21,6 @@ interface DiagnosticFormInputs {
   Diagnostic?: string;
 }
 
-
-interface DiagnosticFormInputs {
-  Type: string
-  DescripCorp: string
-  SelectArea: string
-  Question1: string
-  Question2: string
-  Question3: string
-  Question4: string
-  Question5?: string
-}
-
 const schema = yup.object({
   Type: yup.string().required("El campo es obligatorio"),
   DescripCorp: yup.string().required("El campo es obligatorio."),
@@ -80,7 +68,7 @@ const DiagnosticForm: React.FC = () => {
       if (axios.isAxiosError(error) && error.response) {
         console.error("Detalles del error:", error.response.data);
         toast.error(error.response.data?.message || "Error al subir el archivo.");
-        // return null;
+        return null;
       } else {
         toast.error("Error inesperado al subir el archivo.");
       }
@@ -136,8 +124,9 @@ const DiagnosticForm: React.FC = () => {
         toast.success("Formulario enviado correctamente!");
       } catch (err) {
         console.error("Error en la petición:", err);
-        const error = err as ApiError;
-        toast.error(error.response?.data?.message || "Ocurrió un error.");
+        // const error = err as ApiError;
+        toast.error("Ocurrió un error al enviar el formulario.");
+        // toast.error(error.response?.data?.message || "Ocurrió un error.");
       }
     } finally {
       setIsSubmitting(false);
@@ -393,6 +382,7 @@ const DiagnosticForm: React.FC = () => {
         <button
           type="submit"
           className="bg-anaranjado text-white px-4 py-2 rounded-lg hover:bg-anaranjado_oscuro"
+          disabled={isSubmitting}
         >
           {isSubmitting ? "Enviando..." : "Enviar"}
         </button>
