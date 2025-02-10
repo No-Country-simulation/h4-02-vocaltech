@@ -1,15 +1,3 @@
-// const parseTimestamp = (timestamp: string): Date => {
-//     const [datePart, timePart] = timestamp.split(" "); // ["16/1/2025", "15:48"]
-//     const [day, month, year] = datePart.split("/").map(Number); // [16, 1, 2025]
-//     const [hours, minutes] = timePart.split(":").map(Number); // [15, 48]
-
-//     return new Date(year, month - 1, day, hours, minutes);
-//   };
-
-//   const timestampAsDate = parseTimestamp(rawTimestamp);
-//   console.log(timestampAsDate); // 2025-01-16T15:48:00.000Z (dependiendo de la zona horaria)
-// const rawTimestamp: string = "16/1/2025 15:48"; Esto se recibiria de la api
-
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -71,24 +59,8 @@ const DiagnosticTable = () => {
         muiTableBodyCellProps: { style: { color: "black" } },
       },
       {
-        accessorKey: "DescripCorp",
-        header: "DescripCorp",
-      },
-      {
         accessorKey: "SelectArea",
         header: "SelectArea",
-      },
-      {
-        accessorKey: "InfoFile",
-        header: "InfoFile",
-      },
-      {
-        accessorKey: "SoundFile",
-        header: "SoundFile",
-      },
-      {
-        accessorKey: "TimeStamp",
-        header: "TimeStamp",
       },
       {
         accessorKey: "Status",
@@ -113,6 +85,18 @@ const DiagnosticTable = () => {
       {
         accessorKey: "Question5",
         header: "Question5",
+      },
+      {
+        accessorKey: "DescripCorp",
+        header: "DescripCorp",
+      },
+      {
+        accessorKey: "InfoFile",
+        header: "InfoFile",
+      },
+      {
+        accessorKey: "SoundFile",
+        header: "SoundFile",
       },
     ],
     []
@@ -178,8 +162,9 @@ const DiagnosticTable = () => {
           pageSize: 10,
           pageIndex: 0
         }
-      }}
-      renderTopToolbarCustomActions={({ table }) => (
+      }
+    }
+      renderTopToolbarCustomActions={() => (
         <Box
           sx={{
             display: 'flex',

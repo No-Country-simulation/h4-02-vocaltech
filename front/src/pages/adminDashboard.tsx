@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import Table from '../components/Dashboard/Table'
 import Sidebar from '../components/Dashboard/Sidebar'
 import AdminCard from '../components/Dashboard/AdminCard'
 import Graphic from '../components/Dashboard/Graphic'
-import RecentLeads from '../components/Dashboard/RecentLeads'
 import DashboardHeader from '../components/Dashboard/DashboardHeader'
 import '../components/Dashboard/styles.css'
 import Calendar from '../components/Dashboard/Calendar'
-import DiagnosticTable from '../components/Dashboard/DiagnosticTable'
+import { Outlet } from 'react-router-dom'
 
 const adminDashboard = () => {
   type Card = {
@@ -73,17 +71,19 @@ const adminDashboard = () => {
         />
       </div>
 
-      <div className='flex flex-col gap-7 col-span-3 lg:flex-row lg:gap-6 lg:col-span-5'>
+      <div className='flex flex-col gap-7 col-span-3 lg:flex-row lg:gap-6 lg:col-span-6'>
+            <>
         <div className='lg:w-[48%]'>
           <Graphic />
         </div>
-        <div className='lg:w-[48%]'>
+        <div className='p-10 lg:w-[48%]'>
           <Calendar />
         </div>
+        </>
       </div>
 
-      <div className='col-span-1 lg:col-span-5 lg:max-h-[600px] lg:overflow-auto lg:mt-7'>
-        <RecentLeads />
+      <div className='col-span-1 lg:p-10 lg:col-span-6 lg:max-h-[600px] lg:overflow-auto lg:mt-7'>
+        <Outlet />
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ const DashboardHeader = () => {
         <div className='text-xl mr-2'>
           <GiHamburgerMenu className='burger-menu' />
           <Link to='/'>
-            <img src='logo-negro.png' alt='' className='logo' />
+            <img src='/logo-negro.png' alt='' className='logo' />
           </Link>
         </div>
         <div className='flex gap-5 items-center'>
@@ -30,7 +30,7 @@ const DashboardHeader = () => {
             <SlPencil />
           </button>
           <img
-            src='profile.jpeg'
+            src='/profile.jpeg'
             alt='User'
             className='h-full rounded-xl'
             width={50}

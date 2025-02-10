@@ -52,7 +52,6 @@ function Table() {
       }
     }
 
-    
   const handleDeleteUser = async (id: string) => {
     if (!window.confirm('¿Estás seguro de que deseas eliminar este usuario?'))
       return
@@ -111,7 +110,6 @@ function Table() {
     }
   }
   
-
   const columns = useMemo<MRT_ColumnDef<IUser>[]>(
     () => [
       {
