@@ -165,25 +165,6 @@ const DiagnosticForm: React.FC = () => {
         </div>
 
         <div className='flex flex-col w-full gap-2'>
-          <label>Adjunta un documento con información necesaria</label>
-          <input
-            className='border-sky-50 border-2 rounded-lg p-1'
-            type='file'
-            onChange={(e) => setInfoFile(e.target.files?.[0] || null)}
-          />
-        </div>
-
-        <div className='flex flex-col w-full gap-2'>
-          <label>Adjunta tu audio para que podamos evaluarte</label>
-          <input
-            className='border-sky-50 border-2 rounded-lg p-1'
-            type='file'
-            accept='audio/*'
-            onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
-          />
-        </div>
-
-        <div className='flex flex-col w-full gap-2'>
           <label>Descripción del proyecto</label>
           <input
             className='border-sky-50 border-2 rounded-lg p-1'
@@ -263,16 +244,6 @@ const DiagnosticForm: React.FC = () => {
             onChange={(e) => setInfoFile(e.target.files?.[0] || null)}
           />
         </div>
-
-        {/* <div className="flex flex-col w-full gap-2">
-          <label>Adjunta tu audio para que podamos evaluarte</label>
-          <input
-            className="border-sky-50 border-2 rounded-lg p-1"
-            type="file"
-            accept="audio/*"
-            onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
-          />
-        </div> */}
 
         <div className="flex flex-col w-full gap-2">
           <label className="font-semibold">Elige cómo enviar tu audio:</label>
