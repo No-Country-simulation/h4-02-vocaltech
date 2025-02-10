@@ -11,6 +11,7 @@ import Diagnostic from "./pages/Diagnostic";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import WhatsAppChat from "./components/WhatsAppChat";
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/emprendedores" element={<Entrepreneurs />} />
+          <Route path="/wapps" element={<WhatsAppChat />} />
           <Route
             path="/diagnostic"
             element={

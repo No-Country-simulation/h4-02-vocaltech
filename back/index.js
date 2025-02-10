@@ -5,7 +5,6 @@ const fs = require('fs')  //to read files from the file system
 const wappurl = `https://graph.facebook.com/v20.0/${process.env.WHATSAPP_ACCESS_TEST_PHONE_NUMBER}`
 const phone_number = '541124020248'
 
-
 async function sendTemplateMessage() {
     const response = await axios({
         url: `${wappurl}/messages`,
@@ -88,7 +87,7 @@ async function sendTextMessage() {
             to: phone_number,
             type: 'text',
             text:{
-                body: 'This is a text message'
+                body: 'This is a text message to database'
             }
         })
     })
@@ -144,8 +143,8 @@ async function uploadImage() {
 // sendTemplateMessage()
 // sendTemplateMessageDiscount()
 
-// sendTextMessage()
+sendTextMessage()
 
-sendMediaMessage()
+// sendMediaMessage()
 
 // uploadImage()
