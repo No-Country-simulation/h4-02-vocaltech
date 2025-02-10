@@ -5,9 +5,9 @@ import * as yup from "yup";
 import api from "../services/api";
 import { Toaster, toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
-import axios from 'axios'
+import axios from "axios";
+import AudioRecorder from "./audioRecorder";
 
-// Estructura para Typescript
 interface DiagnosticFormInputs {
   Type: string;
   DescripCorp: string;
@@ -56,22 +56,30 @@ const DiagnosticForm: React.FC = () => {
   const [soundFile, setSoundFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-
+  const [audioOption, setAudioOption] = useState<"upload" | "record">("upload");
 
   const uploadFile = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const response = await axios.post("https://h4-02-vocaltech.onrender.com/file/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "https://h4-02-vocaltech.onrender.com/file/upload",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       return response.data.data?.Location || null;
     } catch (error) {
-      console.error("Error al subir el archivo:", error);
-      toast.error("Error al subir el archivo");
-      return null;
+      if (axios.isAxiosError(error) && error.response) {
+        console.error("Detalles del error:", error.response.data);
+        toast.error(error.response.data?.message || "Error al subir el archivo.");
+        // return null;
+      } else {
+        toast.error("Error inesperado al subir el archivo.");
+      }
     }
   };
 
@@ -85,8 +93,6 @@ const DiagnosticForm: React.FC = () => {
     setSelectedProducts(updatedProducts);
     setValue("idProduct", updatedProducts);
   };
-
-  /* const selectedProducts = watch("idProduct", []); */
 
   const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
     console.log("Enviando datos:", data);
@@ -236,7 +242,7 @@ const DiagnosticForm: React.FC = () => {
           />
         </div>
 
-        <div className="flex flex-col w-full gap-2">
+        {/* <div className="flex flex-col w-full gap-2">
           <label>Adjunta tu audio para que podamos evaluarte</label>
           <input
             className="border-sky-50 border-2 rounded-lg p-1"
@@ -244,7 +250,59 @@ const DiagnosticForm: React.FC = () => {
             accept="audio/*"
             onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
           />
+        </div> */}
+
+        <div className="flex flex-col w-full gap-2">
+          <label className="font-semibold">Elige cómo enviar tu audio:</label>
+          <div className="flex items-center gap-4">
+            <div>
+              <input
+                type="radio"
+                id="upload"
+                name="audioOption"
+                value="upload"
+                checked={audioOption === "upload"}
+                onChange={() => setAudioOption("upload")}
+              />
+              <label htmlFor="upload" className="ml-2">
+                Subir archivo
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="record"
+                name="audioOption"
+                value="record"
+                checked={audioOption === "record"}
+                onChange={() => setAudioOption("record")}
+              />
+              <label htmlFor="record" className="ml-2">
+                Grabar audio
+              </label>
+            </div>
+          </div>
         </div>
+
+        {audioOption === "upload" ? (
+          <div className="flex flex-col w-full gap-2">
+            <label>Adjunta tu audio para que podamos evaluarte</label>
+            <input
+              className="border-sky-50 border-2 rounded-lg p-1"
+              type="file"
+              accept="audio/*"
+              onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
+            />
+          </div>
+        ) : (
+          <div className="flex flex-col w-full gap-2">
+            <label>Graba tu audio</label>
+            <AudioRecorder
+              onRecordingComplete={(audioFile) => setSoundFile(audioFile)}
+            />
+          </div>
+        )}
+
         <div className="flex flex-col w-full gap-2">
           <label>¿Necesitas agregar algo más?</label>
           <textarea
@@ -269,7 +327,6 @@ const DiagnosticForm: React.FC = () => {
               value="rec6rLAB0udFpZaWO"
               checked={selectedProducts.includes("rec6rLAB0udFpZaWO")}
               onChange={() => handleCheckboxChange("rec6rLAB0udFpZaWO")}
-              
             />
             <label className="ml-2">Fortalecer la voz de la empresa</label>
           </div>
@@ -279,7 +336,6 @@ const DiagnosticForm: React.FC = () => {
               value="rec7Kvtsi5jibgdw4"
               checked={selectedProducts.includes("rec7Kvtsi5jibgdw4")}
               onChange={() => handleCheckboxChange("rec7Kvtsi5jibgdw4")}
-              
             />
             <label className="ml-2">Liderar a través de la voz</label>
           </div>
@@ -289,7 +345,6 @@ const DiagnosticForm: React.FC = () => {
               value="recKBWWjOys1qE09F"
               checked={selectedProducts.includes("recKBWWjOys1qE09F")}
               onChange={() => handleCheckboxChange("recKBWWjOys1qE09F")}
-              
             />
             <label className="ml-2">Desarrollo de MVP en 5 semanas</label>
           </div>
@@ -299,11 +354,8 @@ const DiagnosticForm: React.FC = () => {
               value="recNQqMYvhqxxYHcu"
               checked={selectedProducts.includes("recNQqMYvhqxxYHcu")}
               onChange={() => handleCheckboxChange("recNQqMYvhqxxYHcu")}
-              
             />
-            <label className="ml-2">
-              Optimización de recursos y capital
-            </label>
+            <label className="ml-2">Optimización de recursos y capital</label>
           </div>
           <div>
             <input
@@ -311,7 +363,6 @@ const DiagnosticForm: React.FC = () => {
               value="recXZadExtWReRdq6"
               checked={selectedProducts.includes("recXZadExtWReRdq6")}
               onChange={() => handleCheckboxChange("recXZadExtWReRdq6")}
-              
             />
             <label className="ml-2">Coaching individual</label>
           </div>
@@ -321,7 +372,6 @@ const DiagnosticForm: React.FC = () => {
               value="recfm4Hm4kDmGFI35"
               checked={selectedProducts.includes("recfm4Hm4kDmGFI35")}
               onChange={() => handleCheckboxChange("recfm4Hm4kDmGFI35")}
-              
             />
             <label className="ml-2">Capacitaciones para empresas</label>
           </div>
@@ -331,7 +381,6 @@ const DiagnosticForm: React.FC = () => {
               value="reczzG59J7DTbyFYO"
               checked={selectedProducts.includes("reczzG59J7DTbyFYO")}
               onChange={() => handleCheckboxChange("reczzG59J7DTbyFYO")}
-              
             />
             <label className="ml-2">Charlas inspiradoras</label>
           </div>
@@ -342,7 +391,6 @@ const DiagnosticForm: React.FC = () => {
               value="recMFt1jIenek2lKv"
               checked={selectedProducts.includes("recMFt1jIenek2lKv")}
               onChange={() => handleCheckboxChange("recMFt1jIenek2lKv")}
-              
             />
             <label className="ml-2">Entrenamiento personalizado</label>
           </div>
