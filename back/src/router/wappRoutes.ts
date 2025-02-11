@@ -3,7 +3,10 @@ import { wappController } from "../controllers/wappController";
 import { config } from "../config/validateEnv";
 const WappRouter = Router();
 
-const { WEBHOOK_VERIFY_TOKEN } = config;
+// const { WEBHOOK_VERIFY_TOKEN } = config;
+const WEBHOOK_VERIFY_TOKEN = "my-verify-token";
+console.log("Webhook Verify Token1:", WEBHOOK_VERIFY_TOKEN);
+
 
 /**
  * @swagger
@@ -24,7 +27,7 @@ const handleRouteError = (res: any, error: unknown) => {
 
 /**
  * @swagger
- * /api/wapp/send:
+ * /api/wapps/send:
  *   post:
  *     summary: Send a WhatsApp message
  *     tags: [WhatsApp]
@@ -59,7 +62,7 @@ WappRouter.post("/send", async (req, res) => {
 
 /**
  * @swagger
- * /api/wapp/history/{phone}:
+ * /api/wapps/history/{phone}:
  *   get:
  *     summary: Get chat history for a user
  *     tags: [WhatsApp]
@@ -86,47 +89,30 @@ WappRouter.get("/history/:phone", async (req, res) => {
     }
 });
 
+
 /**
  * @swagger
- * /api/wapp/webhook:
+ * /api/wapps/webhook:
  *   get:
- *     summary: Get whatsapp webhook
+ *     summary: Get webhook verification
  *     tags: [WhatsApp]
- *     parameters:
- *         schema:
- *           type: string
- *         description: whatsapp webhook
- *     responses:
- *       200:
- *         description: Successfully retrieved whatsapp webhook
- *       404:
- *         description: whatsapp webhook not found
- *       500:
- *         description: Internal server error
  */
 WappRouter.get("/webhook", (req, res) => {
-    // console.log(req.query);
-    // res.send("res: webhook");
+    console.log("Received webhook request:", req.query);
+    console.log("Webhook Verify Token2:", WEBHOOK_VERIFY_TOKEN);
+  
     const mode = req.query["hub.mode"];
     const challenge = req.query["hub.challenge"];
     const token = req.query["hub.verify_token"];
-
-    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
-        res.status(200).send(challenge);
-        console.log(req.query);
-        console.log("200 ok");
-         } else {
-            res.sendStatus(403);
-            console.log("403 error");
-        }
   
-    // try {
-    //     await wappController.getChatHistory(req, res);
-        
-    // } catch (error) {
-    //     handleRouteError(res, error);
-    // }
-});
+    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+      res.status(200).send(challenge);
+      console.log("Webhook verification successful.");
+    } else {
+      res.sendStatus(403);
+      console.log("Webhook verification failed.");
+    }
+  });
 
 export default WappRouter;
 
