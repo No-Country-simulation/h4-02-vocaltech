@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { wappController } from "../controllers/wappController";
-
+import { config } from "../config/validateEnv";
 const WappRouter = Router();
 
-const WEBHOOK_VERIFY_TOKEN = "my-verify-token";
+const { WEBHOOK_VERIFY_TOKEN } = config;
 
 /**
  * @swagger
@@ -86,25 +86,40 @@ WappRouter.get("/history/:phone", async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/wapp/webhook:
+ *   get:
+ *     summary: Get whatsapp webhook
+ *     tags: [WhatsApp]
+ *     parameters:
+ *         schema:
+ *           type: string
+ *         description: whatsapp webhook
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved whatsapp webhook
+ *       404:
+ *         description: whatsapp webhook not found
+ *       500:
+ *         description: Internal server error
+ */
 WappRouter.get("/webhook", (req, res) => {
-    // console.log(req.query);
-    // res.send();
+    console.log(req.query);
+    res.send("res: webhook");
 
-    const mode = req.query["hub.mode"];
-    const challenge = req.query["hub.challenge"];
-    const token = req.query["hub.verify_token"];
+    // const mode = req.query["hub.mode"];
+    // const challenge = req.query["hub.challenge"];
+    // const token = req.query["hub.verify_token"];
 
-    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
-        res.status(200).send(challenge);
-         } else {
-            res.sendStatus(403);
-        }
-        // if (mode === "subscribe" && token === WEBHOOK_VERIFY_TOKEN) {
-        //     console.log("Webhook verified");
-        //     res.status(200).send(challenge);
-        // } else {
-        //     res.sendStatus(403);
-        // }
+    // if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+    //     res.status(200).send(challenge);
+    //     console.log(req.query);
+    //     console.log("200 ok");
+    //      } else {
+    //         res.sendStatus(403);
+    //         console.log("403 error");
+    //     }
   
     // try {
     //     await wappController.getChatHistory(req, res);

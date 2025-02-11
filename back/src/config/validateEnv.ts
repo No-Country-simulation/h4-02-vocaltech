@@ -49,5 +49,11 @@ export const config = {
 
   // Variables de entorno para secret sección
 //   SECRET_SECTION: getEnvVar('SECRET_SECCION'),
+
+//Variables de entorno para Whatsapp API - Twilio
+WHATSAPP_ACCESS_TOKEN: getEnvVar('WHATSAPP_ACCESS_TOKEN'),
+WHATSAPP_ACCESS_PHONE_NUMBER: getEnvVar('WHATSAPP_ACCESS_PHONE_NUMBER'),
+WHATSAPP_ACCESS_TEST_PHONE_NUMBER: getEnvVar('WHATSAPP_ACCESS_TEST_PHONE_NUMBER'),
+WEBHOOK_VERIFY_TOKEN: getEnvVar('WEBHOOK_VERIFY_TOKEN'),
 };
 
