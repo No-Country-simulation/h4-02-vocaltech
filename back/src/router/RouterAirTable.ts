@@ -24,7 +24,7 @@ const router = Router();
  *         description: Name of the Airtable table to fetch records from
  *         schema:
  *           type: string
- *           enum: [Users, Leads, Diagnostics, Products, Contacts, Interactions]
+ *           enum: [Users, Leads, Diagnostics, Products, Contacts, Interactions, Chats]
  *     responses:
  *       200:
  *         description: Successfully fetched records
