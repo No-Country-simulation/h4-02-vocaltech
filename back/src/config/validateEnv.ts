@@ -24,6 +24,7 @@ export const config = {
   productsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Products`,
   leadsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Leads`,
   chatsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Chats`,
+  appointmentsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Appointments`,
 
   // Variables de entorno para la estrategia OAuth2
   AUTHORIZATION_URL: getEnvVar('AUTH_URL'),
