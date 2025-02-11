@@ -105,21 +105,20 @@ WappRouter.get("/history/:phone", async (req, res) => {
  *         description: Internal server error
  */
 WappRouter.get("/webhook", (req, res) => {
-    console.log(req.query);
-    res.send("res: webhook");
+    // console.log(req.query);
+    // res.send("res: webhook");
+    const mode = req.query["hub.mode"];
+    const challenge = req.query["hub.challenge"];
+    const token = req.query["hub.verify_token"];
 
-    // const mode = req.query["hub.mode"];
-    // const challenge = req.query["hub.challenge"];
-    // const token = req.query["hub.verify_token"];
-
-    // if (mode && token === WEBHOOK_VERIFY_TOKEN) {
-    //     res.status(200).send(challenge);
-    //     console.log(req.query);
-    //     console.log("200 ok");
-    //      } else {
-    //         res.sendStatus(403);
-    //         console.log("403 error");
-    //     }
+    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+        res.status(200).send(challenge);
+        console.log(req.query);
+        console.log("200 ok");
+         } else {
+            res.sendStatus(403);
+            console.log("403 error");
+        }
   
     // try {
     //     await wappController.getChatHistory(req, res);
