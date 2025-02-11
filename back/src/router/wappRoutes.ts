@@ -3,6 +3,8 @@ import { wappController } from "../controllers/wappController";
 
 const WappRouter = Router();
 
+const WEBHOOK_VERIFY_TOKEN = "my-verify-token";
+
 /**
  * @swagger
  * tags:
@@ -85,8 +87,25 @@ WappRouter.get("/history/:phone", async (req, res) => {
 });
 
 WappRouter.get("/webhook", (req, res) => {
-    console.log(req.query);
-    res.send();
+    // console.log(req.query);
+    // res.send();
+
+    const mode = req.query["hub.mode"];
+    const challenge = req.query["hub.challenge"];
+    const token = req.query["hub.verify_token"];
+
+    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+        res.status(200).send(challenge);
+         } else {
+            res.sendStatus(403);
+        }
+        // if (mode === "subscribe" && token === WEBHOOK_VERIFY_TOKEN) {
+        //     console.log("Webhook verified");
+        //     res.status(200).send(challenge);
+        // } else {
+        //     res.sendStatus(403);
+        // }
+  
     // try {
     //     await wappController.getChatHistory(req, res);
         
