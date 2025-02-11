@@ -2,13 +2,28 @@ import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table'
 import React, { useMemo, useEffect, useState } from 'react'
 import { IUser } from '../../types/User'
 import { Edit, Delete } from '@mui/icons-material'
-import { IconButton, Tooltip, Box, Button } from '@mui/material'
+import {
+  IconButton,
+  Tooltip,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  CircularProgress
+} from '@mui/material'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 function Table() {
   const [data, setData] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+  const [openEditModal, setOpenEditModal] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
+  const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -20,7 +35,6 @@ function Table() {
           throw new Error('Error al obtener los usuarios')
         }
         const apiData = await response.json()
-
         const transformedData = apiData.map((item: any) => ({
           id: item.id,
           email: item.fields.email,
@@ -32,14 +46,14 @@ function Table() {
           role: item.fields.role,
           status: item.fields.status
         }))
-
         setData(transformedData)
       } catch (error) {
-        console.error('Error fetching users:', error)
+        setError('Failed to load data. Please try again later.')
       } finally {
         setIsLoading(false)
       }
     }
+
     fetchUsers()
   }, [])
 
@@ -72,12 +86,18 @@ function Table() {
         Cell: ({ row }) => (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <Tooltip title='Edit'>
-              <IconButton onClick={() => console.log('Edit', row.original)}>
+              <IconButton
+                onClick={() => handleEditClick(row.original)}
+                aria-label='Edit user'
+              >
                 <Edit />
               </IconButton>
             </Tooltip>
             <Tooltip title='Delete'>
-              <IconButton onClick={() => console.log('Delete', row.original)}>
+              <IconButton
+                onClick={() => console.log('Delete', row.original)}
+                aria-label='Delete user'
+              >
                 <Delete />
               </IconButton>
             </Tooltip>
@@ -94,16 +114,70 @@ function Table() {
     useKeysAsHeaders: true
   })
 
-  const handleExportData = () => {
-    const csvData = data.map((user) => ({
-      ...user
-    }))
-    const csv = generateCsv(csvConfig)(csvData)
-    download(csvConfig)(csv)
+  const handleExportData = async () => {
+    setExporting(true)
+    try {
+      const csvData = data.map((user) => ({ ...user }))
+      const csv = generateCsv(csvConfig)(csvData)
+      download(csvConfig)(csv)
+    } catch (error) {
+      console.error('Error exporting data:', error)
+    } finally {
+      setExporting(false)
+    }
+  }
+
+  const handleEditClick = (user: IUser) => {
+    setSelectedUser(user)
+    setOpenEditModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenEditModal(false)
+    setSelectedUser(null) // Reset selected user when closing
+  }
+
+  const handleEditUser = async () => {
+    if (!selectedUser) return
+
+    try {
+      const response = await fetch(
+        `https://h4-02-vocaltech.onrender.com/api/airtable/users/${selectedUser.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            fields: {
+              name: selectedUser.name,
+              email: selectedUser.email,
+              phone: selectedUser.phone,
+              role: selectedUser.role,
+              company: selectedUser.company,
+              status: selectedUser.status
+            }
+          })
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to update user')
+      }
+
+      setOpenEditModal(false)
+      fetchUsers() // Refresh the user list after editing
+    } catch (error) {
+      console.error('Error updating user:', error)
+    }
   }
 
   if (isLoading) {
     return <div>Cargando usuarios...</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
   }
 
   return (
@@ -121,10 +195,12 @@ function Table() {
           color='primary'
           onClick={handleExportData}
           startIcon={<FileDownloadIcon />}
+          disabled={exporting}
         >
-          Export All Data
+          {exporting ? 'Exporting...' : 'Export All Data'}
         </Button>
       </Box>
+
       <MaterialReactTable
         columns={columns}
         data={data}
@@ -138,11 +214,8 @@ function Table() {
           }
         }}
       />
-    </>
-  )
-}
 
-      <Dialog open={openEditModal} onClose={() => setOpenEditModal(false)}>
+      <Dialog open={openEditModal} onClose={handleCloseModal}>
         <DialogTitle>Editar Usuario</DialogTitle>
         <DialogContent
           sx={{ display: 'flex', flexDirection: 'column', gap: 2, padding: 2 }}
@@ -191,12 +264,14 @@ function Table() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenEditModal(false)}>Cancelar</Button>
+          <Button onClick={handleCloseModal}>Cancelar</Button>
           <Button variant='contained' color='primary' onClick={handleEditUser}>
             Guardar
           </Button>
         </DialogActions>
       </Dialog>
-    </>) 
-  }
-  export default Table;
+    </>
+  )
+}
+
+export default Table

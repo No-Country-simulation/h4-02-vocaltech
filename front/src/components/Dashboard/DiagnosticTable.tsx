@@ -126,22 +126,12 @@ const DiagnosticTable = () => {
       { accessorKey: 'SelectArea', header: 'Área' },
       { accessorKey: 'Status', header: 'Estado' },
       { accessorKey: 'NameProduct', header: 'Producto' },
-       {
-        accessorKey: "Question1",
-        header: "Pregunta 1",
-      },
+      { accessorKey: 'Question1', header: 'Pregunta 1' },
+      { accessorKey: 'Question2', header: 'Pregunta 2' },
+      { accessorKey: 'Question3', header: 'Pregunta 3' },
+      { accessorKey: 'Question4', header: 'Pregunta 4' },
       {
-        accessorKey: "Question2",
-        header: "Pregunta 2",
-      },
-      {
-        accessorKey: "Question3",
-        header: "Pregunta 3",
-      },
-      {
-        accessorKey: "Question4",
-        header: "Pregunta 4", },
-          { accessorKey: 'Category',
+        accessorKey: 'Category',
         header: 'Categoría',
         Cell: ({ cell, row }: any) => (
           <>
@@ -182,36 +172,64 @@ const DiagnosticTable = () => {
           </>
         )
       },
+      { accessorKey: 'Question5', header: 'Pregunta 5' },
+      { accessorKey: 'InfoFile', header: 'PDF' },
+      { accessorKey: 'SoundFile', header: 'Audio' },
       {
-        accessorKey: "Question5",
-        header: "Pregunta 5",
-      },
-      {
-        accessorKey: "InfoFile",
-        header: "PDF",
-      },
-      {
-        accessorKey: "SoundFile",
-        header: "Audio",
-      },
+        accessorKey: 'email',
+        header: 'Email',
+        Cell: ({ cell, row }: any) => {
+          const email = cell.getValue()
+          const subject = 'Detalles del diagnóstico'
+          const body =
+            `Hola,%0A%0AAquí tienes los detalles del diagnóstico:%0A%0ATipo: ${
+              row.original.Type
+            }%0ADescripción: ${row.original.DescripCorp}%0AÁrea: ${
+              row.original.SelectArea
+            }%0AFecha: ${row.original.TimeStamp}%0AEstado: ${
+              row.original.Status
+            }%0APreguntas:%0A1. ${row.original.Question1}%0A2. ${
+              row.original.Question2
+            }%0A3. ${row.original.Question3}%0A4. ${
+              row.original.Question4
+            }%0A5. ${row.original.Question5}%0AProducto relacionado: ${
+              row.original.NameProduct
+            }%0ACategoría: ${
+              row.original.Category?.join(', ') || 'Sin categoría'
+            }%0A%0ATransformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.%0A%0ARecomendamos trabajar:%0ALa voz conectada con el cuerpo, Tu voz y la relación con el otro%0A%0A¿Qué vas a lograr?%0APersuadir a través de tu voz, Mayor confianza y credibilidad, Transmitir un mensaje convincente%0A%0AEn breve, recibirás una recomendación personalizada con las mejores soluciones para ti.%0A%0A¡Nos emociona acompañarte en este camino!%0A%0ASaludos,%0AVocalTech`.replace(
+              /\n/g,
+              '%0A'
+            )
+
+          return (
+            <Button
+              startIcon={<EmailIcon />}
+              onClick={() =>
+                (window.location.href = `mailto:${email}?subject=${subject}&body=${body}`)
+              }
+            >
+              Enviar Email
+            </Button>
+          )
+        }
+      }
     ],
-    []
-  );
+    [data, editingCategoryId, newCategory]
+  )
 
   const csvConfig = mkConfig({
-    fieldSeparator: ",",
-    decimalSeparator: ".",
-    useKeysAsHeaders: true,
-  });
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true
+  })
 
   const handleExportData = () => {
     const csvData = data.map((diagnostic) => ({
-          ...diagnostic
-        }))
-        const csv = generateCsv(csvConfig)(csvData)
-        download(csvConfig)(csv)
-      }
-  
+      ...diagnostic
+    }))
+    const csv = generateCsv(csvConfig)(csvData)
+    download(csvConfig)(csv)
+  }
 
   const table = useMaterialReactTable<IDiagnostic>({
     columns,
@@ -234,10 +252,11 @@ const DiagnosticTable = () => {
             padding: '8px',
             flexWrap: 'wrap'
           }}
-        />
-        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-          Export All Data
-        </Button>
+        >
+          <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
+            Export All Data
+          </Button>
+        </Box>
       </>
     )
   })
@@ -247,19 +266,18 @@ const DiagnosticTable = () => {
   }
 
   return (
-    <MaterialReactTable 
-      columns={columns} 
-      data={data} 
-      enableRowSelection 
-      enableColumnOrdering 
-      enableGlobalFilter 
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      enableRowSelection
+      enableColumnOrdering
+      enableGlobalFilter
       initialState={{
         pagination: {
           pageSize: 10,
           pageIndex: 0
         }
-      }
-    }
+      }}
       renderTopToolbarCustomActions={() => (
         <Box
           sx={{
@@ -275,67 +293,7 @@ const DiagnosticTable = () => {
         </Box>
       )}
     />
-  );
-       { accessorKey: 'email',
-        header: 'Email',
-        Cell: ({ cell, row }: any) => {
-          const email = cell.getValue()
-          const subject = 'Detalles del diagnóstico'
-          const body = `
-Hola,
-
-Aquí tienes los detalles del diagnóstico:
-
-Tipo: ${row.original.Type}
-Descripción: ${row.original.DescripCorp}
-Área: ${row.original.SelectArea}
-Fecha: ${row.original.TimeStamp}
-Estado: ${row.original.Status}
-
-Preguntas:
-1. ${row.original.Question1}
-2. ${row.original.Question2}
-3. ${row.original.Question3}
-4. ${row.original.Question4}
-5. ${row.original.Question5}
-
-Producto relacionado: ${row.original.NameProduct}
-Categoría: ${row.original.Category?.join(', ') || 'Sin categoría'}
-
-Transformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.
-
-Recomendamos trabajar:
-La voz conectada con el cuerpo,Tu voz y la relación con el otro
-
-¿Qué vas a lograr?
-Persuadir a través de tu voz,Mayor confianza y credibilidad,Transmitir un mensaje convincente
-
-En breve, recibirás una recomendación personalizada con las mejores soluciones para ti.
-
-¡Nos emociona acompañarte en este camino!
-
-
-Saludos,
-VocalTech`.replace(/\n/g, '%0A')
-
-          return (
-            <Button
-              startIcon={<EmailIcon />}
-              onClick={() =>
-                (window.location.href = `mailto:${email}?subject=${subject}&body=${body}`)
-              }
-            >
-              Enviar Email
-            </Button>
-          )
-        }
-      }
-    ],
-    [data, editingCategoryId, newCategory]
   )
-
-  if (isLoading) return <div>Cargando diagnósticos...</div>
-
 }
 
 export default DiagnosticTable
