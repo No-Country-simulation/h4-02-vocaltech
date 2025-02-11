@@ -1,15 +1,3 @@
-// const parseTimestamp = (timestamp: string): Date => {
-//     const [datePart, timePart] = timestamp.split(" "); // ["16/1/2025", "15:48"]
-//     const [day, month, year] = datePart.split("/").map(Number); // [16, 1, 2025]
-//     const [hours, minutes] = timePart.split(":").map(Number); // [15, 48]
-
-//     return new Date(year, month - 1, day, hours, minutes);
-//   };
-
-//   const timestampAsDate = parseTimestamp(rawTimestamp);
-//   console.log(timestampAsDate); // 2025-01-16T15:48:00.000Z (dependiendo de la zona horaria)
-// const rawTimestamp: string = "16/1/2025 15:48"; Esto se recibiria de la api
-
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -136,11 +124,24 @@ const DiagnosticTable = () => {
       { accessorKey: 'Type', header: 'Tipo' },
       { accessorKey: 'DescripCorp', header: 'Descripción' },
       { accessorKey: 'SelectArea', header: 'Área' },
-      { accessorKey: 'TimeStamp', header: 'Tiempo' },
       { accessorKey: 'Status', header: 'Estado' },
       { accessorKey: 'NameProduct', header: 'Producto' },
+       {
+        accessorKey: "Question1",
+        header: "Pregunta 1",
+      },
       {
-        accessorKey: 'Category',
+        accessorKey: "Question2",
+        header: "Pregunta 2",
+      },
+      {
+        accessorKey: "Question3",
+        header: "Pregunta 3",
+      },
+      {
+        accessorKey: "Question4",
+        header: "Pregunta 4", },
+          { accessorKey: 'Category',
         header: 'Categoría',
         Cell: ({ cell, row }: any) => (
           <>
@@ -181,13 +182,101 @@ const DiagnosticTable = () => {
           </>
         )
       },
-      { accessorKey: 'Question1', header: 'Pregunta 1' },
-      { accessorKey: 'Question2', header: 'Pregunta 2' },
-      { accessorKey: 'Question3', header: 'Pregunta 3' },
-      { accessorKey: 'Question4', header: 'Pregunta 4' },
-      { accessorKey: 'Question5', header: 'Pregunta 5' },
       {
-        accessorKey: 'email',
+        accessorKey: "Question5",
+        header: "Pregunta 5",
+      },
+      {
+        accessorKey: "InfoFile",
+        header: "PDF",
+      },
+      {
+        accessorKey: "SoundFile",
+        header: "Audio",
+      },
+    ],
+    []
+  );
+
+  const csvConfig = mkConfig({
+    fieldSeparator: ",",
+    decimalSeparator: ".",
+    useKeysAsHeaders: true,
+  });
+
+  const handleExportData = () => {
+    const csvData = data.map((diagnostic) => ({
+          ...diagnostic
+        }))
+        const csv = generateCsv(csvConfig)(csvData)
+        download(csvConfig)(csv)
+      }
+  
+
+  const table = useMaterialReactTable<IDiagnostic>({
+    columns,
+    data,
+    enableRowSelection: true,
+    enableColumnOrdering: true,
+    enableGlobalFilter: true,
+    initialState: {
+      pagination: {
+        pageSize: 10,
+        pageIndex: 0
+      }
+    },
+    renderTopToolbarCustomActions: ({ table }) => (
+      <>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '16px',
+            padding: '8px',
+            flexWrap: 'wrap'
+          }}
+        />
+        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
+          Export All Data
+        </Button>
+      </>
+    )
+  })
+
+  if (isLoading) {
+    return <div>Cargando diagnósticos...</div>
+  }
+
+  return (
+    <MaterialReactTable 
+      columns={columns} 
+      data={data} 
+      enableRowSelection 
+      enableColumnOrdering 
+      enableGlobalFilter 
+      initialState={{
+        pagination: {
+          pageSize: 10,
+          pageIndex: 0
+        }
+      }
+    }
+      renderTopToolbarCustomActions={() => (
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '16px',
+            padding: '8px',
+            flexWrap: 'wrap'
+          }}
+        >
+          <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
+            Export All Data
+          </Button>
+        </Box>
+      )}
+    />
+  );
+       { accessorKey: 'email',
         header: 'Email',
         Cell: ({ cell, row }: any) => {
           const email = cell.getValue()
@@ -247,7 +336,6 @@ VocalTech`.replace(/\n/g, '%0A')
 
   if (isLoading) return <div>Cargando diagnósticos...</div>
 
-  return <MaterialReactTable columns={columns} data={data} />
 }
 
 export default DiagnosticTable
