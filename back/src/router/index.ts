@@ -1,18 +1,29 @@
 import { Router } from "express";
 import airTableRoutes from "../router/RouterAirTable";
+import AuthRouter from "./authRoutes";
+import UserRouter from "./userRoutes";
+import DiagnosticRouter from "./diagnosticRoutes";
+import ProductRouter from "./productRoutes";
+import LeadRouter from "./leadRoutes";
+import WappRouter from "./wappRoutes";
+import ChatRouter from "./chatRoutes";
+import emailRouter from "./emailRoutes";
+import appointmentRouter from "./appointmentRoutes";
 
 const router = Router();
 
 // Rutas para AirTable
 router.use("/airtable", airTableRoutes);
-router.post('/create_user', (req, res) => {
-    // Lógica para crear el usuario
-    res.send('Usuario creado');
-  });
+router.use("/auth", AuthRouter);
+router.use("/user", UserRouter);
+router.use("/diagnostics", DiagnosticRouter);
+router.use("/products", ProductRouter);
+router.use("/leads", LeadRouter);
+router.use("/chats", ChatRouter);
+router.use("/wapps", WappRouter);
+router.use("/emails", emailRouter);
+router.use("/appointments", appointmentRouter);
 /*
-router.use("/leads",);
-router.use("/auth",);
-router.use("/diagnostics",);
 router.use("/notifications");
 router.use("/admin",);
 */
