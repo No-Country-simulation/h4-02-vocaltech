@@ -30,8 +30,9 @@ export const config = {
   TOKEN_URL: getEnvVar('TOKEN_URL'),
   CLIENT_ID: getEnvVar('CLIENT_ID_GOOGLE'),
   CLIENT_SECRET: getEnvVar('CLIENT_SECRET'),
-  CALLBACK_URL: getEnvVar('CALLBACK_URL'),
+  CALLBACK_URL_BACK: getEnvVar('CALLBACK_URL_BACK'),
   LOCAL_CALLBACK_URL: getEnvVar('LOCAL_CALLBACK_URL'),
+  FRONTEND_URL: getEnvVar('FRONTEND_URL'),
 
   // Variables de entorno para JWT
   JWT_SECRET: getEnvVar('JWT_SECRET'),
@@ -42,9 +43,11 @@ export const config = {
   AWS_BUCKET_NAME: getEnvVar('AWS_BUCKET_NAME'),
   AWS_REGION: getEnvVar('AWS_REGION'),
 
-
   // Variables de entorno para para SendGrid
   SENDGRID_API_KEY: getEnvVar('SENDGRID_API_KEY'),
   SENDGRID_EMAIL_FROM: getEnvVar('SENDGRID_EMAIL_FROM'),
+
+  // Variables de entorno para secret sección
+  SECRET_SECTION: getEnvVar('SECRET_SECCION'),
 };
 
