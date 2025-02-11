@@ -10,7 +10,7 @@ body {
 }
 
 .background-home {
-  background: whitesmoke;
+  background-color: var(blanco_300)
 }
 
 .form-diagnostic input,

@@ -32,9 +32,9 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className='bg-azul text-white flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-slate-500 relative'>
+    <header className='bg-blanco_300 text-negro_600 flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-slate-500 relative'>
       <Link to='/'>
-        <img className='text-10' src='./logo.png' alt='Logo' />
+        <img className='text-10' src='./logo-negro.png' alt='Logo' />
       </Link>
 
       <div className='hidden lg:block'>
@@ -135,7 +135,7 @@ const Header: React.FC = () => {
                     </button>
                   ) : (
                     <Link to='/login' onClick={toggleMenu}>
-                      <button className='bg-anaranjado px-5 py-2 rounded text-white hover:brightness-110 transition'>
+                      <button className='bg-secondary_600 px-5 py-2 rounded text-blanco_600 hover:brightness-110 transition'>
                         Login
                       </button>
                     </Link>

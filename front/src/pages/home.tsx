@@ -1,24 +1,13 @@
-import React from "react";
 import "../index.css";
-import Solution from "./solution";
 import Review from "../pages/reviews";
-import AboutUs from "../pages/aboutUs";
-import Questions from "../pages/questions";
 import Footer from "../components/Footer";
-import Carrousel from "../components/Carrousel";
+import Ready from "../components/Ready";
+import CTA from "../components/CTA";
+import Brands from "../components/Brands";
 
 const Home = () => {
   return (
     <div>
-      {/* <div className="w-full h-[600px] overflow-hidden">
-          <video
-            className="w-full h-full object-cover"
-            src="/video1.mp4"
-            autoPlay
-            loop
-            muted
-          />
-        </div> */}
       <div className="lg:py-32 flex flex-col lg:flex-row items-center justify-center gap-12 px-8 md:py-20 py-12">
         
 
@@ -48,17 +37,17 @@ const Home = () => {
           </p>
         </div>
       </div>
-      <section id="solution">
-        <Solution />
+      <section id="ready">
+        <Ready />
+      </section>
+      <section id="brands">
+        <Brands />
       </section>
       <section id="reviews">
         <Review />
       </section>
-      <section id="about-us">
-        <AboutUs />
-      </section>
-      <section id="questions">
-        <Questions />
+      <section id="cta">
+        <CTA />
       </section>
       <section id="footer">
         <Footer />
