@@ -3,8 +3,7 @@ import { wappController } from "../controllers/wappController";
 import { config } from "../config/validateEnv";
 const WappRouter = Router();
 
-// const { WEBHOOK_VERIFY_TOKEN } = config;
-const WEBHOOK_VERIFY_TOKEN = "my-verify-token";
+const { WEBHOOK_VERIFY_TOKEN } = config;
 console.log("Webhook Verify Token1:", WEBHOOK_VERIFY_TOKEN);
 
 
@@ -94,24 +93,50 @@ WappRouter.get("/history/:phone", async (req, res) => {
  * @swagger
  * /api/wapps/webhook:
  *   get:
- *     summary: Get webhook for WhatsApp
+ *     summary: Verify and retrieve WhatsApp webhook
  *     tags: [WhatsApp]
+ *     description: |
+ *       Endpoint used by WhatsApp to verify webhook configuration.
+ *       The request must include the `hub.mode`, `hub.challenge`, and `hub.verify_token` as query parameters.
  *     parameters:
+ *       - in: query
+ *         name: hub.mode
+ *         required: false
  *         schema:
  *           type: string
- *         description:webhook for WhatsApp
+ *         description: The mode of the webhook (e.g., "subscribe").
+ *       - in: query
+ *         name: hub.challenge
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: The challenge token sent by WhatsApp.
+ *       - in: query
+ *         name: hub.verify_token
+ *         required: false
+ *         schema:
+ *           type: string
+ *         description: The verification token set in the WhatsApp Business API.
  *     responses:
  *       200:
- *         description: Successfully retrieved webhook for WhatsApp
- *       404:
- *         description: webhook for WhatsApp not found
+ *         description: Webhook verified successfully.
+ *       403:
+ *         description: Verification failed due to incorrect token.
  *       500:
- *         description: Internal server error
+ *         description: Internal server error.
  */
-WappRouter.get('/webhook', (req, res) => {
-    console.log("Received webhook request:", req.query);
-    console.log("Webhook Verify Token2:", WEBHOOK_VERIFY_TOKEN);
-  res.send();
+WappRouter.get("/webhook", async (req, res) => {
+    try {
+        console.log(req.query);
+        res.send();
+        // await wappController.getWebhook(req, res);
+    } catch (error) {
+        handleRouteError(res, error);
+    }
+    // console.log("Received webhook request:", req.query);
+    // console.log("Webhook Verify Token2:", WEBHOOK_VERIFY_TOKEN);
+    // res.send();
+
     // const mode = req.query['hub.mode'];
     // const challenge = req.query['hub.challenge'];
     // const token = req.query['hub.verify_token'];
@@ -124,6 +149,29 @@ WappRouter.get('/webhook', (req, res) => {
     //   console.log("Webhook verification failed.");
     // }
   });
+
+/**
+ * @swagger
+ * /api/wapps/:
+ *   get:
+ *     summary: Root endpoint for WhatsApp API
+ *     tags: [WhatsApp]
+ *     description: Basic root endpoint for checking WhatsApp API status.
+ *     responses:
+ *       200:
+ *         description: Root endpoint is working.
+ *       500:
+ *         description: Internal server error.
+ */
+  WappRouter.get("/", async (req, res) => {
+      try {
+        res.send("webhook root");
+        // await wappController.getRoot(req, res);
+    } catch (error) {
+        handleRouteError(res, error);
+    }
+  });
+
 
 export default WappRouter;
 
