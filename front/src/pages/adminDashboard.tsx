@@ -72,13 +72,13 @@ const adminDashboard = () => {
       </div>
 
       <div className='flex flex-col gap-7 col-span-3 lg:flex-row lg:gap-6 lg:col-span-6'>
-            <>
-        <div className='lg:w-[48%]'>
+        <>
+          {/*  <div className='lg:w-[48%]'>
           <Graphic />
         </div>
         <div className='mx-10 lg:w-[48%]'>
           <Calendar />
-        </div>
+        </div> */}
         </>
       </div>
       <div className='col-span-1 lg:p-10 lg:col-span-6 lg:max-h-[600px] lg:overflow-auto lg:mt-7'>

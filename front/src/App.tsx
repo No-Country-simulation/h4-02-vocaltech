@@ -15,6 +15,7 @@ import DiagnosticTable from './components/Dashboard/DiagnosticTable'
 import UnderConstruction from './components/UnderConstruction'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import WhatsAppChat from './components/WhatsAppChat'
+import Calendar from './components/Dashboard/Calendar'
 
 function App() {
   const location = useLocation()
@@ -37,9 +38,9 @@ function App() {
             <Route path='leads' element={<RecentLeads />} />
             <Route path='services' element={<UnderConstruction />} />
             <Route path='reviews' element={<UnderConstruction />} />
-            <Route path='calendar' element={<UnderConstruction />} />
+            <Route path='calendar' element={<Calendar />} />
             <Route path='settings' element={<UnderConstruction />} />
-            <Route path='logout' element={<UnderConstruction />} />
+            <Route path='logout' />
           </Route>
           <Route path='/emprendedores' element={<Entrepreneurs />} />
           <Route path='/wapps' element={<WhatsAppChat />} />
