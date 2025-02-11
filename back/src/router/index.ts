@@ -8,6 +8,7 @@ import LeadRouter from "./leadRoutes";
 import WappRouter from "./wappRoutes";
 import ChatRouter from "./chatRoutes";
 import emailRouter from "./emailRoutes";
+import appointmentRouter from "./appointmentRoutes";
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.use("/leads", LeadRouter);
 router.use("/chats", ChatRouter);
 router.use("/wapps", WappRouter);
 router.use("/emails", emailRouter);
+router.use("/appointments", appointmentRouter);
 /*
 router.use("/notifications");
 router.use("/admin",);
