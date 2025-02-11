@@ -60,43 +60,43 @@ const DiagnosticTable = () => {
       },
       {
         accessorKey: "SelectArea",
-        header: "SelectArea",
+        header: "Área",
       },
       {
         accessorKey: "Status",
-        header: "Status",
+        header: "Estado",
       },
       {
         accessorKey: "Question1",
-        header: "Question1",
+        header: "Pregunta 1",
       },
       {
         accessorKey: "Question2",
-        header: "Question2",
+        header: "Pregunta 2",
       },
       {
         accessorKey: "Question3",
-        header: "Question3",
+        header: "Pregunta 3",
       },
       {
         accessorKey: "Question4",
-        header: "Question4",
+        header: "Pregunta 4",
       },
       {
         accessorKey: "Question5",
-        header: "Question5",
+        header: "Pregunta 5",
       },
       {
         accessorKey: "DescripCorp",
-        header: "DescripCorp",
+        header: "Descripción",
       },
       {
         accessorKey: "InfoFile",
-        header: "InfoFile",
+        header: "PDF",
       },
       {
         accessorKey: "SoundFile",
-        header: "SoundFile",
+        header: "Audio",
       },
     ],
     []
