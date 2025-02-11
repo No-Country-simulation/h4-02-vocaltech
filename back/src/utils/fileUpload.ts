@@ -7,9 +7,14 @@ import { config } from '../config/validateEnv';
 const allowedTypes = [
   'application/pdf',      // PDF
   'image/jpeg',           // JPG
+  'audio/webp',           // WEBP
+  'audio/acc',            // 
+  'audio/amr',            //
   'image/png',            // PNG
   'audio/mpeg',           // MP3
+  'audio/m4a',            // MP4
   'audio/wav',            // WAV
+  'audio/ogg',            // AGREGADO: WhatsApp voz (.opus)
   'application/vnd.ms-excel',  // Excel (.xls)
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Excel (.xlsx)
   'application/vnd.ms-powerpoint',  // PowerPoint (.ppt)
