@@ -22,10 +22,10 @@ const Home = () => {
           />
         </div>
         <div className='text-black max-w-xl px-6 lg:px-0'>
-          <h1 className='text-4xl lg:text-5xl font-bold my-6 leading-snug text-center'>
+          <h1 className='text-4xl text-black lg:text-5xl font-bold my-6 leading-snug text-center'>
             ¿Qué desafíos enfrentan nuestros clientes?
           </h1>
-          <p className='text-lg lg:text-xl leading-relaxed text-center'>
+          <p className='text-lg text-black lg:text-xl leading-relaxed text-center'>
             Empresas y emprendedores enfrentan desafíos que límitan su
             comunicación, liderazgo y desarrollo. En VocalTech abordamos
             problemas como comunicación interna ineficaz, liderazgo poco

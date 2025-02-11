@@ -30,8 +30,8 @@ const Login: React.FC = () => {
   const [loginError, setLoginError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const { login } = useAuth();
-  
+  const { login } = useAuth()
+
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setIsLoading(true)
     setLoginError(null)
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
 
       localStorage.setItem('token', token)
       localStorage.setItem('id', id)
-      login(token, id);
+      login(token, id)
       alert('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
@@ -57,7 +57,20 @@ const Login: React.FC = () => {
 
   return (
     <div className='flex min-h-screen bg-anaranjado'>
-      {/* Sección izquierda */}
+      <div className='lg:hidden absolute top-5 left-5 right-5 flex justify-between z-10'>
+        <Link to='/'>
+          <img
+            src='./logo.png'
+            alt='Icono'
+            className='absolute top-5 left-10 w-130'
+          />
+        </Link>
+        <Link to='/register'>
+          <button className='bg-orange-500 absolute top-5 right-10 px-10 py-2 rounded-md text-white hover:bg-anaranjado transition'>
+            Registrarme
+          </button>
+        </Link>
+      </div>
       <section
         className='hidden lg:flex lg:w-1/2 flex-col justify-center items-center gap-16 text-white p-10'
         style={{
@@ -82,14 +95,14 @@ const Login: React.FC = () => {
             servicios.
           </p>
           <Link to='/register'>
-            <button className='bg-sky-950 px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
+            <button className='bg-[#0B1455] px-20 py-3 rounded-md text-white hover:bg-blue-700 transition'>
               Registrarme
             </button>
           </Link>
         </div>
       </section>
 
-      <section className='flex flex-1 lg:w-1/2 bg-sky-950 items-center justify-center relative'>
+      <section className='flex flex-1 lg:w-1/2 bg-[#0B1455] items-center justify-center relative'>
         <div className='text-white w-3/4 max-w-3xl'>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='mb-6'>
@@ -157,6 +170,15 @@ const Login: React.FC = () => {
                   {errors.password.message}
                 </span>
               )}
+
+              <div className='text-right mt-2'>
+                <Link
+                  to='/ForgotPassword'
+                  className='text-white underline text-sm'
+                >
+                  ¿Olvidaste tu contraseña?
+                </Link>
+              </div>
             </div>
 
             {loginError && (

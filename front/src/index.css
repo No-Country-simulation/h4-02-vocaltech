@@ -13,6 +13,15 @@ body {
   background: whitesmoke;
 }
 
+.form-diagnostic input,
+.form-diagnostic select,
+.form-diagnostic textarea {
+  background-color: rgb(252, 241, 227);
+  border-color: #e2610580;
+  outline: none;
+  accent-color: #e26105;
+}
+
 .background-aboutUs {
   background: linear-gradient(#e8b006, #e26105);
 }

@@ -117,6 +117,15 @@ const Header: React.FC = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    to='/dashboard'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Panel
+                  </Link>
+                </li>
+                <li>
                   {isLoggedIn ? (
                     <button
                       onClick={handleLogout}

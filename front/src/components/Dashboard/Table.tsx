@@ -1,28 +1,17 @@
-import { MaterialReactTable, type MRT_ColumnDef,useMaterialReactTable,
-  MRT_Row } from 'material-react-table'
+import { MaterialReactTable, type MRT_ColumnDef } from 'material-react-table'
 import React, { useMemo, useEffect, useState } from 'react'
 import { IUser } from '../../types/User'
 import { Edit, Delete } from '@mui/icons-material'
-import { IconButton, Tooltip, Box, Button, Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField } from '@mui/material'
+import { IconButton, Tooltip, Box, Button } from '@mui/material'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 function Table() {
   const [data, setData] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
-  const [openEditModal, setOpenEditModal] = useState(false)
 
   useEffect(() => {
-    fetchUsers()
-  }, [])
-
     const fetchUsers = async () => {
-      setIsLoading(true)
       try {
         const response = await fetch(
           'https://h4-02-vocaltech.onrender.com/api/airtable/users'
@@ -51,65 +40,9 @@ function Table() {
         setIsLoading(false)
       }
     }
+    fetchUsers()
+  }, [])
 
-  const handleDeleteUser = async (id: string) => {
-    if (!window.confirm('¿Estás seguro de que deseas eliminar este usuario?'))
-      return
-
-    try {
-      const response = await fetch(
-        `https://h4-02-vocaltech.onrender.com/api/user/${id}`,
-        { method: 'DELETE' }
-      )
-      if (!response.ok) {
-        throw new Error('Error al eliminar el usuario')
-      }
-      setData((prevData) => prevData.filter((user) => user.id !== id))
-    } catch (error) {
-      console.error('Error deleting user:', error)
-    }
-  }
-
-  const handleEditUser = async () => {
-    if (!selectedUser || !selectedUser.id) return
-
-    const updatedData: any = {}
-
-    if (selectedUser.phone) updatedData.phone = selectedUser.phone
-    if (selectedUser.email) updatedData.email = selectedUser.email
-    if (selectedUser.name) updatedData.name = selectedUser.name
-    if (selectedUser.role) updatedData.role = selectedUser.role
-    if (selectedUser.company) updatedData.company = selectedUser.company
-    if (selectedUser.status) updatedData.status = selectedUser.status
-
-    try {
-      const response = await fetch(
-        `https://h4-02-vocaltech.onrender.com/api/user/${selectedUser.id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedData)
-        }
-      )
-
-      const responseData = await response.json()
-
-      if (!response.ok) {
-        throw new Error('Error al actualizar el usuario')
-      }
-
-      setData((prevData) =>
-        prevData.map((user) =>
-          user.id === selectedUser.id ? { ...user, ...updatedData } : user
-        )
-      )
-
-      setOpenEditModal(false)
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error)
-    }
-  }
-  
   const columns = useMemo<MRT_ColumnDef<IUser>[]>(
     () => [
       {
@@ -134,21 +67,17 @@ function Table() {
         header: 'Status'
       },
       {
-        id: 'actions', // Columna personalizada
+        id: 'actions',
         header: 'Actions',
         Cell: ({ row }) => (
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <Tooltip title='Edit'>
-              <IconButton  onClick={() => {
-                  setSelectedUser(row.original)
-                  setOpenEditModal(true)
-                }}
-              >
+              <IconButton onClick={() => console.log('Edit', row.original)}>
                 <Edit />
               </IconButton>
             </Tooltip>
             <Tooltip title='Delete'>
-              <IconButton onClick={() => handleDeleteUser(row.original.id)}>
+              <IconButton onClick={() => console.log('Delete', row.original)}>
                 <Delete />
               </IconButton>
             </Tooltip>
@@ -166,71 +95,19 @@ function Table() {
   })
 
   const handleExportData = () => {
-    const csv = generateCsv(csvConfig)(data);
-      download(csvConfig)(csv);
-    };
+    const csvData = data.map((user) => ({
+      ...user
+    }))
+    const csv = generateCsv(csvConfig)(csvData)
+    download(csvConfig)(csv)
+  }
 
-  
-    const handleExportRows = (rows: MRT_Row<IUser>[]) => {
-      const rowData = rows.map((row) => row.original);
-      const csv = generateCsv(csvConfig)(rowData);
-      download(csvConfig)(csv);
-    };
-  
-    const table = useMaterialReactTable<IUser>({
-      columns,
-      data,
-      enableRowSelection: true,
-      enableColumnOrdering: true,
-      enableGlobalFilter: true,
-      initialState: {
-        pagination: {
-          pageSize: 10,
-          pageIndex: 0,
-        },
-      },
-      renderTopToolbarCustomActions: ({ table }) => (
-        <>
-          <Box
-            sx={{
-              display: "flex",
-              gap: "16px",
-              padding: "8px",
-              flexWrap: "wrap",
-            }}
-          />
-          <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-            Exportar tabla
-          </Button>
-          <Button
-            disabled={table.getPrePaginationRowModel().rows.length === 0}
-            //export all rows, including from the next page, (still respects filtering and sorting)
-            onClick={() =>
-              handleExportRows(table.getPrePaginationRowModel().rows)
-            }
-            startIcon={<FileDownloadIcon />}
-          >
-            Exportar filas
-          </Button>
-          <Button
-            disabled={
-              !table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()
-            }
-            //only export selected rows
-            onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
-            startIcon={<FileDownloadIcon />}
-          >
-            Exportar filas seleccionadas
-          </Button>
-        </>
-      ),
-    });
-  
-    if (isLoading) {
-      return <div>Cargando usuarios...</div>;
-    }
-  
-    return (<>
+  if (isLoading) {
+    return <div>Cargando usuarios...</div>
+  }
+
+  return (
+    <>
       <Box
         sx={{
           display: 'flex',
@@ -248,15 +125,22 @@ function Table() {
           Export All Data
         </Button>
       </Box>
-
       <MaterialReactTable
         columns={columns}
         data={data}
         enableRowSelection
         enableColumnOrdering
         enableGlobalFilter
-        initialState={{ pagination: { pageSize: 10, pageIndex: 0 } }}
+        initialState={{
+          pagination: {
+            pageSize: 10,
+            pageIndex: 0
+          }
+        }}
       />
+    </>
+  )
+}
 
       <Dialog open={openEditModal} onClose={() => setOpenEditModal(false)}>
         <DialogTitle>Editar Usuario</DialogTitle>
