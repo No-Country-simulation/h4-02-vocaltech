@@ -1,170 +1,55 @@
-# Documentación: Diseño e Implementación de Microservicios
+## h4-02-vocaltech
 
-## Introducción
+# <div style="text-align: center;">VocalTech</div>
+Alianza estratégica entre "No Country" y "Vos y Tu Voz", donde las fuerzas se unen para crear un espacio de comunicación y tecnología al servicio de emprendedores y empresas.
+## ![alt text](./front/public/VocalTech01-copia.webp)
 
-Esta documentación describe el diseño, la implementación y el despliegue de un conjunto de microservicios independientes para gestionar flujos de WhatsApp, leads, y correos electrónicos automatizados.
+## ![logo](./front/public/logo1.png) Misión 
+Apoyar a emprendedores y empresas en su camino al éxito, enfocándonos en los pilares fundamentales: comunicación y tecnología. A través de un enfoque estratégico y personalizado, realizamos diagnósticos que nos permiten identificar necesidades específicas y brindar soluciones efectivas que impulsen su crecimiento.
 
-### Principios Clave
+## ![logo](./front/public/logo1.png) Visión 
+Creemos en el poder del conocimiento y la colaboración para construir un futuro innovador y dinámico. Queremos empoderar a todos nuestros leads, difundiendo oportunidades y fortaleciendo el poder de la voz para impactar positivamente en la comunidad global.
 
-1. **Independencia:** Cada microservicio tiene su propio ciclo de vida (desarrollo, despliegue, escalado).
-2. **Comunicación:** Uso de HTTP (REST/GraphQL) para solicitudes síncronas y RabbitMQ/Kafka para eventos asíncronos.
-3. **Separación de Datos:** Cada servicio gestiona su propia base de datos.
-4. **Resiliencia:** Manejo de fallos con reintentos, circuit breakers, y timeouts.
 
----
+## 🖥 Tech Stack 
 
-## Microservicios
+ * **Project type:** `Tecnología y comunicación`
+ * **QA Tester:** `Notion` `Google Drive`.
+ * **Backend:** `Node` `Express` `AirTable` `Docker`.
+ * **Frontend:** `HTML` `CSS` `JS` `React` `Vite` `Axios` `Tailwind` `MUI`.
+ * **Design:** `Figma for prototypes and wireframes`.
 
-### 1. Gestión de Flujos de WhatsApp
+## 📌 Team:
 
-- **Responsabilidad:**
-  - Gestionar interacciones con WhatsApp Business API.
-  - Registrar mensajes y estados en la base de datos.
-- **Endpoints:**
-  - `POST /message`: Procesar mensajes entrantes.
-  - `GET /status/{id}`: Obtener el estado de un flujo.
-  - `POST /start`: Iniciar un flujo para un número de teléfono.
-- **Integraciones:**
-  - WhatsApp Business API (Twilio o Meta).
-- **Estructura del Proyecto:**
-  ```bash
-  src/
-  ├── controllers/
-  ├── services/
-  ├── routes/
-  ├── models/
-  └── utils/
-  ```
-- **Tecnologías:**
-  - Node.js, Express, Redis (para almacenamiento temporal).
 
-### 2. Gestión de Leads
+| Count | Name | <img src="https://static.licdn.com/aero-v1/sc/h/3loy7tajf3n0cho89wgg0fjre?raw=true" alt="Image" width="28vw"> <br /> linkedin.com/in/ | image| Github <br/> Nickname| Role <br /> |
+| --- |--- | --- | --- | --- | ---: |
+| 1  | Lucas Matias Segovia | [**lumseg/**](https://www.linkedin.com/in/lumseg/) | <img src="https://avatars.githubusercontent.com/u/103163670?s=64&v=4" width="50" height="50" style="border-radius: 50%;"> | [**LumDev86**](https://github.com/LumDev86) | Backend   |
+| 2  | Leon Asturizaga | [**leon-asturizaga-94a80377/**](https://www.linkedin.com/in/leon-asturizaga-94a80377) | <img src="https://avatars.githubusercontent.com/u/128533111?v=4" width="50" height="50" style="border-radius: 50%;">| [**leonasturizaga**](https://github.com/leonasturizaga) | Backend   |
+| 3  | Rocio Carle | [**rociocarle/**](https://www.linkedin.com/in/rociocarle/) | <img src="https://avatars.githubusercontent.com/u/61993578?s=64&v=4" width="50" height="50" style="border-radius: 50%;"> | [**Rocksyro**](https://github.com/Rocksyro) | Frontend   |
+| 4  | Alicia Gálvez Rodríguez | [**alicia-galvez-rodriguez/**](https://www.linkedin.com/in/alicia-galvez-rodriguez/) | <img src="https://avatars.githubusercontent.com/u/136130096?s=64&v=4" width="50" height="50" style="border-radius: 50%;"> | [**alicia4079**](https://github.com/alicia4079) | Frontend   |
+| 5  | Nataly Prado | [**natalypradomoreno/**](https://www.linkedin.com/in/natalypradomoreno/) | <img src="https://avatars.githubusercontent.com/u/113069046?s=64&v=4" width="50" height="50" style="border-radius: 50%;"> | [**natalypradomoreno**](https://github.com/natalypradomoreno) | PM   |
+| 6  | Juan Passadore| [**juan-pablo-passadore-denis-105349116/**](https://www.linkedin.com/in/juan-pablo-passadore-denis-105349116/)| <img src="https://avatars.githubusercontent.com/u/50932852?s=64&v=4" width="50" height="50" style="border-radius: 50%;"> | [**juampypassa**](https://github.com/juampypassa) | Tester-QA   |
+| 7  | Lucero Rey| [**lucero-rey**](https://www.linkedin.com/in/lucero-rey)| <img src="https://avatars.githubusercontent.com/u/188466168?s=64&v=4" width="50" height="50" style="border-radius: 50%;"> | [**LuluzRey**](https://github.com/LuluzRey) | UX-UI   |
 
-- **Responsabilidad:**
-  - CRUD para leads.
-  - Asignación de leads a bases de datos específicas en Airtable.
-- **Endpoints:**
-  - `POST /leads`: Crear un lead.
-  - `GET /leads/{id}`: Obtener detalles de un lead.
-  - `PUT /leads/{id}`: Actualizar datos de un lead.
-  - `DELETE /leads/{id}`: Eliminar un lead.
-- **Integraciones:**
-  - Airtable SDK para sincronización de datos.
-  - Webhooks para notificaciones.
-- **Optimización:**
-  - Uso de Redis para búsquedas frecuentes.
+## 🎥 Promotional Video
 
-### 3. Generación y Envío de Correos Electrónicos
+[**VocalTech Video**](https://drive.google.com/file/d/1zoXMSyAm-Ny8wIgYLUqHCWL2qCplmiaZ/view)
 
-- **Responsabilidad:**
-  - Gestión de plantillas y envío de correos.
-- **Endpoints:**
-  - `POST /email`: Enviar un correo.
-  - `GET /templates`: Listar plantillas disponibles.
-- **Integraciones:**
-  - SendGrid o AWS SES para el envío de correos.
-- **Flujo de Trabajo:**
-  - Validación del correo.
-  - Selección de plantillas.
-  - Reintentos en caso de fallos.
+## 💻 UX-UI Documentation
+[**VocalTech Figma design**](https://www.figma.com/design/LExpmOB6yNJYFO7kgCD1x2/Vocaltech?node-id=1-2&p=f&t=ALcJN60GCs60qR9O-0)
 
----
+## 💻 QA Documentation
+[**VocalTech User Stories**](https://docs.google.com/document/d/1jxtkchETVfUYGUclbFcKtSKXUcXTNjwQLEWaDDmANnM/edit?usp=drive_link)
 
-## Comunicación Entre Microservicios
+[**VocalTech Acceptance Criteria**](https://docs.google.com/document/d/1wZrrlwxsTaVbkSp-XTaMBemwnlIP-_-R65wyqlZahLY/edit?usp=drive_link)
 
-### API Gateway
+📂[**VocalTech Google drive**](https://drive.google.com/drive/folders/1FbyCk9MqTLDwHoYWK5MgNJERJB-vPSKt?usp=drive_link)
 
-Un **API Gateway** centraliza las solicitudes y las redirige al microservicio correspondiente.
+## 💻 Thanks
 
-- Herramientas: Kong o NGINX.
+[**No Country**](https://www.nocountry.tech/)
 
-### Mensajería Asíncrona
-
-- Uso de RabbitMQ o Kafka para comunicar eventos.
-- Ejemplo:
-  - Cuando se crea un lead, se emite un evento consumido por el servicio de correos.
-
----
-
-## Infraestructura
-
-### Repositorios y Despliegue
-
-1. Cada microservicio tiene su propio repositorio y pipeline CI/CD:
-   - **Repositorio 1:** Servicio de WhatsApp.
-   - **Repositorio 2:** Servicio de Leads.
-   - **Repositorio 3:** Servicio de Correos.
-
-### Docker y Orquestación
-
-#### Docker Compose (Entorno Local)
-
-```yaml
-version: '3.8'
-services:
-  whatsapp:
-    build: ./whatsapp-service
-    ports:
-      - "8081:8081"
-  leads:
-    build: ./leads-service
-    ports:
-      - "8082:8082"
-  email:
-    build: ./email-service
-    ports:
-      - "8083:8083"
-networks:
-  default:
-    name: microservices-network
-```
-
-#### Kubernetes (Producción)
-
-- Despliegue de pods independientes para cada servicio.
-- Uso de un **Ingress Controller** para manejar el tráfico.
-
----
-
-## Monitorización y Logística
-
-### Logs Centralizados
-
-- Herramientas:
-  - **ELK Stack (Elasticsearch, Logstash, Kibana)**.
-  - **Grafana Loki.**
-
-### Monitorización
-
-- Métricas de rendimiento:
-  - **Prometheus** y **Grafana**.
-- Configuración de alertas para servicios inactivos.
-
-### Pruebas
-
-- Unitarias para cada microservicio.
-- Pruebas de integración para la comunicación entre servicios.
-
----
-
-## Escalabilidad
-
-1. **Escalado Independiente:** Cada microservicio puede escalar horizontalmente según la carga.
-2. **Optimización:**
-   - Redis para caché.
-   - RabbitMQ/Kafka para reducir latencias.
-
----
-
-## Pasos Siguientes
-
-1. **Crear el Microservicio de WhatsApp:**
-   - Definir rutas, controladores y servicios básicos.
-2. **Configurar Comunicación con Airtable.**
-3. **Implementar Redis.**
-4. **Establecer Pipeline CI/CD para despliegue continuo.**
-
----
-
-Esta guía sirve como referencia completa para implementar los microservicios descritos. Si necesitas ejemplos de código específicos o detalles adicionales, por favor házmelo saber. Muchas gracias por leer
-
+<div style="text-align: center;">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsukYB3HL90LSwYv_RIR2O2OlCV8Sbkx2eNHv8nRvOu8L16FxLQ0nPzY02wQ_BJOfQZw&usqp=CAU" align="center" width="324"/>
+</div>
