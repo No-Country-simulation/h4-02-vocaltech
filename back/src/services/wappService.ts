@@ -5,6 +5,7 @@ const WHATSAPP_API_URL = `https://graph.facebook.com/v17.0/${process.env.WHATSAP
 const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
 export const wappService = {
+    
   async sendMessage(phone: string, message: string) {
     try {
       const response = await axios.post(
@@ -25,6 +26,28 @@ export const wappService = {
       throw new Error(error instanceof Error ? error.message : "POST Unknown error");
     }
   },
+
+
+    async sendTemplate(phone: string, message: string) {
+      try {
+        const response = await axios.post(
+          WHATSAPP_API_URL,
+          {
+            messaging_product: "whatsapp",
+            to: phone,
+            text: { body: message },
+          },
+          { headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, "Content-Type": "application/json" } }
+        );
+  
+        // Store message in Airtable
+        // await base("Chats").create([{ fields: { Phone: phone, Message: message, SentBy: "Admin" } }]);
+  
+        return response.data;
+      } catch (error) {
+        throw new Error(error instanceof Error ? error.message : "POST Unknown error");
+      }
+    },
 
   async getChatHistory(phone: string) {
     try {
