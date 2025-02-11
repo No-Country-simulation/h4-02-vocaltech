@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Ready = () => {
   return (
-    <div className="bg-primary_50 flex flex-col items-center justify-center gap-8 py-12 px-4">
+    <div className="bg-primary_50 flex flex-col items-center justify-center gap-8 p-12 px-4">
       <div className="text-center">
         <p className="text-primary_300 font-bold text-3xl">
           Hablar con <span className="text-secondary_600">impacto</span> abre

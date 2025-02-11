@@ -9,10 +9,6 @@ body {
   text-decoration: none;
 }
 
-.background-home {
-  background-color: var(blanco_300)
-}
-
 .form-diagnostic input,
 .form-diagnostic select,
 .form-diagnostic textarea {
