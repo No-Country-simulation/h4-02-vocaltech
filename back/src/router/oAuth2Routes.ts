@@ -23,7 +23,7 @@ router.get(
     }
 
     // Si el login fue exitoso, redirigir a la ruta principal del backend o frontend
-    res.redirect("/api/home"); 
+    res.redirect("/"); 
   }
 );
 
