@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { wappService } from "../services/wappService";
+import { config } from "../config/validateEnv";
+const { WEBHOOK_VERIFY_TOKEN } = config;
 
 export const wappController = {
   async sendMessage(req: Request, res: Response): Promise<Response> {
@@ -35,6 +37,43 @@ export const wappController = {
       });
     }
   },
+
+  async getWebhook(req: Request, res: Response): Promise<Response> {
+    try {
+        console.log("Received webhook request:", req.query);
+        console.log("Webhook Verify Token2:", WEBHOOK_VERIFY_TOKEN);
+      res.send();
+      return res.status(200).json(req.query);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "GET Unknown error";
+      console.error("Error fetching webhook:", errorMessage);
+
+      return res.status(500).json({
+        success: false,
+        error: errorMessage,
+      });
+    }
+  },
+
+  async getRoot(req: Request, res: Response): Promise<Response> {
+    try {
+      res.send("webhook root");
+      return res.status(200).json(req.query);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "GET Unknown error";
+      console.error("Error fetching webhook:", errorMessage);
+
+      return res.status(500).json({
+        success: false,
+        error: errorMessage,
+      });
+    }
+  },
+
+
+
 };
 
 
