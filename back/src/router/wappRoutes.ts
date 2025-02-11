@@ -94,24 +94,35 @@ WappRouter.get("/history/:phone", async (req, res) => {
  * @swagger
  * /api/wapps/webhook:
  *   get:
- *     summary: Get webhook verification
+ *     summary: Get webhook for WhatsApp
  *     tags: [WhatsApp]
+ *     parameters:
+ *         schema:
+ *           type: string
+ *         description:webhook for WhatsApp
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved webhook for WhatsApp
+ *       404:
+ *         description: webhook for WhatsApp not found
+ *       500:
+ *         description: Internal server error
  */
-WappRouter.get("/webhook", (req, res) => {
+WappRouter.get('/webhook', (req, res) => {
     console.log("Received webhook request:", req.query);
     console.log("Webhook Verify Token2:", WEBHOOK_VERIFY_TOKEN);
+  res.send();
+    // const mode = req.query['hub.mode'];
+    // const challenge = req.query['hub.challenge'];
+    // const token = req.query['hub.verify_token'];
   
-    const mode = req.query["hub.mode"];
-    const challenge = req.query["hub.challenge"];
-    const token = req.query["hub.verify_token"];
-  
-    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
-      res.status(200).send(challenge);
-      console.log("Webhook verification successful.");
-    } else {
-      res.sendStatus(403);
-      console.log("Webhook verification failed.");
-    }
+    // if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+    //   res.status(200).send(challenge);
+    //   console.log("Webhook verification successful.");
+    // } else {
+    //   res.sendStatus(403);
+    //   console.log("Webhook verification failed.");
+    // }
   });
 
 export default WappRouter;
