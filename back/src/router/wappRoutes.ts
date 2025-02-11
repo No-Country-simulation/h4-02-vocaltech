@@ -84,6 +84,17 @@ WappRouter.get("/history/:phone", async (req, res) => {
     }
 });
 
+WappRouter.get("/webhook", (req, res) => {
+    console.log(req.query);
+    res.send();
+    // try {
+    //     await wappController.getChatHistory(req, res);
+        
+    // } catch (error) {
+    //     handleRouteError(res, error);
+    // }
+});
+
 export default WappRouter;
 
 

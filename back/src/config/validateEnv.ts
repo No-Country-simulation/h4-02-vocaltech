@@ -48,6 +48,6 @@ export const config = {
   SENDGRID_EMAIL_FROM: getEnvVar('SENDGRID_EMAIL_FROM'),
 
   // Variables de entorno para secret sección
-  SECRET_SECTION: getEnvVar('SECRET_SECCION'),
+//   SECRET_SECTION: getEnvVar('SECRET_SECCION'),
 };
 
