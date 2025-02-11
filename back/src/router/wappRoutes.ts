@@ -4,8 +4,6 @@ import { config } from "../config/validateEnv";
 const WappRouter = Router();
 
 const { WEBHOOK_VERIFY_TOKEN } = config;
-console.log("Webhook Verify Token1:", WEBHOOK_VERIFY_TOKEN);
-
 
 /**
  * @swagger
@@ -58,6 +56,16 @@ WappRouter.post("/send", async (req, res) => {
         handleRouteError(res, error);
     }
 });
+
+
+WappRouter.post("/send", async (req, res) => {
+    try {
+        await wappController.sendTemplate(req, res);
+    } catch (error) {
+        handleRouteError(res, error);
+    }
+});
+
 
 /**
  * @swagger
@@ -127,9 +135,24 @@ WappRouter.get("/history/:phone", async (req, res) => {
  */
 WappRouter.get("/webhook", async (req, res) => {
     try {
-        console.log(req.query);
-        res.send();
+        // console.log(req.query);
+        // res.send();
         // await wappController.getWebhook(req, res);
+
+    const mode = req.query['hub.mode'];
+    const challenge = req.query['hub.challenge'];
+    const token = req.query['hub.verify_token'];
+  
+    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+      res.status(200).send(challenge);
+      console.log("Webhook verification successful.");
+    } else {
+      res.sendStatus(403);
+      console.log("Webhook verification failed.");
+    }
+
+
+
     } catch (error) {
         handleRouteError(res, error);
     }

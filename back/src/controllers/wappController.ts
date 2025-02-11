@@ -21,6 +21,24 @@ export const wappController = {
     }
   },
 
+
+    async sendTemplate(req: Request, res: Response): Promise<Response> {
+      try {
+        const { phone, message } = req.body;
+        const response = await wappService.sendTemplate(phone, message);
+        return res.status(200).json({ success: true, response });
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : "POST Unknown error";
+        console.error("Error sending message:", errorMessage);
+  
+        return res.status(500).json({
+          success: false,
+          error: errorMessage,
+        });
+      }
+    },
+
   async getChatHistory(req: Request, res: Response): Promise<Response> {
     try {
       const { phone } = req.params;
