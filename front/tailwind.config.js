@@ -23,6 +23,8 @@ export default {
         amarillo_secundario_300: "#FFD559",
         azul_secundario_300: "#5C628D",
         blanco: "#FBFBFB",
+        primary_50: "#E7E8EE",
+        primary_300: "#5C628D"
       },
       fontFamily: {
         vazirmatn: ["var(--font-vazir)", "Vazirmatn", "serif"],
