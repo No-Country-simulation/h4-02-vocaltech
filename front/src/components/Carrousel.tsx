@@ -27,8 +27,8 @@ export default function CTAcarousel() {
           <SwiperSlide key={slide.id}>
             <div className="flex items-center justify-between bg-gray-100 rounded-lg shadow-lg h-[400px]">
               <div className="w-1/2 p-4 lg:px-20">
-                <h2 className="text-2xl font-bold text-gray-900 lg:text-3xl">
-                  Descubre qué necesitas para mejorar tu comunicación y liderazgo.
+                <h2 className="text-2xl font-bold text-primary_400 lg:text-3xl">
+                  Descubre qué necesitas para mejorar tu <span className='text-secondary_600'>comunicación y liderazgo</span>
                 </h2>
                 <p className="text-lg text-gray-600 mt-2">¡Haz tu diagnóstico ahora!</p>
                 <Link to="/diagnostic" className="inline-block mt-4 px-6 py-3 text-white bg-secondary_600 rounded-lg shadow">
