@@ -26,14 +26,6 @@ const Navbar: React.FC = () => {
     <nav className='px-4 lg:pr-10 md:pr-5'>
       <ul className='flex justify-between items-center lg:gap-10 md:gap-6 sm:gap-2'>
         <li>
-          <button
-            onClick={() => scrollToSection('reviews')}
-            className='text-lg hover:text-gray-500'
-          >
-            Reseñas
-          </button>
-        </li>
-        <li>
           <Link to='/aboutUs' className='text-lg hover:text-gray-500'>
             Nosotros
           </Link>
@@ -55,6 +47,11 @@ const Navbar: React.FC = () => {
         </li>
         <li>
           <Link to='/dashboard' className='text-lg hover:text-gray-500'>
+            Dashboard
+          </Link>
+        </li>
+        <li>
+          <Link to='/panel' className='text-lg hover:text-gray-500'>
             Panel
           </Link>
         </li>
