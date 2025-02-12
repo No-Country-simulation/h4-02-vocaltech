@@ -1,19 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table'
-import {
-  Box,
-  Button,
-  IconButton,
-  MenuItem,
-  Select,
-  Tooltip
-} from '@mui/material'
+import { Box, Button, IconButton, MenuItem, Select } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import EditIcon from '@mui/icons-material/Edit'
 import EmailIcon from '@mui/icons-material/Email'
 import { IDiagnostic } from '../../types/Diagnostic'
 import { mkConfig, generateCsv, download } from 'export-to-csv'
-import { useMaterialReactTable } from 'material-react-table'
 
 const DiagnosticTable = () => {
   const [data, setData] = useState<IDiagnostic[]>([])
@@ -224,7 +216,8 @@ const DiagnosticTable = () => {
 
   const handleExportData = () => {
     const csvData = data.map((diagnostic) => ({
-      ...diagnostic
+      ...diagnostic,
+      Category: diagnostic.Category // Nos aseguramos de que Category sea un string aquí
     }))
     const csv = generateCsv(csvConfig)(csvData)
     download(csvConfig)(csv)
