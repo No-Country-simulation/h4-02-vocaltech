@@ -1,34 +1,11 @@
-// const parseTimestamp = (timestamp: string): Date => {
-//     const [datePart, timePart] = timestamp.split(" "); // ["16/1/2025", "15:48"]
-//     const [day, month, year] = datePart.split("/").map(Number); // [16, 1, 2025]
-//     const [hours, minutes] = timePart.split(":").map(Number); // [15, 48]
-
-//     return new Date(year, month - 1, day, hours, minutes);
-//   };
-
-//   const timestampAsDate = parseTimestamp(rawTimestamp);
-//   console.log(timestampAsDate); // 2025-01-16T15:48:00.000Z (dependiendo de la zona horaria)
-// const rawTimestamp: string = "16/1/2025 15:48"; Esto se recibiria de la api
-
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef
-} from 'material-react-table'
-import React, { useMemo, useEffect, useState } from 'react'
-import { IDiagnostic } from '../../types/Diagnostic'
-import { mkConfig, generateCsv, download } from 'export-to-csv'
-import {
-  IconButton,
-  Tooltip,
-  Box,
-  Button,
-  Select,
-  MenuItem
-} from '@mui/material'
+import React, { useEffect, useState, useMemo } from 'react'
+import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table'
+import { Box, Button, IconButton, MenuItem, Select } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import EditIcon from '@mui/icons-material/Edit'
 import EmailIcon from '@mui/icons-material/Email'
+import { IDiagnostic } from '../../types/Diagnostic'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
 
 const DiagnosticTable = () => {
   const [data, setData] = useState<IDiagnostic[]>([])
@@ -36,7 +13,7 @@ const DiagnosticTable = () => {
   const [editingCategoryId, setEditingCategoryId] = useState<string | null>(
     null
   )
-  const [newCategory, setNewCategory] = useState<string>('')
+  const [newCategory, setNewCategory] = useState<string>('') // Cambiado a string para seleccionar categorías
 
   useEffect(() => {
     const fetchUsersAndProducts = async () => {
@@ -63,7 +40,9 @@ const DiagnosticTable = () => {
                 acc[item.id] = {
                   NameProduct: item.fields.NameProduct,
                   Category: item.fields.Category
-                    ? [item.fields.Category]
+                    ? Array.isArray(item.fields.Category)
+                      ? item.fields.Category
+                      : [item.fields.Category]
                     : ['Sin categoría']
                 }
                 return acc
@@ -106,12 +85,12 @@ const DiagnosticTable = () => {
           Question4: item.fields.Question4,
           Question5: item.fields.Question5,
           idProduct: item.fields.idProduct,
+          // Asumiendo que Category puede ser un array, tomar solo el primer valor
           Category:
             item.fields.idProduct && item.fields.idProduct.length > 0
-              ? productsMap[item.fields.idProduct[0]]?.Category || [
-                  'Sin categoría'
-                ]
-              : ['Sin categoría'],
+              ? productsMap[item.fields.idProduct[0]]?.Category?.[0] ||
+                'Sin categoría'
+              : 'Sin categoría', // Cambié esto para que sea un string
           NameProduct:
             item.fields.idProduct && item.fields.idProduct.length > 0
               ? productsMap[item.fields.idProduct[0]]?.NameProduct ||
@@ -136,9 +115,12 @@ const DiagnosticTable = () => {
       { accessorKey: 'Type', header: 'Tipo' },
       { accessorKey: 'DescripCorp', header: 'Descripción' },
       { accessorKey: 'SelectArea', header: 'Área' },
-      { accessorKey: 'TimeStamp', header: 'Tiempo' },
       { accessorKey: 'Status', header: 'Estado' },
       { accessorKey: 'NameProduct', header: 'Producto' },
+      { accessorKey: 'Question1', header: 'Pregunta 1' },
+      { accessorKey: 'Question2', header: 'Pregunta 2' },
+      { accessorKey: 'Question3', header: 'Pregunta 3' },
+      { accessorKey: 'Question4', header: 'Pregunta 4' },
       {
         accessorKey: 'Category',
         header: 'Categoría',
@@ -156,7 +138,7 @@ const DiagnosticTable = () => {
                 ))}
               </Select>
             ) : (
-              <span>{cell.getValue()?.join(', ')}</span>
+              <span>{cell.getValue() || 'Sin categoría'}</span>
             )}
             <IconButton
               sx={{ fontSize: '1rem', padding: '4px' }}
@@ -165,11 +147,11 @@ const DiagnosticTable = () => {
                   const updatedData = [...data]
                   updatedData[row.index] = {
                     ...updatedData[row.index],
-                    Category: [newCategory]
+                    Category: newCategory // Actualizamos Category como string
                   }
                   setData(updatedData)
                 } else {
-                  setNewCategory(cell.getValue()[0] || 'Sin categoría')
+                  setNewCategory(cell.getValue() || 'Sin categoría')
                 }
                 setEditingCategoryId(
                   editingCategoryId === row.id ? null : row.id
@@ -181,53 +163,34 @@ const DiagnosticTable = () => {
           </>
         )
       },
-      { accessorKey: 'Question1', header: 'Pregunta 1' },
-      { accessorKey: 'Question2', header: 'Pregunta 2' },
-      { accessorKey: 'Question3', header: 'Pregunta 3' },
-      { accessorKey: 'Question4', header: 'Pregunta 4' },
       { accessorKey: 'Question5', header: 'Pregunta 5' },
+      { accessorKey: 'InfoFile', header: 'PDF' },
+      { accessorKey: 'SoundFile', header: 'Audio' },
       {
         accessorKey: 'email',
         header: 'Email',
         Cell: ({ cell, row }: any) => {
           const email = cell.getValue()
           const subject = 'Detalles del diagnóstico'
-          const body = `
-Hola,
-
-Aquí tienes los detalles del diagnóstico:
-
-Tipo: ${row.original.Type}
-Descripción: ${row.original.DescripCorp}
-Área: ${row.original.SelectArea}
-Fecha: ${row.original.TimeStamp}
-Estado: ${row.original.Status}
-
-Preguntas:
-1. ${row.original.Question1}
-2. ${row.original.Question2}
-3. ${row.original.Question3}
-4. ${row.original.Question4}
-5. ${row.original.Question5}
-
-Producto relacionado: ${row.original.NameProduct}
-Categoría: ${row.original.Category?.join(', ') || 'Sin categoría'}
-
-Transformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.
-
-Recomendamos trabajar:
-La voz conectada con el cuerpo,Tu voz y la relación con el otro
-
-¿Qué vas a lograr?
-Persuadir a través de tu voz,Mayor confianza y credibilidad,Transmitir un mensaje convincente
-
-En breve, recibirás una recomendación personalizada con las mejores soluciones para ti.
-
-¡Nos emociona acompañarte en este camino!
-
-
-Saludos,
-VocalTech`.replace(/\n/g, '%0A')
+          const body =
+            `Hola,%0A%0AAquí tienes los detalles del diagnóstico:%0A%0ATipo: ${
+              row.original.Type
+            }%0ADescripción: ${row.original.DescripCorp}%0AÁrea: ${
+              row.original.SelectArea
+            }%0AFecha: ${row.original.TimeStamp}%0AEstado: ${
+              row.original.Status
+            }%0APreguntas:%0A1. ${row.original.Question1}%0A2. ${
+              row.original.Question2
+            }%0A3. ${row.original.Question3}%0A4. ${
+              row.original.Question4
+            }%0A5. ${row.original.Question5}%0AProducto relacionado: ${
+              row.original.NameProduct
+            }%0ACategoría: ${
+              row.original.Category || 'Sin categoría'
+            }%0A%0ATransformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.%0A%0ARecomendamos trabajar:%0ALa voz conectada con el cuerpo, Tu voz y la relación con el otro%0A%0A¿Qué vas a lograr?%0APersuadir a través de tu voz, Mayor confianza y credibilidad, Transmitir un mensaje convincente%0A%0AEn breve, recibirás una recomendación personalizada con las mejores soluciones para ti.%0A%0A¡Nos emociona acompañarte en este camino!%0A%0ASaludos,%0AVocalTech`.replace(
+              /\n/g,
+              '%0A'
+            )
 
           return (
             <Button
@@ -245,9 +208,50 @@ VocalTech`.replace(/\n/g, '%0A')
     [data, editingCategoryId, newCategory]
   )
 
-  if (isLoading) return <div>Cargando diagnósticos...</div>
+  const csvConfig = mkConfig({
+    fieldSeparator: ',',
+    decimalSeparator: '.',
+    useKeysAsHeaders: true
+  })
 
-  return <MaterialReactTable columns={columns} data={data} />
+  const handleExportData = () => {
+    const csvData = data.map((diagnostic) => ({
+      ...diagnostic,
+      Category: diagnostic.Category // Nos aseguramos de que Category sea un string aquí
+    }))
+    const csv = generateCsv(csvConfig)(csvData)
+    download(csvConfig)(csv)
+  }
+
+  return (
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      enableRowSelection
+      enableColumnOrdering
+      enableGlobalFilter
+      initialState={{
+        pagination: {
+          pageSize: 10,
+          pageIndex: 0
+        }
+      }}
+      renderTopToolbarCustomActions={() => (
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '16px',
+            padding: '8px',
+            flexWrap: 'wrap'
+          }}
+        >
+          <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
+            Export All Data
+          </Button>
+        </Box>
+      )}
+    />
+  )
 }
 
 export default DiagnosticTable

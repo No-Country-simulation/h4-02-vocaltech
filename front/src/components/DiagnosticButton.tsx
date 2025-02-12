@@ -8,7 +8,7 @@ const DiagnosticButton = () => {
         maxWidth: '800px',
         width: '100%',
         padding: { xs: '16px', sm: '20px', md: '24px' },
-        background: 'linear-gradient(to right, #0A124D, #3D42DF)',
+        background: 'linear-gradient(to right, #0A124D, #3C4377)',
         borderRadius: '15px',
         display: 'flex',
         flexDirection: 'column',
@@ -32,7 +32,7 @@ const DiagnosticButton = () => {
         <Button
           variant='contained'
           sx={{
-            backgroundColor: '#E26105',
+            backgroundColor: '#CE5805',
             '&:hover': { backgroundColor: '#FF6F00' },
             width: { xs: '100%', sm: '200px' } // Botón ocupa todo el ancho en móviles
           }}
