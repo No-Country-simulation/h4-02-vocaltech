@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
+
+
+
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Toaster, toast } from 'sonner';
 import { ChatFields } from "./../../../back/src/models/Chat";
 
 const URL_LOCAL = "http://localhost:3000";
-const URL_PROD = "https://h4-02-vocaltech.onrender.com";
+// const URL_PROD = "https://h4-02-vocaltech.onrender.com";
 
 const WhatsAppChat = () => {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+//   const [messages, setMessages] = useState([]);
   const [chatHistory, setChatHistory] = useState<ChatFields[]>([]);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (phone) {
@@ -22,6 +27,14 @@ const WhatsAppChat = () => {
       });
     }
   }, [phone]);
+
+  useEffect(() => {
+    // Scroll to the bottom when chatHistory updates
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        console.log('chatContainerRef.current.scrollTop', chatContainerRef.current.scrollTop);   
+    }
+  }, [chatHistory]);
 
   const sendMessage = async () => {
     try {
@@ -71,14 +84,9 @@ const WhatsAppChat = () => {
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
-      {/* <div className="overflow-y-auto h-40 border p-2 bg-gray-100">
-        {chatHistory.map((msg, index) => (
-          <div key={index} className={`p-2 my-1 ${msg.SentBy === "Admin" ? "text-right" : "text-left"}`}>
-            <span className="bg-blue-500 text-white px-3 py-1 rounded-lg">{msg.Message}</span>
-          </div>
-        ))}
-      </div> */}
-      <div className="overflow-y-auto h-40 border p-1 bg-gray-100 rounded-lg">
+      <div className="overflow-y-auto h-40 border p-1 bg-gray-100 rounded-lg"
+      ref={chatContainerRef}
+      >
         {chatHistory.map((msg, index) => (
           <div key={index} className={`p-1 my-1 flex ${msg.userName === "Admin" ? "justify-end" : "justify-start"}`}>
             <span className={`${msg.userName === "Admin" ? "bg-green-400" : "bg-blue-400"} text-white px-2 py-1 rounded-lg text-base max-w-[80%]`}>{msg.message}</span>
@@ -92,9 +100,6 @@ const WhatsAppChat = () => {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      {/* <button className="bg-green-500 text-white w-full py-2 rounded" onClick={sendMessage}>
-        Send
-      </button> */}
           <div className="flex justify-end">
               <button
                   type='submit'

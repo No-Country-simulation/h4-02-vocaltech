@@ -28,6 +28,49 @@ export const wappService = {
   },
 
 
+  async sendWhatsAppMessage(phone: string, message: string) {
+    try {
+        await axios.post(
+            "https://graph.facebook.com/v21.0/phone_number_id/messages",
+            {
+                messaging_product: "whatsapp",
+                to: phone,
+                type: "text",
+                text: { body: message },
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+    } catch (error) {
+        console.error("Error sending WhatsApp message:", error);
+    }
+},
+
+async storeMessageToAirtable(phone: string, message: string, timestamp: string) {
+    try {
+        await base("Chats").create([
+            {
+                fields: {
+                    Phone: phone,
+                    Message: message,
+                    Timestamp: timestamp,
+                    Direction: "INCOMING", // Mark as received message
+                },
+            },
+        ]);
+        console.log(`Message stored: ${message} from ${phone}`);
+    } catch (error) {
+        console.error("Error storing message in Airtable:", error);
+    }
+},
+
+
+
+
     async sendTemplate(phone: string, message: string) {
       try {
         const response = await axios.post(
