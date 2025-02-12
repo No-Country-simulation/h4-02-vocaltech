@@ -1,22 +1,19 @@
+import React, { useEffect, useState, useMemo } from 'react'
+import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table'
 import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef
-} from 'material-react-table'
-import React, { useMemo, useEffect, useState } from 'react'
-import { IDiagnostic } from '../../types/Diagnostic'
-import { mkConfig, generateCsv, download } from 'export-to-csv'
-import {
-  IconButton,
-  Tooltip,
   Box,
   Button,
+  IconButton,
+  MenuItem,
   Select,
-  MenuItem
+  Tooltip
 } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import EditIcon from '@mui/icons-material/Edit'
 import EmailIcon from '@mui/icons-material/Email'
+import { IDiagnostic } from '../../types/Diagnostic'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
+import { useMaterialReactTable } from 'material-react-table' // Aquí agregas la importación
 
 const DiagnosticTable = () => {
   const [data, setData] = useState<IDiagnostic[]>([])
@@ -24,7 +21,7 @@ const DiagnosticTable = () => {
   const [editingCategoryId, setEditingCategoryId] = useState<string | null>(
     null
   )
-  const [newCategory, setNewCategory] = useState<string>('')
+  const [newCategory, setNewCategory] = useState<string>('') // Cambiado a string para seleccionar categorías
 
   useEffect(() => {
     const fetchUsersAndProducts = async () => {
@@ -96,12 +93,13 @@ const DiagnosticTable = () => {
           Question4: item.fields.Question4,
           Question5: item.fields.Question5,
           idProduct: item.fields.idProduct,
-          // Usamos solo el primer valor de Category como string
+          // Aseguramos que Category sea un arreglo de cadenas
           Category:
             item.fields.idProduct && item.fields.idProduct.length > 0
-              ? productsMap[item.fields.idProduct[0]]?.Category[0] ||
-                'Sin categoría'
-              : 'Sin categoría',
+              ? productsMap[item.fields.idProduct[0]]?.Category || [
+                  'Sin categoría'
+                ]
+              : ['Sin categoría'],
           NameProduct:
             item.fields.idProduct && item.fields.idProduct.length > 0
               ? productsMap[item.fields.idProduct[0]]?.NameProduct ||
@@ -133,7 +131,7 @@ const DiagnosticTable = () => {
       { accessorKey: 'Question3', header: 'Pregunta 3' },
       { accessorKey: 'Question4', header: 'Pregunta 4' },
       {
-        accessorKey: 'Category', // Asegúrate de que esta columna esté manejando un string, no un arreglo
+        accessorKey: 'Category',
         header: 'Categoría',
         Cell: ({ cell, row }: any) => (
           <>
@@ -149,7 +147,9 @@ const DiagnosticTable = () => {
                 ))}
               </Select>
             ) : (
-              <span>{cell.getValue() || 'Sin categoría'}</span>
+              <span>
+                {(cell.getValue() as string[]).join(', ') || 'Sin categoría'}
+              </span>
             )}
             <IconButton
               sx={{ fontSize: '1rem', padding: '4px' }}
@@ -158,11 +158,11 @@ const DiagnosticTable = () => {
                   const updatedData = [...data]
                   updatedData[row.index] = {
                     ...updatedData[row.index],
-                    Category: newCategory // Asignamos solo un string
+                    Category: newCategory.split(',').map((item) => item.trim()) // Actualizamos Category como string[]
                   }
                   setData(updatedData)
                 } else {
-                  setNewCategory(cell.getValue() || 'Sin categoría')
+                  setNewCategory(cell.getValue()?.join(', ') || 'Sin categoría')
                 }
                 setEditingCategoryId(
                   editingCategoryId === row.id ? null : row.id
@@ -197,7 +197,7 @@ const DiagnosticTable = () => {
             }%0A5. ${row.original.Question5}%0AProducto relacionado: ${
               row.original.NameProduct
             }%0ACategoría: ${
-              row.original.Category || 'Sin categoría'
+              row.original.Category.join(', ') || 'Sin categoría'
             }%0A%0ATransformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.%0A%0ARecomendamos trabajar:%0ALa voz conectada con el cuerpo, Tu voz y la relación con el otro%0A%0A¿Qué vas a lograr?%0APersuadir a través de tu voz, Mayor confianza y credibilidad, Transmitir un mensaje convincente%0A%0AEn breve, recibirás una recomendación personalizada con las mejores soluciones para ti.%0A%0A¡Nos emociona acompañarte en este camino!%0A%0ASaludos,%0AVocalTech`.replace(
               /\n/g,
               '%0A'
@@ -231,38 +231,6 @@ const DiagnosticTable = () => {
     }))
     const csv = generateCsv(csvConfig)(csvData)
     download(csvConfig)(csv)
-  }
-
-  const table = useMaterialReactTable<IDiagnostic>({
-    columns,
-    data,
-    enableRowSelection: true,
-    enableColumnOrdering: true,
-    enableGlobalFilter: true,
-    initialState: {
-      pagination: {
-        pageSize: 10,
-        pageIndex: 0
-      }
-    },
-    renderTopToolbarCustomActions: ({ table }) => (
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '16px',
-          padding: '8px',
-          flexWrap: 'wrap'
-        }}
-      >
-        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-          Export All Data
-        </Button>
-      </Box>
-    )
-  })
-
-  if (isLoading) {
-    return <div>Cargando diagnósticos...</div>
   }
 
   return (
