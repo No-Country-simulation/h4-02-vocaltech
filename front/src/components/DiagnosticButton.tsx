@@ -8,7 +8,7 @@ const DiagnosticButton = () => {
         maxWidth: '800px',
         width: '100%',
         padding: { xs: '16px', sm: '20px', md: '24px' },
-        background: 'linear-gradient(to right, #0A124D, #3D42DF)',
+        background: 'linear-gradient(to right, #0A124D, #3C4377)',
         borderRadius: '15px',
         display: 'flex',
         flexDirection: 'column',

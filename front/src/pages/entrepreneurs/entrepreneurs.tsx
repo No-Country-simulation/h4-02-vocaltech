@@ -1,5 +1,3 @@
-import React from 'react'
-import FeedbackCard from '../../components/ReviewCard'
 import Card from '../../components/Card'
 import Footer from '../../components/Footer'
 import DiagnosticButton from '../../components/DiagnosticButton'
@@ -85,10 +83,10 @@ Ideal para presentaciones de pitch y captación de inversores.'
         />
       </div>
       <div className='flex flex-col bg-white justify-center items-center p-10'>
-        <h4 className='font-bold text-black  text-center text-2xl mb-12 md:text-3xl'>
+        <h4 className='font-bold text-primary_400  text-center text-2xl mb-12 md:text-3xl'>
           Testimonios de Emprendedores
         </h4>
-        <p className='text-justify  text-black text-lg lg:text-xl'>
+        <p className='text-justify  text-primary_400 text-lg lg:text-xl'>
           Descubre lo que dicen los emprendedores que han utilizado los
           servicios de VocalTech para impulsar sus proyectos.
         </p>
