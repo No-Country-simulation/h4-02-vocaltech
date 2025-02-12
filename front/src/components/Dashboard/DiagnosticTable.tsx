@@ -96,10 +96,9 @@ const DiagnosticTable = () => {
           idProduct: item.fields.idProduct,
           Category:
             item.fields.idProduct && item.fields.idProduct.length > 0
-              ? productsMap[item.fields.idProduct[0]]?.Category || [
-                  'Sin categoría'
-                ]
-              : ['Sin categoría'],
+              ? productsMap[item.fields.idProduct[0]]?.Category[0] ||
+                'Sin categoría'
+              : 'Sin categoría',
           NameProduct:
             item.fields.idProduct && item.fields.idProduct.length > 0
               ? productsMap[item.fields.idProduct[0]]?.NameProduct ||
@@ -147,7 +146,7 @@ const DiagnosticTable = () => {
                 ))}
               </Select>
             ) : (
-              <span>{cell.getValue()?.join(', ')}</span>
+              <span>{cell.getValue() || 'Sin categoría'}</span>
             )}
             <IconButton
               sx={{ fontSize: '1rem', padding: '4px' }}
@@ -156,11 +155,11 @@ const DiagnosticTable = () => {
                   const updatedData = [...data]
                   updatedData[row.index] = {
                     ...updatedData[row.index],
-                    Category: [newCategory]
+                    Category: newCategory
                   }
                   setData(updatedData)
                 } else {
-                  setNewCategory(cell.getValue()[0] || 'Sin categoría')
+                  setNewCategory(cell.getValue() || 'Sin categoría')
                 }
                 setEditingCategoryId(
                   editingCategoryId === row.id ? null : row.id
@@ -195,7 +194,7 @@ const DiagnosticTable = () => {
             }%0A5. ${row.original.Question5}%0AProducto relacionado: ${
               row.original.NameProduct
             }%0ACategoría: ${
-              row.original.Category?.join(', ') || 'Sin categoría'
+              row.original.Category || 'Sin categoría'
             }%0A%0ATransformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.%0A%0ARecomendamos trabajar:%0ALa voz conectada con el cuerpo, Tu voz y la relación con el otro%0A%0A¿Qué vas a lograr?%0APersuadir a través de tu voz, Mayor confianza y credibilidad, Transmitir un mensaje convincente%0A%0AEn breve, recibirás una recomendación personalizada con las mejores soluciones para ti.%0A%0A¡Nos emociona acompañarte en este camino!%0A%0ASaludos,%0AVocalTech`.replace(
               /\n/g,
               '%0A'
@@ -244,20 +243,18 @@ const DiagnosticTable = () => {
       }
     },
     renderTopToolbarCustomActions: ({ table }) => (
-      <>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: '16px',
-            padding: '8px',
-            flexWrap: 'wrap'
-          }}
-        >
-          <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-            Export All Data
-          </Button>
-        </Box>
-      </>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '16px',
+          padding: '8px',
+          flexWrap: 'wrap'
+        }}
+      >
+        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
+          Export All Data
+        </Button>
+      </Box>
     )
   })
 

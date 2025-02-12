@@ -25,35 +25,35 @@ function Table() {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [exporting, setExporting] = useState(false)
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(
-          'https://h4-02-vocaltech.onrender.com/api/airtable/users'
-        )
-        if (!response.ok) {
-          throw new Error('Error al obtener los usuarios')
-        }
-        const apiData = await response.json()
-        const transformedData = apiData.map((item: any) => ({
-          id: item.id,
-          email: item.fields.email,
-          name: item.fields.name,
-          active: item.fields.active,
-          company: item.fields.company,
-          description: item.fields.description,
-          phone: item.fields.phone,
-          role: item.fields.role,
-          status: item.fields.status
-        }))
-        setData(transformedData)
-      } catch (error) {
-        setError('Failed to load data. Please try again later.')
-      } finally {
-        setIsLoading(false)
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(
+        'https://h4-02-vocaltech.onrender.com/api/airtable/users'
+      )
+      if (!response.ok) {
+        throw new Error('Error al obtener los usuarios')
       }
+      const apiData = await response.json()
+      const transformedData = apiData.map((item: any) => ({
+        id: item.id,
+        email: item.fields.email,
+        name: item.fields.name,
+        active: item.fields.active,
+        company: item.fields.company,
+        description: item.fields.description,
+        phone: item.fields.phone,
+        role: item.fields.role,
+        status: item.fields.status
+      }))
+      setData(transformedData)
+    } catch (error) {
+      setError('Failed to load data. Please try again later.')
+    } finally {
+      setIsLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchUsers()
   }, [])
 
@@ -134,7 +134,7 @@ function Table() {
 
   const handleCloseModal = () => {
     setOpenEditModal(false)
-    setSelectedUser(null) // Reset selected user when closing
+    setSelectedUser(null)
   }
 
   const handleEditUser = async () => {
@@ -166,7 +166,7 @@ function Table() {
       }
 
       setOpenEditModal(false)
-      fetchUsers() // Refresh the user list after editing
+      fetchUsers()
     } catch (error) {
       console.error('Error updating user:', error)
     }
