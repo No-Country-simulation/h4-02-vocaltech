@@ -22,7 +22,7 @@ const reviewsData = [
   }
 ]
 
-const Reviews = () => {
+const Reviews = (props:any) => {
   const allReviews = [...reviewsData, ...reviewsData, ...reviewsData, ...reviewsData];
   const [position, setPosition] = useState(0);
 
@@ -41,9 +41,9 @@ const Reviews = () => {
   }, []);
 
   return (
-    <div className='my-24'>
-      <h3 className='font-bold text-black text-3xl text-center mb-12'>
-        ¿Qué dicen nuestros clientes?
+    <div className='my-10'>
+      <h3 className='font-bold text-primary_400 text-3xl text-center mb-12'>
+{props.title}
       </h3>
       <div className='overflow-hidden'>
         <div 

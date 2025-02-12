@@ -32,7 +32,7 @@ const DiagnosticButton = () => {
         <Button
           variant='contained'
           sx={{
-            backgroundColor: '#E26105',
+            backgroundColor: '#CE5805',
             '&:hover': { backgroundColor: '#FF6F00' },
             width: { xs: '100%', sm: '200px' } // Botón ocupa todo el ancho en móviles
           }}

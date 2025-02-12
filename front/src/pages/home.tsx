@@ -18,11 +18,14 @@ const Home = () => {
       <section id="brands">
         <Brands />
       </section>
-      <section id="reviews">
-        <Review />
+      <section id="reviews" className="my-24">
+        <Review 
+        title="¿Qué dicen nuestros clientes?"/>
       </section>
       <section id="cta">
-        <CTA />
+        <CTA 
+        title="Estas ansioso por que trabajemos juntos?"
+        button="Regístrate"/>
       </section>
       <section id="footer">
         <Footer />
