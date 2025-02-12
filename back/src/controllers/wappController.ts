@@ -4,7 +4,7 @@ import { config } from "../config/validateEnv";
 const { WEBHOOK_VERIFY_TOKEN } = config;
 
 export const wappController = {
-  async sendMessage(req: Request, res: Response): Promise<Response> {
+  async sendMessage1(req: Request, res: Response): Promise<Response> {
     try {
       const { phone, message } = req.body;
       const response = await wappService.sendMessage(phone, message);
@@ -20,6 +20,26 @@ export const wappController = {
       });
     }
   },
+
+  async sendMessage(req: Request, res: Response) {
+    try {
+        const { phone, message } = req.body;
+        await wappService.sendWhatsAppMessage(phone, message);
+        res.status(200).json({ message: "Message sent successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error });
+    }
+},
+
+
+  async storeMessage(senderPhone: string, messageBody: string, timestamp: string) {
+    try {
+        console.log(`Storing message from ${senderPhone}: ${messageBody}`);
+        await wappService.storeMessageToAirtable(senderPhone, messageBody, timestamp);
+    } catch (error) {
+        console.error("Error storing message:", error);
+    }
+},
 
 
     async sendTemplate(req: Request, res: Response): Promise<Response> {

@@ -157,6 +157,9 @@ WappRouter.post("/webhook", async (req, res) => {
         // console.log(JSON.stringify(req.body, null, 2));
         // res.status(200).send("Webhook received");
 
+        console.log("Incoming Webhook Data:", JSON.stringify(req.body, null, 2));
+
+
         const { entry } = req.body
 
         if (!entry || entry.length === 0) {
@@ -182,6 +185,18 @@ WappRouter.post("/webhook", async (req, res) => {
         }
       
         if (messages) {
+
+            // Extract required data
+            const senderPhone = messages.from;
+            const messageBody = messages.text?.body || null;
+            const timestamp = messages.timestamp;
+            if (messageBody) {
+                // Store message in Airtable via service function
+                await wappController.storeMessage(senderPhone, messageBody, timestamp);
+            }
+
+
+
           // Handle received messages
           if (messages.type === 'text') {
             if (messages.text.body.toLowerCase() === 'hello') {
@@ -269,15 +284,6 @@ async function sendMessage(to: string, body: string) {
   }
 
 
-// WappRouter.post("/webhook", async (req, res) => {
-//     try {
-//         console.log(JSON.stringify(req.body, null, 2));
-//         res.status(200).send("Webhook received");
-//     } catch (error) {
-//         handleRouteError(res, error);
-//     }
-// });
-
 
 /**
  * @swagger
@@ -294,7 +300,7 @@ async function sendMessage(to: string, body: string) {
  */
   WappRouter.get("/", async (req, res) => {
       try {
-        res.send("webhook root");
+        res.send("webhook root 202502121848");
         // await wappController.getRoot(req, res);
     } catch (error) {
         handleRouteError(res, error);
