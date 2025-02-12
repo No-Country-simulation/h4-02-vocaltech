@@ -17,6 +17,18 @@ export const emailService = {
 
     await sgMail.send(msg);
   },
+
+  async sendCustomEmail(to: string, subject: string, text: string, html: string) {
+    const msg = {
+      to,
+      from: "lms.segovia86@gmail.com", // Email verificado en SendGrid
+      subject,
+      text,
+      html,
+    };
+
+    await sgMail.send(msg);
+  },
 };
 
 export const emailDiagnosticService = {

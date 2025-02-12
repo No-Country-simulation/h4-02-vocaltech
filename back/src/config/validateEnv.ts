@@ -24,6 +24,7 @@ export const config = {
   productsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Products`,
   leadsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Leads`,
   chatsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Chats`,
+  appointmentsTableUrl: `${getEnvVar('AIRTABLE_URL_BASE')}/${getEnvVar('AIRTABLE_BASE_ID')}/Appointments`,
 
   // Variables de entorno para la estrategia OAuth2
   AUTHORIZATION_URL: getEnvVar('AUTH_URL'),
@@ -48,12 +49,13 @@ export const config = {
   SENDGRID_EMAIL_FROM: getEnvVar('SENDGRID_EMAIL_FROM'),
 
   // Variables de entorno para secret sección
-  SECRET_SECTION: getEnvVar('SECRET_SECTION'),
+  SECRET_SECTION: getEnvVar('SECRET_SECCION'),
 
-//Variables de entorno para Whatsapp API - Twilio
-WHATSAPP_ACCESS_TOKEN: getEnvVar('WHATSAPP_ACCESS_TOKEN'),
-WHATSAPP_ACCESS_PHONE_NUMBER: getEnvVar('WHATSAPP_ACCESS_PHONE_NUMBER'),
-WHATSAPP_ACCESS_TEST_PHONE_NUMBER: getEnvVar('WHATSAPP_ACCESS_TEST_PHONE_NUMBER'),
-WEBHOOK_VERIFY_TOKEN: getEnvVar('WEBHOOK_VERIFY_TOKEN'),
+  //Variables de entorno para Whatsapp API - Twilio
+  WHATSAPP_ACCESS_TOKEN: getEnvVar('WHATSAPP_ACCESS_TOKEN'),
+  WHATSAPP_ACCESS_PHONE_NUMBER: getEnvVar('WHATSAPP_ACCESS_PHONE_NUMBER'),
+  WHATSAPP_ACCESS_TEST_PHONE_NUMBER: getEnvVar('WHATSAPP_ACCESS_TEST_PHONE_NUMBER'),
+  WEBHOOK_VERIFY_TOKEN: getEnvVar('WEBHOOK_VERIFY_TOKEN'),
+  
 };
 

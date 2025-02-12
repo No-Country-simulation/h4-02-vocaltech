@@ -23,7 +23,6 @@ server.use(session({
     secret: config.SECRET_SECTION, 
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // Cambia a true si usas HTTPS
 }));
 
 // Configurar Passport y OAuth

@@ -22,7 +22,7 @@ export const configureOAuth2Strategy = () => {
       {
         clientID: config.CLIENT_ID,
         clientSecret: config.CLIENT_SECRET,
-        callbackURL: config.LOCAL_CALLBACK_URL || config.CALLBACK_URL_BACK || config.FRONTEND_URL, 
+        callbackURL: config.CALLBACK_URL_BACK,
         passReqToCallback: true,
       },
       async (req, accessToken, refreshToken, profile, done) => {
