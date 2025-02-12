@@ -12,12 +12,14 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import RecentLeads from './components/Dashboard/RecentLeads'
 import DiagnosticTable from './components/Dashboard/DiagnosticTable'
+import Graphic from './components/Dashboard/Graphic'
 import UnderConstruction from './components/UnderConstruction'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import WhatsAppChat from './components/WhatsAppChat'
 import Calendar from './components/Dashboard/Calendar'
 import AboutUs from './pages/aboutUs'
 import Questions from './pages/questions'
+import Diagnostics from './components/Dashboard/Diagnostics'
 
 function App() {
   const location = useLocation()
@@ -38,7 +40,8 @@ function App() {
           <Route path='/questions' element={<Questions />} />
 
           <Route path='/dashboard' element={<AdminDashboard />}>
-            <Route path='diagnostics' element={<DiagnosticTable />} />
+            <Route path='diagnostics' element={<Diagnostics />} />
+            {/* <Route path='inicio' element={<Graphic/>}/> */}
             <Route path='leads' element={<RecentLeads />} />
             <Route path='services' element={<UnderConstruction />} />
             <Route path='reviews' element={<UnderConstruction />} />
@@ -59,7 +62,8 @@ function App() {
         </Routes>
         {/* Conditionally show FloatingWhatsApp button */}
         {location.pathname !== '/login' &&
-          location.pathname !== '/register' && <FloatingWhatsApp />}
+          location.pathname !== '/register' && 
+          !isDashboardRoute && <FloatingWhatsApp />}
       </AuthProvider>
     </>
   )

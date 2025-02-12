@@ -9,7 +9,8 @@ const Sidebar = () => {
   return (
     <div className='flex flex-col p-9 font-bold sidebar justify-end lg:h-auto'>
       <nav className='flex flex-col'>
-        <Link to='/dashboard'>Inicio</Link>
+        <Link to='/dashboard'></Link>
+        <Link to='/dashboard/graphic'>Inicio</Link>
         <Link to='/dashboard/leads'>Leads</Link>
         <Link to='/dashboard/services'>Servicios</Link>
         <Link to='/dashboard/diagnostics'>Diagnósticos</Link>
