@@ -51,7 +51,9 @@ const DiagnosticTable = () => {
                 acc[item.id] = {
                   NameProduct: item.fields.NameProduct,
                   Category: item.fields.Category
-                    ? [item.fields.Category]
+                    ? Array.isArray(item.fields.Category)
+                      ? item.fields.Category
+                      : [item.fields.Category]
                     : ['Sin categoría']
                 }
                 return acc
@@ -147,7 +149,7 @@ const DiagnosticTable = () => {
                 ))}
               </Select>
             ) : (
-              <span>{cell.getValue() || 'Sin categoría'}</span>
+              <span>{cell.getValue().join(', ') || 'Sin categoría'}</span>
             )}
             <IconButton
               sx={{ fontSize: '1rem', padding: '4px' }}
@@ -156,11 +158,11 @@ const DiagnosticTable = () => {
                   const updatedData = [...data]
                   updatedData[row.index] = {
                     ...updatedData[row.index],
-                    Category: newCategory
+                    Category: [newCategory] // always set Category as an array
                   }
                   setData(updatedData)
                 } else {
-                  setNewCategory(cell.getValue() || 'Sin categoría')
+                  setNewCategory(cell.getValue()[0] || 'Sin categoría')
                 }
                 setEditingCategoryId(
                   editingCategoryId === row.id ? null : row.id
@@ -195,7 +197,7 @@ const DiagnosticTable = () => {
             }%0A5. ${row.original.Question5}%0AProducto relacionado: ${
               row.original.NameProduct
             }%0ACategoría: ${
-              row.original.Category || 'Sin categoría'
+              row.original.Category.join(', ') || 'Sin categoría'
             }%0A%0ATransformá tu comunicación y liderazgo a través del poder de tu voz. Este programa está diseñado para la empresa en todas sus jerarquias.%0A%0ARecomendamos trabajar:%0ALa voz conectada con el cuerpo, Tu voz y la relación con el otro%0A%0A¿Qué vas a lograr?%0APersuadir a través de tu voz, Mayor confianza y credibilidad, Transmitir un mensaje convincente%0A%0AEn breve, recibirás una recomendación personalizada con las mejores soluciones para ti.%0A%0A¡Nos emociona acompañarte en este camino!%0A%0ASaludos,%0AVocalTech`.replace(
               /\n/g,
               '%0A'
