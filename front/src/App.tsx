@@ -11,8 +11,6 @@ import Diagnostic from './pages/Diagnostic'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import RecentLeads from './components/Dashboard/RecentLeads'
-import DiagnosticTable from './components/Dashboard/DiagnosticTable'
-import Graphic from './components/Dashboard/Graphic'
 import UnderConstruction from './components/UnderConstruction'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import WhatsAppChat from './components/WhatsAppChat'
@@ -62,7 +60,7 @@ function App() {
         </Routes>
         {/* Conditionally show FloatingWhatsApp button */}
         {location.pathname !== '/login' &&
-          location.pathname !== '/register' && 
+          location.pathname !== '/register' &&
           !isDashboardRoute && <FloatingWhatsApp />}
       </AuthProvider>
     </>
