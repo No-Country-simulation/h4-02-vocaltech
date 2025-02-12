@@ -96,9 +96,10 @@ const DiagnosticTable = () => {
           idProduct: item.fields.idProduct,
           Category:
             item.fields.idProduct && item.fields.idProduct.length > 0
-              ? productsMap[item.fields.idProduct[0]]?.Category[0] ||
-                'Sin categoría'
-              : 'Sin categoría',
+              ? productsMap[item.fields.idProduct[0]]?.Category || [
+                  'Sin categoría'
+                ]
+              : ['Sin categoría'],
           NameProduct:
             item.fields.idProduct && item.fields.idProduct.length > 0
               ? productsMap[item.fields.idProduct[0]]?.NameProduct ||
