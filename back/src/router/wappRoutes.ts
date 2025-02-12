@@ -1,9 +1,14 @@
 import { Router } from "express";
 import { wappController } from "../controllers/wappController";
 import { config } from "../config/validateEnv";
-const WappRouter = Router();
+import axios from "axios";
+import { base } from "../config/airtableConfig";
 
+const WappRouter = Router();
 const { WEBHOOK_VERIFY_TOKEN } = config;
+const WHATSAPP_API_URL = `https://graph.facebook.com/v17.0/${process.env.WHATSAPP_ACCESS_TEST_PHONE_NUMBER}/messages`;
+const WHATSAPP_ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
+
 
 /**
  * @swagger
@@ -58,15 +63,6 @@ WappRouter.post("/send", async (req, res) => {
 });
 
 
-WappRouter.post("/send", async (req, res) => {
-    try {
-        await wappController.sendTemplate(req, res);
-    } catch (error) {
-        handleRouteError(res, error);
-    }
-});
-
-
 /**
  * @swagger
  * /api/wapps/history/{phone}:
@@ -96,6 +92,8 @@ WappRouter.get("/history/:phone", async (req, res) => {
     }
 });
 
+
+// WEBHOOK SIDE: ROUTES GET AND POST 
 
 /**
  * @swagger
@@ -137,41 +135,149 @@ WappRouter.get("/webhook", async (req, res) => {
     try {
         // console.log(req.query);
         // res.send();
-        // await wappController.getWebhook(req, res);
 
-    const mode = req.query['hub.mode'];
-    const challenge = req.query['hub.challenge'];
-    const token = req.query['hub.verify_token'];
-  
-    if (mode && token === WEBHOOK_VERIFY_TOKEN) {
-      res.status(200).send(challenge);
-      console.log("Webhook verification successful.");
-    } else {
-      res.sendStatus(403);
-      console.log("Webhook verification failed.");
+        const mode = req.query['hub.mode'];
+        const challenge = req.query['hub.challenge'];
+        const token = req.query['hub.verify_token'];
+
+        if (mode && token === WEBHOOK_VERIFY_TOKEN) {
+            res.status(200).send(challenge);
+            console.log("Webhook verification successful.");
+        } else {
+            res.sendStatus(403);
+            console.log("Webhook verification failed.");
+        }
+    } catch (error) {
+        handleRouteError(res, error);
     }
+});
 
+WappRouter.post("/webhook", async (req, res) => {
+    try {
+        // console.log(JSON.stringify(req.body, null, 2));
+        // res.status(200).send("Webhook received");
+
+        const { entry } = req.body
+
+        if (!entry || entry.length === 0) {
+          return res.status(400).send('Invalid Request')
+        }
+      
+        const changes = entry[0].changes
+      
+        if (!changes || changes.length === 0) {
+          return res.status(400).send('Invalid Request')
+        }
+      
+        const statuses = changes[0].value.statuses ? changes[0].value.statuses[0] : null
+        const messages = changes[0].value.messages ? changes[0].value.messages[0] : null
+      
+        if (statuses) {
+          // Handle message status
+          console.log(`
+            MESSAGE STATUS UPDATE:
+            ID: ${statuses.id},
+            STATUS: ${statuses.status}
+          `)
+        }
+      
+        if (messages) {
+          // Handle received messages
+          if (messages.type === 'text') {
+            if (messages.text.body.toLowerCase() === 'hello') {
+              replyMessage(messages.from, 'Hello. How are you?', messages.id)
+            }
+      
+            // if (messages.text.body.toLowerCase() === 'list') {
+            //   sendList(messages.from)
+            // }
+      
+            // if (messages.text.body.toLowerCase() === 'buttons') {
+            //   sendReplyButtons(messages.from)
+            // }
+          }
+      
+          if (messages.type === 'interactive') {
+            if (messages.interactive.type === 'list_reply') {
+              sendMessage(messages.from, `You selected the option with ID ${messages.interactive.list_reply.id} - Title ${messages.interactive.list_reply.title}`)
+            }
+      
+            if (messages.interactive.type === 'button_reply') {
+              sendMessage(messages.from, `You selected the button with ID ${messages.interactive.button_reply.id} - Title ${messages.interactive.button_reply.title}`)
+            }
+          }
+          
+          console.log(JSON.stringify(messages, null, 2))
+        }
+        
+        res.status(200).send('Webhook processed')
 
 
     } catch (error) {
         handleRouteError(res, error);
     }
-    // console.log("Received webhook request:", req.query);
-    // console.log("Webhook Verify Token2:", WEBHOOK_VERIFY_TOKEN);
-    // res.send();
+});
 
-    // const mode = req.query['hub.mode'];
-    // const challenge = req.query['hub.challenge'];
-    // const token = req.query['hub.verify_token'];
-  
-    // if (mode && token === WEBHOOK_VERIFY_TOKEN) {
-    //   res.status(200).send(challenge);
-    //   console.log("Webhook verification successful.");
-    // } else {
-    //   res.sendStatus(403);
-    //   console.log("Webhook verification failed.");
-    // }
-  });
+
+WappRouter.post("/send", async (req, res) => {
+    try {
+        await wappController.sendMessage(req, res);
+    } catch (error) {
+        handleRouteError(res, error);
+    }
+});
+
+async function sendMessage(to: string, body: string) {
+    await axios({
+      url: 'https://graph.facebook.com/v21.0/phone_number_id/messages',
+      method: 'post',
+      headers: {
+        'Authorization': `Bearer ${WHATSAPP_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to,
+        type: 'text',
+        text: {
+          body
+        }
+      })
+    })
+  }
+
+  async function replyMessage(to: string, body: string, messageId: string) {
+    await axios({
+      url: 'https://graph.facebook.com/v21.0/phone_number_id/messages',
+      method: 'post',
+      headers: {
+        'Authorization': `Bearer ${WHATSAPP_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to,
+        type: 'text',
+        text: {
+          body
+        },
+        context: {
+          message_id: messageId
+        }
+      })
+    })
+  }
+
+
+// WappRouter.post("/webhook", async (req, res) => {
+//     try {
+//         console.log(JSON.stringify(req.body, null, 2));
+//         res.status(200).send("Webhook received");
+//     } catch (error) {
+//         handleRouteError(res, error);
+//     }
+// });
+
 
 /**
  * @swagger
@@ -197,15 +303,3 @@ WappRouter.get("/webhook", async (req, res) => {
 
 
 export default WappRouter;
-
-
-//****************** version ok with wappController previous version ******* */
-// import express from "express";
-// import { sendMessage, getChatHistory } from "../controllers/wappController";
-
-// const router = express.Router();
-
-// router.post("/send", sendMessage);  // Send a WhatsApp message
-// router.get("/history/:phone", getChatHistory);  // Get chat history for a user
-
-// export default router;
