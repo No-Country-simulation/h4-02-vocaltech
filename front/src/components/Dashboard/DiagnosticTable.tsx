@@ -1,22 +1,11 @@
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  type MRT_ColumnDef
-} from 'material-react-table'
-import React, { useMemo, useEffect, useState } from 'react'
-import { IDiagnostic } from '../../types/Diagnostic'
-import { mkConfig, generateCsv, download } from 'export-to-csv'
-import {
-  IconButton,
-  Tooltip,
-  Box,
-  Button,
-  Select,
-  MenuItem
-} from '@mui/material'
+import React, { useEffect, useState, useMemo } from 'react'
+import { MaterialReactTable, MRT_ColumnDef } from 'material-react-table'
+import { Box, Button, IconButton, MenuItem, Select } from '@mui/material'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import EditIcon from '@mui/icons-material/Edit'
 import EmailIcon from '@mui/icons-material/Email'
+import { IDiagnostic } from '../../types/Diagnostic'
+import { mkConfig, generateCsv, download } from 'export-to-csv'
 
 const DiagnosticTable = () => {
   const [data, setData] = useState<IDiagnostic[]>([])
@@ -24,7 +13,7 @@ const DiagnosticTable = () => {
   const [editingCategoryId, setEditingCategoryId] = useState<string | null>(
     null
   )
-  const [newCategory, setNewCategory] = useState<string>('')
+  const [newCategory, setNewCategory] = useState<string>('') // Cambiado a string para seleccionar categorías
 
   useEffect(() => {
     const fetchUsersAndProducts = async () => {
@@ -51,7 +40,9 @@ const DiagnosticTable = () => {
                 acc[item.id] = {
                   NameProduct: item.fields.NameProduct,
                   Category: item.fields.Category
-                    ? [item.fields.Category]
+                    ? Array.isArray(item.fields.Category)
+                      ? item.fields.Category
+                      : [item.fields.Category]
                     : ['Sin categoría']
                 }
                 return acc
@@ -94,12 +85,12 @@ const DiagnosticTable = () => {
           Question4: item.fields.Question4,
           Question5: item.fields.Question5,
           idProduct: item.fields.idProduct,
+          // Asumiendo que Category puede ser un array, tomar solo el primer valor
           Category:
             item.fields.idProduct && item.fields.idProduct.length > 0
-              ? productsMap[item.fields.idProduct[0]]?.Category || [
-                  'Sin categoría'
-                ]
-              : ['Sin categoría'],
+              ? productsMap[item.fields.idProduct[0]]?.Category?.[0] ||
+                'Sin categoría'
+              : 'Sin categoría', // Cambié esto para que sea un string
           NameProduct:
             item.fields.idProduct && item.fields.idProduct.length > 0
               ? productsMap[item.fields.idProduct[0]]?.NameProduct ||
@@ -156,7 +147,7 @@ const DiagnosticTable = () => {
                   const updatedData = [...data]
                   updatedData[row.index] = {
                     ...updatedData[row.index],
-                    Category: newCategory
+                    Category: newCategory // Actualizamos Category como string
                   }
                   setData(updatedData)
                 } else {
@@ -225,42 +216,11 @@ const DiagnosticTable = () => {
 
   const handleExportData = () => {
     const csvData = data.map((diagnostic) => ({
-      ...diagnostic
+      ...diagnostic,
+      Category: diagnostic.Category // Nos aseguramos de que Category sea un string aquí
     }))
     const csv = generateCsv(csvConfig)(csvData)
     download(csvConfig)(csv)
-  }
-
-  const table = useMaterialReactTable<IDiagnostic>({
-    columns,
-    data,
-    enableRowSelection: true,
-    enableColumnOrdering: true,
-    enableGlobalFilter: true,
-    initialState: {
-      pagination: {
-        pageSize: 10,
-        pageIndex: 0
-      }
-    },
-    renderTopToolbarCustomActions: ({ table }) => (
-      <Box
-        sx={{
-          display: 'flex',
-          gap: '16px',
-          padding: '8px',
-          flexWrap: 'wrap'
-        }}
-      >
-        <Button onClick={handleExportData} startIcon={<FileDownloadIcon />}>
-          Export All Data
-        </Button>
-      </Box>
-    )
-  })
-
-  if (isLoading) {
-    return <div>Cargando diagnósticos...</div>
   }
 
   return (
