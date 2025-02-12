@@ -1,107 +1,121 @@
-import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import api from "../services/api";
-import { Toaster, toast } from "sonner";
-import { useAuth } from "../context/AuthContext";
-import axios from "axios";
-import AudioRecorder from "./audioRecorder";
+import React, { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import api from '../services/api'
+import { Toaster, toast } from 'sonner'
+import { useAuth } from '../context/AuthContext'
+import axios from 'axios'
+import AudioRecorder from './audioRecorder'
 
 interface DiagnosticFormInputs {
-  Type: string;
-  DescripCorp: string;
-  SelectArea: string;
-  Question1: string;
-  Question2: string;
-  Question3: string;
-  Question4: string;
-  Question5?: string;
-  idProduct: string[];
-  Diagnostic?: string;
+  Type: string
+  DescripCorp: string
+  SelectArea: string
+  Question1: string
+  Question2: string
+  Question3: string
+  Question4: string
+  Question5?: string
+  idProduct: string[]
+  Diagnostic?: string
+  InfoFile?: File | null
+  SoundFile?: File | null
 }
 
-const schema = yup.object({
-  Type: yup.string().required("El campo es obligatorio"),
-  DescripCorp: yup.string().required("El campo es obligatorio."),
-  SelectArea: yup.string().required("El campo es obligatorio."),
-  Question1: yup.string().required("El campo es obligatorio."),
-  Question2: yup.string().required("El campo es obligatorio"),
-  Question3: yup.string().required("El campo es obligatorio"),
-  Question4: yup.string().required("El campo es obligatorio"),
+const schema = yup.object().shape({
+  Type: yup.string().required('El campo es obligatorio'),
+  DescripCorp: yup.string().required('El campo es obligatorio.'),
+  SelectArea: yup.string().required('El campo es obligatorio.'),
+  Question1: yup.string().required('El campo es obligatorio.'),
+  Question2: yup.string().required('El campo es obligatorio'),
+  Question3: yup.string().required('El campo es obligatorio'),
+  Question4: yup.string().required('El campo es obligatorio'),
   Question5: yup.string().optional(),
-  idProduct: yup.array().of(yup.string()).default([]),
-});
+  idProduct: yup
+    .array()
+    .of(yup.string().required())
+    .default([])
+    .min(1, 'Debe seleccionar al menos un producto'),
+  Diagnostic: yup.string().optional(),
+  InfoFile: yup.mixed<File>().nullable(),
+  SoundFile: yup.mixed<File>().nullable()
+})
 
 const DiagnosticForm: React.FC = () => {
-  const { user } = useAuth();
+  const { user } = useAuth()
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors }
   } = useForm<DiagnosticFormInputs>({
     resolver: yupResolver(schema),
-  });
+    defaultValues: {
+      idProduct: []
+    }
+  })
 
-  const [infoFile, setInfoFile] = useState<File | null>(null);
-  const [soundFile, setSoundFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
-  const [audioOption, setAudioOption] = useState<"upload" | "record">("upload");
+  const [infoFile, setInfoFile] = useState<File | null>(null)
+  const [soundFile, setSoundFile] = useState<File | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([])
+  const [audioOption, setAudioOption] = useState<'upload' | 'record'>('upload')
 
   const uploadFile = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
+    const formData = new FormData()
+    formData.append('file', file)
 
     try {
       const response = await axios.post(
-        "https://h4-02-vocaltech.onrender.com/file/upload",
+        'https://h4-02-vocaltech.onrender.com/file/upload',
         formData,
         {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { 'Content-Type': 'multipart/form-data' }
         }
-      );
+      )
 
-      return response.data.data?.Location || null;
+      return response.data.data?.Location || null
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error("Detalles del error:", error.response.data);
-        toast.error(error.response.data?.message || "Error al subir el archivo.");
-        return null;
+        console.error('Detalles del error:', error.response.data)
+        toast.error(
+          error.response.data?.message || 'Error al subir el archivo.'
+        )
+        return null
       } else {
-        toast.error("Error inesperado al subir el archivo.");
+        toast.error('Error inesperado al subir el archivo.')
       }
     }
-  };
+  }
 
   const handleCheckboxChange = (value: string) => {
-    let updatedProducts = [...selectedProducts];
-    if (updatedProducts.includes(value)) {
-      updatedProducts = updatedProducts.filter((item) => item !== value);
-    } else {
-      updatedProducts.push(value);
-    }
-    setSelectedProducts(updatedProducts);
-    setValue("idProduct", updatedProducts);
-  };
+    setSelectedProducts((prev) => {
+      const updatedProducts = prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
+
+      setValue('idProduct', updatedProducts, { shouldValidate: true })
+      return updatedProducts
+    })
+  }
 
   const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
-    console.log("Enviando datos:", data);
+    console.log('Enviando datos:', data)
     if (!user?.id) {
-      toast.error("Usuario no autenticado");
-      return;
+      toast.error('Usuario no autenticado')
+      return
     }
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
 
     try {
-      const infoFileUrl = infoFile ? await uploadFile(infoFile) : null;
-      const soundFileUrl = soundFile ? await uploadFile(soundFile) : null;
+      const infoFileUrl = infoFile ? await uploadFile(infoFile) : ''
+      const soundFileUrl = soundFile ? await uploadFile(soundFile) : ''
 
-      if (!infoFileUrl || !soundFileUrl) {
-        toast.error("Error al subir los archivos");
-        return;
+      if ((infoFile && !infoFileUrl) || (soundFile && !soundFileUrl)) {
+        toast.error('Error al subir los archivos')
+        return
       }
 
       const payload = {
@@ -113,29 +127,31 @@ const DiagnosticForm: React.FC = () => {
         Question2: data.Question2,
         Question3: data.Question3,
         Question4: data.Question4,
-        Question5: data.Question5 || "",
+        Question5: data.Question5 || '',
         idProduct: data.idProduct || [],
-        InfoFile: infoFileUrl,
-        SoundFile: soundFileUrl,
-        Diagnostic: data.Diagnostic || "Sin diagnóstico aún",
-      };
+        InfoFile: infoFileUrl || '',
+        SoundFile: soundFileUrl || '',
+        Diagnostic: data.Diagnostic || 'Sin diagnóstico aún'
+      }
       try {
-        await api.post("/diagnostics/new", payload);
-        toast.success("Formulario enviado correctamente!");
+        await api.post('/diagnostics/new', payload)
+        toast.success('Formulario enviado correctamente!')
       } catch (err) {
-        console.error("Error en la petición:", err);
-        // const error = err as ApiError;
-        toast.error("Ocurrió un error al enviar el formulario.");
-        // toast.error(error.response?.data?.message || "Ocurrió un error.");
+        console.error('Error en la petición:', err)
+        if (axios.isAxiosError(err) && err.response?.data?.message) {
+          toast.error(err.response.data.message)
+        } else {
+          toast.error('Ocurrió un error al enviar el formulario.')
+        }
       }
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
-    <div className="flex items-center justify-center form-diagnostic">
-      <Toaster position="bottom-right" richColors />
+    <div className='flex items-center justify-center form-diagnostic'>
+      <Toaster position='bottom-right' richColors />
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -225,59 +241,59 @@ const DiagnosticForm: React.FC = () => {
           />
           {errors.Question4 && <p>{errors.Question4.message}</p>}
         </div>
-        <div className="flex flex-col w-full gap-2">
+        <div className='flex flex-col w-full gap-2'>
           <label>Adjunta un documento con información necesaria</label>
           <input
-            className="border-sky-50 border-2 rounded-lg p-1"
-            type="file"
+            className='border-sky-50 border-2 rounded-lg p-1'
+            type='file'
             onChange={(e) => setInfoFile(e.target.files?.[0] || null)}
           />
         </div>
 
-        <div className="flex flex-col w-full gap-2">
-          <label className="font-semibold">Elige cómo enviar tu audio:</label>
-          <div className="flex items-center gap-4">
+        <div className='flex flex-col w-full gap-2'>
+          <label className='font-semibold'>Elige cómo enviar tu audio:</label>
+          <div className='flex items-center gap-4'>
             <div>
               <input
-                type="radio"
-                id="upload"
-                name="audioOption"
-                value="upload"
-                checked={audioOption === "upload"}
-                onChange={() => setAudioOption("upload")}
+                type='radio'
+                id='upload'
+                name='audioOption'
+                value='upload'
+                checked={audioOption === 'upload'}
+                onChange={() => setAudioOption('upload')}
               />
-              <label htmlFor="upload" className="ml-2">
+              <label htmlFor='upload' className='ml-2'>
                 Subir archivo
               </label>
             </div>
             <div>
               <input
-                type="radio"
-                id="record"
-                name="audioOption"
-                value="record"
-                checked={audioOption === "record"}
-                onChange={() => setAudioOption("record")}
+                type='radio'
+                id='record'
+                name='audioOption'
+                value='record'
+                checked={audioOption === 'record'}
+                onChange={() => setAudioOption('record')}
               />
-              <label htmlFor="record" className="ml-2">
+              <label htmlFor='record' className='ml-2'>
                 Grabar audio
               </label>
             </div>
           </div>
         </div>
 
-        {audioOption === "upload" ? (
-          <div className="flex flex-col w-full gap-2">
+        {audioOption === 'upload' ? (
+          <div className='flex flex-col w-full gap-2'>
             <label>Adjunta tu audio para que podamos evaluarte</label>
             <input
-              className="border-sky-50 border-2 rounded-lg p-1"
-              type="file"
-              accept="audio/*"
+              className='border-sky-50 border-2 rounded-lg p-1'
+              type='file'
+              accept='audio/*'
               onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
             />
           </div>
         ) : (
-          <div className="flex flex-col w-full gap-2">
+          <div className='flex flex-col w-full gap-2'>
             <label>Graba tu audio</label>
             <AudioRecorder
               onRecordingComplete={(audioFile) => setSoundFile(audioFile)}
@@ -285,7 +301,7 @@ const DiagnosticForm: React.FC = () => {
           </div>
         )}
 
-        <div className="flex flex-col w-full gap-2">
+        <div className='flex flex-col w-full gap-2'>
           <label>¿Necesitas agregar algo más?</label>
           <textarea
             {...register('Question5')}
@@ -293,98 +309,98 @@ const DiagnosticForm: React.FC = () => {
             className='border-sky-50 border-2 rounded-lg p-1'
           ></textarea>
         </div>
-        <div className="flex flex-col w-full gap-2 items-start">
+        <div className='flex flex-col w-full gap-2 items-start'>
           <label>¿En qué servicios estás interesado?</label>
           <div>
             <input
-              type="checkbox"
-              value="rec0PnF24uiS7REmy"
-              checked={selectedProducts.includes("rec0PnF24uiS7REmy")}
-              onChange={() => handleCheckboxChange("rec0PnF24uiS7REmy")}
+              type='checkbox'
+              value='rec0PnF24uiS7REmy'
+              checked={selectedProducts.includes('rec0PnF24uiS7REmy')}
+              onChange={() => handleCheckboxChange('rec0PnF24uiS7REmy')}
             />
-            <label className="ml-2">Optimización de recursos y capital</label>
+            <label className='ml-2'>Optimización de recursos y capital</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="rec6rLAB0udFpZaWO"
-              checked={selectedProducts.includes("rec6rLAB0udFpZaWO")}
-              onChange={() => handleCheckboxChange("rec6rLAB0udFpZaWO")}
+              type='checkbox'
+              value='rec6rLAB0udFpZaWO'
+              checked={selectedProducts.includes('rec6rLAB0udFpZaWO')}
+              onChange={() => handleCheckboxChange('rec6rLAB0udFpZaWO')}
             />
-            <label className="ml-2">Fortalecer la voz de la empresa</label>
+            <label className='ml-2'>Fortalecer la voz de la empresa</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="rec7Kvtsi5jibgdw4"
-              checked={selectedProducts.includes("rec7Kvtsi5jibgdw4")}
-              onChange={() => handleCheckboxChange("rec7Kvtsi5jibgdw4")}
+              type='checkbox'
+              value='rec7Kvtsi5jibgdw4'
+              checked={selectedProducts.includes('rec7Kvtsi5jibgdw4')}
+              onChange={() => handleCheckboxChange('rec7Kvtsi5jibgdw4')}
             />
-            <label className="ml-2">Liderar a través de la voz</label>
+            <label className='ml-2'>Liderar a través de la voz</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="recKBWWjOys1qE09F"
-              checked={selectedProducts.includes("recKBWWjOys1qE09F")}
-              onChange={() => handleCheckboxChange("recKBWWjOys1qE09F")}
+              type='checkbox'
+              value='recKBWWjOys1qE09F'
+              checked={selectedProducts.includes('recKBWWjOys1qE09F')}
+              onChange={() => handleCheckboxChange('recKBWWjOys1qE09F')}
             />
-            <label className="ml-2">Desarrollo de MVP en 5 semanas</label>
+            <label className='ml-2'>Desarrollo de MVP en 5 semanas</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="recNQqMYvhqxxYHcu"
-              checked={selectedProducts.includes("recNQqMYvhqxxYHcu")}
-              onChange={() => handleCheckboxChange("recNQqMYvhqxxYHcu")}
+              type='checkbox'
+              value='recNQqMYvhqxxYHcu'
+              checked={selectedProducts.includes('recNQqMYvhqxxYHcu')}
+              onChange={() => handleCheckboxChange('recNQqMYvhqxxYHcu')}
             />
-            <label className="ml-2">Optimización de recursos y capital</label>
+            <label className='ml-2'>Optimización de recursos y capital</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="recXZadExtWReRdq6"
-              checked={selectedProducts.includes("recXZadExtWReRdq6")}
-              onChange={() => handleCheckboxChange("recXZadExtWReRdq6")}
+              type='checkbox'
+              value='recXZadExtWReRdq6'
+              checked={selectedProducts.includes('recXZadExtWReRdq6')}
+              onChange={() => handleCheckboxChange('recXZadExtWReRdq6')}
             />
-            <label className="ml-2">Coaching individual</label>
+            <label className='ml-2'>Coaching individual</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="recfm4Hm4kDmGFI35"
-              checked={selectedProducts.includes("recfm4Hm4kDmGFI35")}
-              onChange={() => handleCheckboxChange("recfm4Hm4kDmGFI35")}
+              type='checkbox'
+              value='recfm4Hm4kDmGFI35'
+              checked={selectedProducts.includes('recfm4Hm4kDmGFI35')}
+              onChange={() => handleCheckboxChange('recfm4Hm4kDmGFI35')}
             />
-            <label className="ml-2">Capacitaciones para empresas</label>
+            <label className='ml-2'>Capacitaciones para empresas</label>
           </div>
           <div>
             <input
-              type="checkbox"
-              value="reczzG59J7DTbyFYO"
-              checked={selectedProducts.includes("reczzG59J7DTbyFYO")}
-              onChange={() => handleCheckboxChange("reczzG59J7DTbyFYO")}
+              type='checkbox'
+              value='reczzG59J7DTbyFYO'
+              checked={selectedProducts.includes('reczzG59J7DTbyFYO')}
+              onChange={() => handleCheckboxChange('reczzG59J7DTbyFYO')}
             />
-            <label className="ml-2">Charlas inspiradoras</label>
+            <label className='ml-2'>Charlas inspiradoras</label>
           </div>
 
           <div>
             <input
-              type="checkbox"
-              value="recMFt1jIenek2lKv"
-              checked={selectedProducts.includes("recMFt1jIenek2lKv")}
-              onChange={() => handleCheckboxChange("recMFt1jIenek2lKv")}
+              type='checkbox'
+              value='recMFt1jIenek2lKv'
+              checked={selectedProducts.includes('recMFt1jIenek2lKv')}
+              onChange={() => handleCheckboxChange('recMFt1jIenek2lKv')}
             />
-            <label className="ml-2">Entrenamiento personalizado</label>
+            <label className='ml-2'>Entrenamiento personalizado</label>
           </div>
           {errors.idProduct && <p>{errors.idProduct.message}</p>}
         </div>
         <button
-          type="submit"
-          className="bg-anaranjado text-white px-4 py-2 rounded-lg hover:bg-anaranjado_oscuro"
+          type='submit'
+          className='bg-anaranjado text-white px-4 py-2 rounded-lg hover:bg-anaranjado_oscuro'
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Enviando..." : "Enviar"}
+          {isSubmitting ? 'Enviando...' : 'Enviar'}
         </button>
       </form>
     </div>
