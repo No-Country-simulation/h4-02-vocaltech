@@ -11,7 +11,7 @@ const Questions = () => {
     <div>
       <div className='flex flex-col bg-white text-primary_400 justify-center items-center md:py-10 lg:py-20'>
         <h2 className='text-4xl  font-bold mb-20 mt-2'>Preguntas frecuentes</h2>
-        <div className='w-full max-w-4xl px-4'>
+        <div className='w-full max-w-4xl px-4 drop-shadow-2xl'>
           <Accordion className='mb-4 rounded-lg '>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}

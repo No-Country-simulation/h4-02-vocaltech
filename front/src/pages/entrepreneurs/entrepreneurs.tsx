@@ -90,13 +90,12 @@ Ideal para presentaciones de pitch y captación de inversores.'
           Descubre lo que dicen los emprendedores que han utilizado los
           servicios de VocalTech para impulsar sus proyectos.
         </p>
-        <Reviews 
-        title=""/>
       </div>
-        <CTA 
-        title="¡Potenciá tu emprendimiento con VocalTech!"
-        button="Registrarse"
-        />
+      <Reviews title='' />
+      <CTA
+        title='¡Potenciá tu emprendimiento con VocalTech!'
+        button='Registrarse'
+      />
       <div className='bg-azul_claro'>
         <Footer />
       </div>
