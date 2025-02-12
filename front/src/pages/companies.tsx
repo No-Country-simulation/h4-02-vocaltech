@@ -1,7 +1,6 @@
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import Card from "../components/Card";
-import DiagnosticButton from "../components/DiagnosticButton";
 import Reviews from "./reviews";
 import CTA from "../components/CTA";
 
