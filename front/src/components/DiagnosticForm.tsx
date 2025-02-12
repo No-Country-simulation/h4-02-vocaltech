@@ -253,7 +253,6 @@ const DiagnosticForm: React.FC = () => {
           />
         </div>
 
-        {/* Aquí empieza la opción de audio */}
         <div className='flex flex-col w-full gap-2'>
           <label htmlFor='upload' className='ml-2'>
             Subir archivo
