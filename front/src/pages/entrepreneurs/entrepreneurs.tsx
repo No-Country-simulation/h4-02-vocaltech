@@ -12,8 +12,8 @@ const entrepreneurs = () => {
     className?: string
   }
   return (
-    <div>
-      <div className='flex flex-col lg:gap-10 lg:mx-6 lg:flex-row items-center justify-between py-10 lg:py-20 px-6 lg:px-20'>
+    <div className='bg-white'>
+      <div className='flex flex-col bg-white lg:gap-10 lg:flex-row items-center justify-between py-10 lg:py-20 px-6 lg:px-20'>
         <div className='text-column flex flex-col justify-center w-full lg:w-1/2 mb-8 lg:mb-0'>
           <h1 className='font-bold text-black  text-3xl mb-6 md:text-4xl lg:text-5xl lg:leading-[1.3]'>
             Empodera a los emprendedores con{' '}
@@ -32,8 +32,8 @@ const entrepreneurs = () => {
           </p>
           <DiagnosticButton />
         </div>
-        <div className='relative w-full lg:w-1/2'>
-          <div className='image-column flex justify-center'>
+        <div className='bg-white relative w-full lg:w-1/2'>
+          <div className='image-column bg-white flex justify-center'>
             <img
               className='w-full object-cover'
               src='./img_entrepreneurs.png'
@@ -44,7 +44,7 @@ const entrepreneurs = () => {
         </div>
       </div>
 
-      <div className='flex flex-col justify-center items-center px-10'>
+      <div className='flex flex-col bg-white justify-center items-center px-10'>
         <h4 className='font-bold text-black  text-center mb-12 text-3xl'>
           Nuestra solución
         </h4>
@@ -53,7 +53,7 @@ const entrepreneurs = () => {
           desafíos que enfrentan los emprendedores.
         </p>
       </div>
-      <div className='cards flex flex-col items-center justify-around mx-10 my-9 pb-10 md:flex-row md:items-stretch'>
+      <div className='bg-white cards flex flex-col items-center justify-around mx-10 my-9 pb-10 md:flex-row md:items-stretch'>
         <Card
           title='Entrenamiento personalizado'
           text='Sesiones a medida para perfeccionar tus habilidades de oratoria y storytelling.
@@ -83,7 +83,7 @@ Ideal para presentaciones de pitch y captación de inversores.'
           className='bg-gradient-to-r from-[#28023C] to-[#0B0120]'
         />
       </div>
-      <div className='flex flex-col justify-center items-center p-10'>
+      <div className='flex flex-col bg-white justify-center items-center p-10'>
         <h4 className='font-bold text-black  text-center text-2xl mb-12 md:text-3xl'>
           Testimonios de Emprendedores
         </h4>
@@ -91,7 +91,7 @@ Ideal para presentaciones de pitch y captación de inversores.'
           Descubre lo que dicen los emprendedores que han utilizado los
           servicios de VocalTech para impulsar sus proyectos.
         </p>
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-20'>
+        <div className='bg-white grid grid-cols-1 md:grid-cols-3 gap-6 mt-20'>
           <FeedbackCard
             name='John Doe'
             description='El impacto de los programas de VocalTech en nuestra empresa ha sido increíble. Nos ayudaron a mejorar nuestra comunicación y liderazgo de manera notable.'
@@ -115,7 +115,7 @@ Ideal para presentaciones de pitch y captación de inversores.'
           />
         </div>
       </div>
-      <div className='flex flex-col justify-center items-center px-20 pb-10 lg:px-40 lg:pb-20'>
+      <div className='bg-white flex flex-col justify-center items-center px-20 pb-10 lg:px-40 lg:pb-20'>
         <h3 className='font-bold text-black  text-center text-2xl mb-12 md:text-4xl'>
           ¡Potencia tu emprendimiento con VocalTech!
         </h3>

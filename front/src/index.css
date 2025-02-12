@@ -18,11 +18,7 @@ body {
   accent-color: #e26105;
 }
 
-.background-aboutUs {
-  background: linear-gradient(#e8b006, #e26105);
-}
-
-input{
-  border:none;
+input {
+  border: none;
   outline: none;
 }

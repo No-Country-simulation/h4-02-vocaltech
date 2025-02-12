@@ -32,9 +32,9 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className='bg-blanco_300 text-negro_600 flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-slate-500 relative'>
+    <header className='bg-blanco_300 text-primary_400 flex px-10 pl-10 pt-4 pb-4 justify-between border-b-4 border-slate-500 relative'>
       <Link to='/'>
-        <img className='text-10' src='./logo-negro.png' alt='Logo' />
+        <img className='text-10' src='./logo_azul.png' alt='Logo' />
       </Link>
 
       <div className='hidden lg:block'>
@@ -58,28 +58,6 @@ const Header: React.FC = () => {
                   <button
                     onClick={() => {
                       toggleMenu()
-                      scrollToSection('home')
-                    }}
-                    className='hover:text-gray-300'
-                  >
-                    Home
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      toggleMenu()
-                      scrollToSection('solution')
-                    }}
-                    className='hover:text-gray-300'
-                  >
-                    Servicios
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => {
-                      toggleMenu()
                       scrollToSection('reviews')
                     }}
                     className='hover:text-gray-300'
@@ -88,15 +66,14 @@ const Header: React.FC = () => {
                   </button>
                 </li>
                 <li>
-                  <button
-                    onClick={() => {
-                      toggleMenu()
-                      scrollToSection('about-us')
-                    }}
-                    className='hover:text-gray-300'
-                  >
+                  <Link to='/aboutUs' className='text-lg hover:text-gray-500'>
                     Nosotros
-                  </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link to='/questions' className='text-lg hover:text-gray-500'>
+                    FAQs
+                  </Link>
                 </li>
                 <li>
                   <Link

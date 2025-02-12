@@ -16,6 +16,8 @@ import UnderConstruction from './components/UnderConstruction'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import WhatsAppChat from './components/WhatsAppChat'
 import Calendar from './components/Dashboard/Calendar'
+import AboutUs from './pages/aboutUs'
+import Questions from './pages/questions'
 
 function App() {
   const location = useLocation()
@@ -32,6 +34,8 @@ function App() {
           <Route path='/empresas' element={<Companies />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/aboutUs' element={<AboutUs />} />
+          <Route path='/questions' element={<Questions />} />
 
           <Route path='/dashboard' element={<AdminDashboard />}>
             <Route path='diagnostics' element={<DiagnosticTable />} />
