@@ -96,7 +96,7 @@ Ideal para presentaciones de pitch y captación de inversores.'
         title='¡Potenciá tu emprendimiento con VocalTech!'
         button='Registrarse'
       />
-      <div className='bg-azul_claro'>
+      <div>
         <Footer />
       </div>
     </div>
