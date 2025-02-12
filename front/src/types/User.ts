@@ -8,5 +8,6 @@ export interface IUser {
   phone: string
   role: string
   status: string
+  Diagnostic: string
   [key: string]: any;
 }

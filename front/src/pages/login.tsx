@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import api from '../services/api'
 import { useAuth } from '../context/AuthContext'
+import { toast } from 'sonner'
 
 interface LoginFormInputs {
   email: string
@@ -43,7 +44,7 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token)
       localStorage.setItem('id', id)
       login(token, id)
-      alert('Inicio de sesión exitoso')
+      toast.success('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
       const error = err as ApiError
