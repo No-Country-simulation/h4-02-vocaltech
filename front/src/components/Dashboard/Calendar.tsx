@@ -105,8 +105,8 @@ export default function Calendar() {
 
       {modalData && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
-          <div className='bg-white text-black p-6 rounded-lg w-96'>
-            <h2 className='text-xl text-black font-semibold mb-4'>
+          <div className='bg-white text-primary_400 p-6 rounded-lg w-96'>
+            <h2 className='text-xl text-primary_400 font-semibold mb-4'>
               {modalData.title}
             </h2>
             <p className='text-black'>
