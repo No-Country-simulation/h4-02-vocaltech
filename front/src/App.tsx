@@ -22,6 +22,7 @@ import Questions from "./pages/questions";
 import Diagnostics from "./components/Dashboard/Diagnostics";
 import ClientPanel from "./pages/clientPanel";
 
+
 function App() {
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith("/dashboard");
@@ -62,8 +63,9 @@ function App() {
           />
         </Routes>
         {/* Conditionally show FloatingWhatsApp button */}
-        {location.pathname !== "/login" &&
-          location.pathname !== "/register" &&
+
+        {location.pathname !== '/login' &&
+          location.pathname !== '/register' &&
           !isDashboardRoute && <FloatingWhatsApp />}
       </AuthProvider>
     </>
