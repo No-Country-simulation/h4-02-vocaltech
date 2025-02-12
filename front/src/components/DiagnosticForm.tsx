@@ -8,6 +8,7 @@ import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
 import AudioRecorder from './audioRecorder'
 
+
 interface DiagnosticFormInputs {
   Type: string
   DescripCorp: string
@@ -62,6 +63,7 @@ const DiagnosticForm: React.FC = () => {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([])
   const [audioOption, setAudioOption] = useState<'upload' | 'record'>('upload')
 
+
   const uploadFile = async (file: File) => {
     const formData = new FormData()
     formData.append('file', file)
@@ -89,11 +91,29 @@ const DiagnosticForm: React.FC = () => {
     }
   }
 
+      console.error('Error al subir el archivo:', error)
+      toast.error('Error al subir el archivo')
+      return null
+    }
+  }
+
+  /* const handleCheckboxChange = (value: string) => {
+    let updatedProducts = [...selectedProducts]
+    if (updatedProducts.includes(value)) {
+      updatedProducts = updatedProducts.filter((item) => item !== value)
+    } else {
+      updatedProducts.push(value)
+    }
+    setSelectedProducts(updatedProducts)
+    setValue('idProduct', updatedProducts)
+  } */
+
   const handleCheckboxChange = (value: string) => {
     setSelectedProducts((prev) => {
       const updatedProducts = prev.includes(value)
         ? prev.filter((item) => item !== value)
-        : [...prev, value]
+        : [...prev, value
+
 
       setValue('idProduct', updatedProducts, { shouldValidate: true })
       return updatedProducts
@@ -110,6 +130,7 @@ const DiagnosticForm: React.FC = () => {
     setIsSubmitting(true)
 
     try {
+      // Solo subimos los archivos si han sido seleccionados
       const infoFileUrl = infoFile ? await uploadFile(infoFile) : ''
       const soundFileUrl = soundFile ? await uploadFile(soundFile) : ''
 
@@ -118,6 +139,7 @@ const DiagnosticForm: React.FC = () => {
         return
       }
 
+      // Construir el payload para el formulario
       const payload = {
         idUser: [user.id],
         Type: data.Type,
@@ -129,10 +151,11 @@ const DiagnosticForm: React.FC = () => {
         Question4: data.Question4,
         Question5: data.Question5 || '',
         idProduct: data.idProduct || [],
-        InfoFile: infoFileUrl || '',
-        SoundFile: soundFileUrl || '',
+        InfoFile: infoFileUrl || '', // Si no hay archivo, se manda como string vacío
+        SoundFile: soundFileUrl || '', // Igual para el archivo de sonido
         Diagnostic: data.Diagnostic || 'Sin diagnóstico aún'
       }
+
       try {
         await api.post('/diagnostics/new', payload)
         toast.success('Formulario enviado correctamente!')
@@ -251,17 +274,6 @@ const DiagnosticForm: React.FC = () => {
         </div>
 
         <div className='flex flex-col w-full gap-2'>
-          <label className='font-semibold'>Elige cómo enviar tu audio:</label>
-          <div className='flex items-center gap-4'>
-            <div>
-              <input
-                type='radio'
-                id='upload'
-                name='audioOption'
-                value='upload'
-                checked={audioOption === 'upload'}
-                onChange={() => setAudioOption('upload')}
-              />
               <label htmlFor='upload' className='ml-2'>
                 Subir archivo
               </label>
@@ -301,6 +313,14 @@ const DiagnosticForm: React.FC = () => {
           </div>
         )}
 
+          <label>Adjunta tu audio para que podamos evaluarte</label>
+          <input
+            className='border-sky-50 border-2 rounded-lg p-1'
+            type='file'
+            accept='audio/*'
+            onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
+          />
+        </div>
         <div className='flex flex-col w-full gap-2'>
           <label>¿Necesitas agregar algo más?</label>
           <textarea
@@ -398,7 +418,7 @@ const DiagnosticForm: React.FC = () => {
         <button
           type='submit'
           className='bg-anaranjado text-white px-4 py-2 rounded-lg hover:bg-anaranjado_oscuro'
-          disabled={isSubmitting}
+          disabled={isSubmitting
         >
           {isSubmitting ? 'Enviando...' : 'Enviar'}
         </button>
