@@ -62,7 +62,7 @@ const ClientPanel: React.FC = () => {
       </div>
       <div className="m-6">
         <h2 className="text-primary_400 text-3xl ml-4 mb-10">Agendar Reunión</h2>
-        <Calendar />
+        {user && <Calendar userId={user.id} />}
       </div>
       <Footer />
     </div>
