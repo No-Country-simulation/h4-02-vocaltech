@@ -11,7 +11,6 @@ const Contact = () => {
         <p className='mt-7 text-lg font-semibold mb-6 text-primary_400'>
           Déjanos un mensaje y te responderemos lo antes posible.
         </p>
-
         <form className='space-y-4'>
           <div>
             <label className='block text-gray-700 font-semibold mb-1'>
