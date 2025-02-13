@@ -8,8 +8,10 @@ const allowedTypes = [
   'application/pdf',      // PDF
   'image/jpeg',           // JPG
   'audio/webp',           // WEBP
+  'audio/webm',           // WEBM
   'audio/acc',            // 
   'audio/amr',            //
+  'audio/opus',           //
   'image/png',            // PNG
   'audio/mpeg',           // MP3
   'audio/m4a',            // MP4
