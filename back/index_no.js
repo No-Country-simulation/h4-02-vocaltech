@@ -140,10 +140,10 @@ async function uploadImage() {
     console.log(response.data)     
 }
 
-// sendTemplateMessage()
+sendTemplateMessage()
 // sendTemplateMessageDiscount()
 
-sendTextMessage()
+// sendTextMessage()
 
 // sendMediaMessage()
 

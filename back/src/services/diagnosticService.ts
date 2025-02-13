@@ -4,7 +4,7 @@ import Diagnostic, { DiagnosticFields } from "../models/Diagnostic";
 import { userService } from "./userService";
 import { productService } from "./productService";
 import { emailService, emailDiagnosticService, emailResponseDiagnosticService } from "./emailService";
-
+import { wappService } from "./wappService";
 
 const fetch = require('node-fetch');
 
@@ -120,6 +120,7 @@ export const diagnosticService = {
 
         // Retrieve user data
         const userData1 = await userService.findUserById(newDiagnostic.fields.idUser);
+        console.log("userData1: ", userData1);
         if (!userData1) {
             throw new Error(`User with ID ${newDiagnostic.fields.idUser} not found`);
         }
@@ -141,9 +142,16 @@ export const diagnosticService = {
         // Send email
         try {
             await emailDiagnosticService.sendDiagnosticEmail(userData1.email, userData1.name, productData);
-            console.log(`Diagnostic email sent to ${userData1.email}`);
         } catch (error) {
             console.error("Error sending welcome email:", error);
+            throw new Error(`Failed to send welcome email: ${error}`);
+        }
+
+        // Send whatsapp template
+        try {
+            await wappService.sendTemplateAuto(userData1.phone, "auto") 
+        } catch (error) {
+            console.error("Error sending template:", error);
             throw new Error(`Failed to send welcome email: ${error}`);
         }
 
