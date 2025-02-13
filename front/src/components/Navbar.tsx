@@ -15,13 +15,6 @@ const Navbar: React.FC = () => {
     setIsLoggedIn(false)
   }
 
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id)
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
   return (
     <nav className='px-4 lg:pr-10 md:pr-5'>
       <ul className='flex justify-between items-center lg:gap-10 md:gap-6 sm:gap-2'>
