@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import api from '../services/api'
 import { useAuth } from '../context/AuthContext'
+import { toast } from 'sonner'
 
 interface LoginFormInputs {
   email: string
@@ -43,7 +44,7 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token)
       localStorage.setItem('id', id)
       login(token, id)
-      alert('Inicio de sesión exitoso')
+      toast.success('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
       const error = err as ApiError
@@ -57,6 +58,20 @@ const Login: React.FC = () => {
 
   return (
     <div className='flex min-h-screen bg-anaranjado'>
+      <div className='lg:hidden absolute top-5 left-5 right-5 flex justify-between z-10'>
+        <Link to='/'>
+          <img
+            src='./logo.png'
+            alt='Icono'
+            className='absolute top-5 left-10 w-130'
+          />
+        </Link>
+        <Link to='/register'>
+          <button className='bg-orange-500 absolute top-5 right-10 px-10 py-2 rounded-md text-white hover:bg-anaranjado transition'>
+            Registrarme
+          </button>
+        </Link>
+      </div>
       <section
         className='hidden lg:flex lg:w-1/2 flex-col justify-center items-center gap-16 text-white p-10'
         style={{
@@ -156,6 +171,15 @@ const Login: React.FC = () => {
                   {errors.password.message}
                 </span>
               )}
+
+              <div className='text-right mt-2'>
+                <Link
+                  to='/ForgotPassword'
+                  className='text-white underline text-sm'
+                >
+                  ¿Olvidaste tu contraseña?
+                </Link>
+              </div>
             </div>
 
             {loginError && (

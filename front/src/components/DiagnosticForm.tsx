@@ -6,6 +6,7 @@ import api from '../services/api'
 import { Toaster, toast } from 'sonner'
 import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
+import AudioRecorder from './audioRecorder'
 
 interface DiagnosticFormInputs {
   Type: string
@@ -23,13 +24,13 @@ interface DiagnosticFormInputs {
 }
 
 const schema = yup.object().shape({
-  Type: yup.string().required('El tipo es obligatorio'),
-  DescripCorp: yup.string().required('La descripción es obligatoria'),
-  SelectArea: yup.string().required('El área es obligatoria'),
-  Question1: yup.string().required('Esta pregunta es obligatoria'),
-  Question2: yup.string().required('Esta pregunta es obligatoria'),
-  Question3: yup.string().required('Esta pregunta es obligatoria'),
-  Question4: yup.string().required('Esta pregunta es obligatoria'),
+  Type: yup.string().required('El campo es obligatorio'),
+  DescripCorp: yup.string().required('El campo es obligatorio.'),
+  SelectArea: yup.string().required('El campo es obligatorio.'),
+  Question1: yup.string().required('El campo es obligatorio.'),
+  Question2: yup.string().required('El campo es obligatorio'),
+  Question3: yup.string().required('El campo es obligatorio'),
+  Question4: yup.string().required('El campo es obligatorio'),
   Question5: yup.string().optional(),
   idProduct: yup
     .array()
@@ -59,6 +60,7 @@ const DiagnosticForm: React.FC = () => {
   const [soundFile, setSoundFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [selectedProducts, setSelectedProducts] = useState<string[]>([])
+  const [audioOption, setAudioOption] = useState<'upload' | 'record'>('upload')
 
   const uploadFile = async (file: File) => {
     const formData = new FormData()
@@ -75,22 +77,18 @@ const DiagnosticForm: React.FC = () => {
 
       return response.data.data?.Location || null
     } catch (error) {
-      console.error('Error al subir el archivo:', error)
-      toast.error('Error al subir el archivo')
-      return null
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('Detalles del error:', error.response.data)
+        toast.error(
+          error.response.data?.message || 'Error al subir el archivo.'
+        )
+        return null
+      } else {
+        toast.error('Error inesperado al subir el archivo.')
+      }
     }
   }
 
-  /* const handleCheckboxChange = (value: string) => {
-    let updatedProducts = [...selectedProducts]
-    if (updatedProducts.includes(value)) {
-      updatedProducts = updatedProducts.filter((item) => item !== value)
-    } else {
-      updatedProducts.push(value)
-    }
-    setSelectedProducts(updatedProducts)
-    setValue('idProduct', updatedProducts)
-  } */
   const handleCheckboxChange = (value: string) => {
     setSelectedProducts((prev) => {
       const updatedProducts = prev.includes(value)
@@ -101,8 +99,6 @@ const DiagnosticForm: React.FC = () => {
       return updatedProducts
     })
   }
-
-  /* const selectedProducts = watch("idProduct", []); */
 
   const onSubmit: SubmitHandler<DiagnosticFormInputs> = async (data) => {
     console.log('Enviando datos:', data)
@@ -118,7 +114,6 @@ const DiagnosticForm: React.FC = () => {
       const infoFileUrl = infoFile ? await uploadFile(infoFile) : ''
       const soundFileUrl = soundFile ? await uploadFile(soundFile) : ''
 
-      // Solo mostramos el mensaje de error si los archivos fueron seleccionados pero no se pudieron subir
       if ((infoFile && !infoFileUrl) || (soundFile && !soundFileUrl)) {
         toast.error('Error al subir los archivos')
         return
@@ -160,7 +155,6 @@ const DiagnosticForm: React.FC = () => {
   return (
     <div className='flex items-center justify-center form-diagnostic'>
       <Toaster position='bottom-right' richColors />
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className='flex flex-col w-2/3 justify-center items-center gap-4 p-8'
@@ -249,6 +243,7 @@ const DiagnosticForm: React.FC = () => {
           />
           {errors.Question4 && <p>{errors.Question4.message}</p>}
         </div>
+
         <div className='flex flex-col w-full gap-2'>
           <label>Adjunta un documento con información necesaria</label>
           <input
@@ -259,14 +254,43 @@ const DiagnosticForm: React.FC = () => {
         </div>
 
         <div className='flex flex-col w-full gap-2'>
-          <label>Adjunta tu audio para que podamos evaluarte</label>
-          <input
-            className='border-sky-50 border-2 rounded-lg p-1'
-            type='file'
-            accept='audio/*'
-            onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
-          />
+          <label htmlFor='upload' className='ml-2'>
+            Subir archivo
+          </label>
+          <div>
+            <input
+              type='radio'
+              id='record'
+              name='audioOption'
+              value='record'
+              checked={audioOption === 'record'}
+              onChange={() => setAudioOption('record')}
+            />
+            <label htmlFor='record' className='ml-2'>
+              Grabar audio
+            </label>
+          </div>
         </div>
+
+        {audioOption === 'upload' ? (
+          <div className='flex flex-col w-full gap-2'>
+            <label>Adjunta tu audio para que podamos evaluarte</label>
+            <input
+              className='border-sky-50 border-2 rounded-lg p-1'
+              type='file'
+              accept='audio/*'
+              onChange={(e) => setSoundFile(e.target.files?.[0] || null)}
+            />
+          </div>
+        ) : (
+          <div className='flex flex-col w-full gap-2'>
+            <label>Graba tu audio</label>
+            <AudioRecorder
+              onRecordingComplete={(audioFile) => setSoundFile(audioFile)}
+            />
+          </div>
+        )}
+
         <div className='flex flex-col w-full gap-2'>
           <label>¿Necesitas agregar algo más?</label>
           <textarea
@@ -275,6 +299,7 @@ const DiagnosticForm: React.FC = () => {
             className='border-sky-50 border-2 rounded-lg p-1'
           ></textarea>
         </div>
+
         <div className='flex flex-col w-full gap-2 items-start'>
           <label>¿En qué servicios estás interesado?</label>
           <div>
@@ -349,7 +374,6 @@ const DiagnosticForm: React.FC = () => {
             />
             <label className='ml-2'>Charlas inspiradoras</label>
           </div>
-
           <div>
             <input
               type='checkbox'
@@ -359,13 +383,14 @@ const DiagnosticForm: React.FC = () => {
             />
             <label className='ml-2'>Entrenamiento personalizado</label>
           </div>
-          {errors.idProduct && <p>{errors.idProduct.message}</p>}
         </div>
+
         <button
           type='submit'
-          className='bg-anaranjado text-white px-4 py-2 rounded-lg hover:bg-anaranjado_oscuro'
+          className='bg-anaranjado text-white px-4 py-2 rounded-md'
+          disabled={isSubmitting}
         >
-          {isSubmitting ? 'Enviando...' : 'Enviar'}
+          {isSubmitting ? 'Enviando...' : 'Enviar Formulario'}
         </button>
       </form>
     </div>
