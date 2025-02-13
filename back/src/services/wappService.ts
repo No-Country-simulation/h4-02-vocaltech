@@ -4,6 +4,10 @@ import { base } from "../config/airtableConfig";
 const WHATSAPP_API_URL = `https://graph.facebook.com/v17.0/${process.env.WHATSAPP_ACCESS_TEST_PHONE_NUMBER}/messages`;
 const ACCESS_TOKEN = process.env.WHATSAPP_ACCESS_TOKEN;
 
+const wappurl = `https://graph.facebook.com/v20.0/${process.env.WHATSAPP_ACCESS_TEST_PHONE_NUMBER}`
+const phone_number = '541124020248'
+
+
 export const wappService = {
     
   async sendMessage(phone: string, message: string) {
@@ -70,18 +74,29 @@ async storeMessageToAirtable(phone: string, message: string, timestamp: string) 
 
 
 
-
-    async sendTemplate(phone: string, message: string) {
+    async sendTemplate(phone: string, template: string) {
       try {
-        const response = await axios.post(
-          WHATSAPP_API_URL,
-          {
-            messaging_product: "whatsapp",
-            to: phone,
-            text: { body: message },
-          },
-          { headers: { Authorization: `Bearer ${ACCESS_TOKEN}`, "Content-Type": "application/json" } }
-        );
+        const response = await axios({
+            url: `${wappurl}/messages`,
+            method: 'post',
+            headers: {
+                'Authorization': `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                messaging_product: 'whatsapp',
+                to: phone,
+                type: 'template',
+                template:{
+                    name: template,
+                    language: {
+                        code: 'es_AR'
+                    }
+                }
+            })
+        })
+    
+        console.log(response.data)
   
         // Store message in Airtable
         // await base("Chats").create([{ fields: { Phone: phone, Message: message, SentBy: "Admin" } }]);
@@ -91,6 +106,39 @@ async storeMessageToAirtable(phone: string, message: string, timestamp: string) 
         throw new Error(error instanceof Error ? error.message : "POST Unknown error");
       }
     },
+
+    async sendTemplateAuto(phone: string, template: string) {
+        try {
+          const response = await axios({
+              url: `${wappurl}/messages`,
+              method: 'post',
+              headers: {
+                  'Authorization': `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+                  'Content-Type': 'application/json'
+              },
+              data: JSON.stringify({
+                  messaging_product: 'whatsapp',
+                  to: phone,
+                  type: 'template',
+                  template:{
+                      name: template,
+                      language: {
+                          code: 'en_US'
+                      }
+                  }
+              })
+          })
+      
+          console.log(response.data)
+    
+          // Store message in Airtable
+          // await base("Chats").create([{ fields: { Phone: phone, Message: message, SentBy: "Admin" } }]);
+    
+          return response.data;
+        } catch (error) {
+          throw new Error(error instanceof Error ? error.message : "POST Unknown error");
+        }
+      },
 
   async getChatHistory(phone: string) {
     try {

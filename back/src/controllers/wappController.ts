@@ -4,7 +4,7 @@ import { config } from "../config/validateEnv";
 const { WEBHOOK_VERIFY_TOKEN } = config;
 
 export const wappController = {
-  async sendMessage1(req: Request, res: Response): Promise<Response> {
+  async sendMessage(req: Request, res: Response): Promise<Response> {
     try {
       const { phone, message } = req.body;
       const response = await wappService.sendMessage(phone, message);
@@ -21,7 +21,7 @@ export const wappController = {
     }
   },
 
-  async sendMessage(req: Request, res: Response) {
+  async sendMessage0(req: Request, res: Response) {
     try {
         const { phone, message } = req.body;
         await wappService.sendWhatsAppMessage(phone, message);
