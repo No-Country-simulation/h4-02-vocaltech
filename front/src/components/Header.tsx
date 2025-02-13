@@ -95,6 +95,15 @@ const Header: React.FC = () => {
                 </li>
                 <li>
                   <Link
+                    to='/panel'
+                    className='hover:text-gray-300'
+                    onClick={toggleMenu}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to='/dashboard'
                     className='hover:text-gray-300'
                     onClick={toggleMenu}
