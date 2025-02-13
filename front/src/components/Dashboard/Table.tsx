@@ -21,11 +21,15 @@ import {
 import { mkConfig, generateCsv, download } from 'export-to-csv'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
+import WhatsAppChatDialog from './WhatsAppChatDialog';
+import { FaWhatsapp } from 'react-icons/fa';
+
 function Table() {
   const [data, setData] = useState<IUser[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [openEditModal, setOpenEditModal] = useState(false)
+  const [openWhatsAppModal, setOpenWhatsAppModal] = useState(false);
 
   useEffect(() => {
     fetchUsers()
@@ -120,6 +124,13 @@ function Table() {
     }
   }
 
+  const handleRowDoubleClick = (row: MRT_Row<IUser>) => {
+    setSelectedUser(row.original);
+    setOpenWhatsAppModal(true);
+  };
+
+
+
   const columns = useMemo<MRT_ColumnDef<IUser>[]>(
     () => [
       {
@@ -163,6 +174,18 @@ function Table() {
                 <Delete />
               </IconButton>
             </Tooltip>
+
+            <Tooltip title='WhatsApp'>
+              <IconButton
+                onClick={() => {
+                  setSelectedUser(row.original);
+                  setOpenWhatsAppModal(true);
+                }}
+              >
+                <FaWhatsapp color='green' />
+              </IconButton>
+            </Tooltip>
+
           </div>
         )
       }
@@ -267,7 +290,20 @@ function Table() {
         enableColumnOrdering
         enableGlobalFilter
         initialState={{ pagination: { pageSize: 10, pageIndex: 0 } }}
+
+        getRowId={(row) => row.id}
+        muiTableBodyRowProps={({ row }) => ({
+          onDoubleClick: () => handleRowDoubleClick(row),
+          style: { cursor: 'pointer' }
+        })}
+
       />
+
+        <WhatsAppChatDialog
+        open={openWhatsAppModal}
+        onClose={() => setOpenWhatsAppModal(false)}
+        phone={selectedUser?.phone || ''}
+        />
 
       <Dialog open={openEditModal} onClose={() => setOpenEditModal(false)}>
         <DialogTitle>Editar Usuario</DialogTitle>

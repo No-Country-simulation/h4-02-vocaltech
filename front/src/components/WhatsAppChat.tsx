@@ -6,13 +6,19 @@ import axios from "axios";
 import { Toaster, toast } from 'sonner';
 import { ChatFields } from "./../../../back/src/models/Chat";
 
+interface WhatsAppChatProps {
+    phone: string;
+  }
+
 const URL_LOCAL = "http://localhost:3000";
 // const URL_PROD = "https://h4-02-vocaltech.onrender.com";
 
-const WhatsAppChat = () => {
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
-//   const [messages, setMessages] = useState([]);
+// const WhatsAppChat = () => {
+
+    const WhatsAppChat: React.FC<WhatsAppChatProps> = ({ phone }) => {
+    // const [phone, setPhone] = useState("");
+
+    const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState<ChatFields[]>([]);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -76,14 +82,14 @@ const WhatsAppChat = () => {
 
   return (
     <div className="p-4 w-80 border rounded-lg shadow-lg bg-white">
-      <h2 className="text-lg font-semibold">WhatsApp Chat</h2>
-      <input
+      <h2 className="text-lg font-semibold">Chat con {phone}</h2>
+      {/* <input
         type="text"
         placeholder="Enter phone number"
         className="border p-2 w-full my-2"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-      />
+      /> */}
       <div className="overflow-y-auto h-40 border p-1 bg-gray-100 rounded-lg"
       ref={chatContainerRef}
       >
