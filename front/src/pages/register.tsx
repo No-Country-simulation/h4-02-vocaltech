@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../services/api'
+import { toast } from 'sonner'
 
 interface RegisterFormInputs {
   name: string
@@ -44,7 +45,7 @@ const Register: React.FC = () => {
     try {
       const response = await api.post('/auth/register', data)
 
-      alert('¡Registro exitoso! Por favor inicia sesión.')
+      toast.success('¡Registro exitoso! Por favor inicia sesión.')
       navigate('/login')
     } catch (error) {
       if (isApiErrorResponse(error)) {

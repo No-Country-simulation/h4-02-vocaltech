@@ -26,49 +26,32 @@ const Navbar: React.FC = () => {
     <nav className='px-4 lg:pr-10 md:pr-5'>
       <ul className='flex justify-between items-center lg:gap-10 md:gap-6 sm:gap-2'>
         <li>
-          <button
-            onClick={() => scrollToSection('home')}
-            className='text-lg hover:text-gray-300'
-          >
-            Home
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => scrollToSection('solution')}
-            className='text-lg hover:text-gray-300'
-          >
-            Servicios
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => scrollToSection('reviews')}
-            className='text-lg hover:text-gray-300'
-          >
-            Reseñas
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() => scrollToSection('about-us')}
-            className='text-lg hover:text-gray-300'
-          >
+          <Link to='/aboutUs' className='text-lg hover:text-gray-500'>
             Nosotros
-          </button>
+          </Link>
         </li>
         <li>
-          <Link to='/emprendedores' className='text-lg hover:text-gray-300'>
+          <Link to='/questions' className='text-lg hover:text-gray-500'>
+            FAQs
+          </Link>
+        </li>
+        <li>
+          <Link to='/emprendedores' className='text-lg hover:text-gray-500'>
             Emprendedores
           </Link>
         </li>
         <li>
-          <Link to='/empresas' className='text-lg hover:text-gray-300'>
+          <Link to='/empresas' className='text-lg hover:text-gray-500'>
             Empresas
           </Link>
         </li>
         <li>
-          <Link to='/dashboard' className='text-lg hover:text-gray-300'>
+          <Link to='/dashboard' className='text-lg hover:text-gray-500'>
+            Dashboard
+          </Link>
+        </li>
+        <li>
+          <Link to='/panel' className='text-lg hover:text-gray-500'>
             Panel
           </Link>
         </li>

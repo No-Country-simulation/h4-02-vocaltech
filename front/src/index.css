@@ -9,10 +9,6 @@ body {
   text-decoration: none;
 }
 
-.background-home {
-  background: whitesmoke;
-}
-
 .form-diagnostic input,
 .form-diagnostic select,
 .form-diagnostic textarea {
@@ -20,10 +16,6 @@ body {
   border-color: #e2610580;
   outline: none;
   accent-color: #e26105;
-}
-
-.background-aboutUs {
-  background: linear-gradient(#ec9558, #ffd559);
 }
 
 input {
