@@ -21,11 +21,16 @@ import AboutUs from "./pages/aboutUs";
 import Questions from "./pages/questions";
 import Diagnostics from "./components/Dashboard/Diagnostics";
 import ClientPanel from "./pages/clientPanel";
-
+import { useAuth } from "./context/AuthContext";
 
 function App() {
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith("/dashboard");
+
+//para resolver problema de userId
+const { user } = useAuth(); // Assuming `useAuth()` provides user details
+const userId = user?.id || ""; // Ensure a valid userId is passed
+
 
   return (
     <>
@@ -47,12 +52,12 @@ function App() {
             <Route path="leads" element={<RecentLeads />} />
             <Route path="services" element={<UnderConstruction />} />
             <Route path="reviews" element={<UnderConstruction />} />
-            <Route path="calendar" element={<Calendar />} />
+            <Route path="calendar" element={<Calendar userId={userId} />} />
             <Route path="settings" element={<UnderConstruction />} />
             <Route path="logout" />
           </Route>
           <Route path="/emprendedores" element={<Entrepreneurs />} />
-          <Route path="/wapps" element={<WhatsAppChat />} />
+          {/* <Route path="/wapps" element={<WhatsAppChat />} /> */}
           <Route
             path="/diagnostic"
             element={

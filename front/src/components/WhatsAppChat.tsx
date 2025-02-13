@@ -15,7 +15,7 @@ const URL_LOCAL = "http://localhost:3000";
 
 // const WhatsAppChat = () => {
 
-    const WhatsAppChat: React.FC<WhatsAppChatProps> = ({ phone }) => {
+    const WhatsAppChat: React.FC<WhatsAppChatProps> = ({phone}) => {
     // const [phone, setPhone] = useState("");
 
     const [message, setMessage] = useState("");

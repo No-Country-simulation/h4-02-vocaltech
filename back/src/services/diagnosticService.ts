@@ -149,7 +149,7 @@ export const diagnosticService = {
 
         // Send whatsapp template
         try {
-            await wappService.sendTemplateAuto(userData1.phone, "auto") 
+            await wappService.sendTemplateAuto(userData1.phone, "hello_world"); 
         } catch (error) {
             console.error("Error sending template:", error);
             throw new Error(`Failed to send welcome email: ${error}`);

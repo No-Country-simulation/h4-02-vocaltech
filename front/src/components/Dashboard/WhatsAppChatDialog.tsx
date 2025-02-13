@@ -12,6 +12,7 @@ interface WhatsAppChatDialogProps {
 }
 
 const URL_LOCAL = "http://localhost:3000";
+const URL_PROD = "https://h4-02-vocaltech.onrender.com";
 
 const WhatsAppChatDialog: React.FC<WhatsAppChatDialogProps> = ({ open, onClose, phone }) => {
   const [message, setMessage] = useState("");
@@ -20,7 +21,7 @@ const WhatsAppChatDialog: React.FC<WhatsAppChatDialogProps> = ({ open, onClose, 
 
   useEffect(() => {
     if (phone) {
-      axios.get(`${URL_LOCAL}/api/wapps/history/${phone}`).then((res) => {
+      axios.get(`${URL_PROD}/api/wapps/history/${phone}`).then((res) => {
         const sortedHistory = res.data.sort((a: ChatFields, b: ChatFields) =>
           new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
         );
@@ -40,7 +41,7 @@ const WhatsAppChatDialog: React.FC<WhatsAppChatDialogProps> = ({ open, onClose, 
 
   const sendMessage = async () => {
     try {
-      await axios.post(`${URL_LOCAL}/api/wapps/send`, { phone, message });
+      await axios.post(`${URL_PROD}/api/wapps/send`, { phone, message });
 
       const chatPayload = {
         Admin: "Admin",
@@ -55,9 +56,9 @@ const WhatsAppChatDialog: React.FC<WhatsAppChatDialogProps> = ({ open, onClose, 
         Phone: phone,
       };
 
-      await axios.post(`${URL_LOCAL}/api/chats/new`, chatPayload);
+      await axios.post(`${URL_PROD}/api/chats/new`, chatPayload);
 
-      const response = await axios.get(`${URL_LOCAL}/api/wapps/history/${phone}`);
+      const response = await axios.get(`${URL_PROD}/api/wapps/history/${phone}`);
       const sortedHistory = response.data.sort((a: ChatFields, b: ChatFields) =>
         new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
       );
