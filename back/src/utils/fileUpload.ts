@@ -5,20 +5,22 @@ import { config } from "../config/validateEnv";
 
 // Tipos MIME permitidos
 const allowedTypes = [
-  "audio/webp",
-  "audio/aac",
-  "audio/amr",
-  "audio/mpeg", // MP3
-  "audio/m4a",
-  "audio/wav",
-  "audio/ogg",
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-  "application/vnd.ms-excel",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  "application/vnd.ms-powerpoint",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  'application/pdf',      // PDF
+  'image/jpeg',           // JPG
+  'audio/webp',           // WEBP
+  'audio/webm',           // WEBM
+  'audio/acc',            // 
+  'audio/amr',            //
+  'audio/opus',           //
+  'image/png',            // PNG
+  'audio/mpeg',           // MP3
+  'audio/m4a',            // MP4
+  'audio/wav',            // WAV
+  'audio/ogg',            // AGREGADO: WhatsApp voz (.opus)
+  'application/vnd.ms-excel',  // Excel (.xls)
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // Excel (.xlsx)
+  'application/vnd.ms-powerpoint',  // PowerPoint (.ppt)
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation'  // PowerPoint (.pptx)
 ];
 
 // Configuración de Multer para almacenar en memoria

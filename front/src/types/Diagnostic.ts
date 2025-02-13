@@ -14,6 +14,6 @@ export interface IDiagnostic {
   Question5: string
   idProduct?: string
   NameProduct?: string
-  Category?: string[]
+  Category?: string
   email?: string
 }

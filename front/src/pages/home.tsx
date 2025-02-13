@@ -1,52 +1,39 @@
-import React from 'react'
 import '../index.css'
-import Solution from './solution'
 import Review from '../pages/reviews'
-import AboutUs from '../pages/aboutUs'
-import Questions from '../pages/questions'
 import Footer from '../components/Footer'
+import Ready from '../components/Ready'
+import CTA from '../components/CTA'
+import Brands from '../components/Brands'
+import Carrousel from '../components/Carrousel'
+import Solution from './solution'
+import Contact from './contact'
 
 const Home = () => {
   return (
-    <div>
-      <div className='lg:py-32 flex flex-col lg:flex-row items-center justify-center gap-12 px-8 md:py-20 py-12'>
-        <div className='relative w-full max-w-lg'>
-          <div className='absolute top-0 left-0 w-full h-full -z-10'>
-            <div className='absolute -top-20 left-0 w-full h-[70%] bg-blue-800 blur-[80px] opacity-70'></div>
-            <div className='absolute -bottom-20 left-0 w-full h-[60%] bg-orange-500 blur-[80px] opacity-70'></div>
-          </div>
-          <img
-            src='./home.png'
-            alt='logo'
-            className='w-full object-cover rounded-xl shadow-lg'
-          />
-        </div>
-        <div className='text-black max-w-xl px-6 lg:px-0'>
-          <h1 className='text-4xl text-black lg:text-5xl font-bold my-6 leading-snug text-center'>
-            ¿Qué desafíos enfrentan nuestros clientes?
-          </h1>
-          <p className='text-lg text-black lg:text-xl leading-relaxed text-center'>
-            Empresas y emprendedores enfrentan desafíos que límitan su
-            comunicación, liderazgo y desarrollo. En VocalTech abordamos
-            problemas como comunicación interna ineficaz, liderazgo poco
-            inspirador y presentaciones sin impacto en las organizaciones, así
-            como inseguridad para presentar ideas, dificultad para estructurar
-            pitchs y falta de validación de mercado en emprendedores. Ofrecemos
-            soluciones que potencian sus habilidades y fomentan su crecimiento.
-          </p>
-        </div>
+    <div className='bg-blanco_300'>
+      <div className='relative w-full mx-auto min-h-[400px]'>
+        <Carrousel />
       </div>
-      <section id='solution'>
+      <section id='ready'>
+        <Ready />
+      </section>
+      <section id='servicios'>
         <Solution />
       </section>
-      <section id='reviews'>
-        <Review />
+      <section id='brands'>
+        <Brands />
       </section>
-      <section id='about-us'>
-        <AboutUs />
+      <section id='reviews' className='my-24'>
+        <Review title='¿Qué dicen nuestros clientes?' />
       </section>
-      <section id='questions'>
-        <Questions />
+      <section id='cta'>
+        <CTA
+          title='Estas ansioso por que trabajemos juntos?'
+          button='Regístrate'
+        />
+      </section>
+      <section id='contact'>
+        <Contact />
       </section>
       <section id='footer'>
         <Footer />
