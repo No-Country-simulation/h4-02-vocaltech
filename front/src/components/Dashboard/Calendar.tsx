@@ -1,6 +1,6 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction' // Añadimos este import
+import interactionPlugin from '@fullcalendar/interaction'
 import { useState } from 'react'
 
 interface ModalData {
@@ -12,13 +12,13 @@ interface ModalData {
 }
 
 interface CalendarProps {
-  userId: string;
+  userId?: string
 }
 
 interface CreateModalData {
-  date: string;
-  time: string;
-  description: string;
+  date: string
+  time: string
+  description: string
 }
 
 export default function Calendar({ userId }: CalendarProps) {
@@ -71,7 +71,8 @@ export default function Calendar({ userId }: CalendarProps) {
     {
       title: 'Sesión de control de tono',
       start: '2025-02-18T13:00:00',
-      description: 'Prácticas para mejorar el control y variación del tono de voz.',
+      description:
+        'Prácticas para mejorar el control y variación del tono de voz.',
       person: 'Inés',
       color: '#3498db'
     },
@@ -103,8 +104,10 @@ export default function Calendar({ userId }: CalendarProps) {
 
   const handleDateClick = (info: any) => {
     const now = new Date()
-    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-    
+    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(
+      now.getMinutes()
+    ).padStart(2, '0')}`
+
     setCreateModal({
       date: info.dateStr,
       time: currentTime,
@@ -125,28 +128,34 @@ export default function Calendar({ userId }: CalendarProps) {
     const dateTime = `${date}T${time}:00`
 
     try {
-      const response = await fetch('https://h4-02-vocaltech.onrender.com/api/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          dateTime,
-          description,
-          userId
-        })
-      })
+      const response = await fetch(
+        'https://h4-02-vocaltech.onrender.com/api/appointments',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            dateTime,
+            description,
+            userId
+          })
+        }
+      )
 
       if (!response.ok) throw new Error('Error al crear la cita')
 
       // Añadir el nuevo evento al estado local
-      setEvents(prev => [...prev, {
-        title: 'Nueva cita',
-        start: dateTime,
-        description,
-        person: 'Inés',
-        color: '#3498db'
-      }])
+      setEvents((prev) => [
+        ...prev,
+        {
+          title: 'Nueva cita',
+          start: dateTime,
+          description,
+          person: 'Inés',
+          color: '#3498db'
+        }
+      ])
 
       setCreateModal(null)
     } catch (error) {
@@ -155,7 +164,7 @@ export default function Calendar({ userId }: CalendarProps) {
   }
 
   return (
-    <div className="relative">
+    <div className='relative'>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView='dayGridMonth'
@@ -163,20 +172,29 @@ export default function Calendar({ userId }: CalendarProps) {
         eventClick={handleEventClick}
         selectable={true}
         dateClick={handleDateClick}
-        locale="es"
+        locale='es'
       />
 
-      {/* Modal para ver eventos existentes */}
       {modalData && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-[90%] mx-4">
-            <h2 className="text-xl font-semibold mb-4 text-primary_400">{modalData.title}</h2>
-            <p className="text-gray-700"><strong>Fecha:</strong> {modalData.date}</p>
-            <p className="text-gray-700"><strong>Hora:</strong> {modalData.time}</p>
-            <p className="mt-2 text-gray-700"><strong>Descripción:</strong> {modalData.description}</p>
-            <p className="text-gray-700"><strong>Destinatario:</strong> {modalData.person}</p>
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
+          <div className='bg-white rounded-lg p-6 w-96 max-w-[90%] mx-4'>
+            <h2 className='text-xl font-semibold mb-4 text-primary_400'>
+              {modalData.title}
+            </h2>
+            <p className='text-gray-700'>
+              <strong>Fecha:</strong> {modalData.date}
+            </p>
+            <p className='text-gray-700'>
+              <strong>Hora:</strong> {modalData.time}
+            </p>
+            <p className='mt-2 text-gray-700'>
+              <strong>Descripción:</strong> {modalData.description}
+            </p>
+            <p className='text-gray-700'>
+              <strong>Destinatario:</strong> {modalData.person}
+            </p>
             <button
-              className="mt-4 bg-primary_400 hover:bg-primary_500 text-white px-4 py-2 rounded-md w-full"
+              className='mt-4 bg-primary_400 hover:bg-primary_500 text-white px-4 py-2 rounded-md w-full'
               onClick={() => setModalData(null)}
             >
               Cerrar
@@ -185,53 +203,58 @@ export default function Calendar({ userId }: CalendarProps) {
         </div>
       )}
 
-      {/* Modal para crear nueva cita */}
       {createModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-[90%] mx-4">
-            <h2 className="text-xl font-semibold mb-4 text-primary_400">Crear Nueva Cita</h2>
-            <p className="text-gray-700"><strong>Fecha seleccionada:</strong> {createModal.date}</p>
-            
-            {error && (
-              <p className="text-red-500 text-sm mt-2">{error}</p>
-            )}
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50'>
+          <div className='bg-white rounded-lg p-6 w-96 max-w-[90%] mx-4'>
+            <h2 className='text-xl font-semibold mb-4 text-primary_400'>
+              Crear Nueva Cita
+            </h2>
+            <p className='text-gray-700'>
+              <strong>Fecha seleccionada:</strong> {createModal.date}
+            </p>
 
-            <div className="mt-4">
-              <label className="block mb-2 text-gray-700">Hora:</label>
+            {error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
+
+            <div className='mt-4'>
+              <label className='block mb-2 text-gray-700'>Hora:</label>
               <input
-                type="time"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary_400"
+                type='time'
+                className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary_400'
                 value={createModal.time}
-                onChange={(e) => setCreateModal({
-                  ...createModal,
-                  time: e.target.value
-                })}
+                onChange={(e) =>
+                  setCreateModal({
+                    ...createModal,
+                    time: e.target.value
+                  })
+                }
               />
             </div>
 
-            <div className="mt-4">
-              <label className="block mb-2 text-gray-700">Descripción:</label>
+            <div className='mt-4'>
+              <label className='block mb-2 text-gray-700'>Descripción:</label>
               <textarea
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary_400"
+                className='w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary_400'
                 rows={3}
                 value={createModal.description}
-                onChange={(e) => setCreateModal({
-                  ...createModal,
-                  description: e.target.value
-                })}
-                placeholder="Describe el motivo de la cita..."
+                onChange={(e) =>
+                  setCreateModal({
+                    ...createModal,
+                    description: e.target.value
+                  })
+                }
+                placeholder='Describe el motivo de la cita...'
               />
             </div>
 
-            <div className="mt-6 flex gap-2">
+            <div className='mt-6 flex gap-2'>
               <button
-                className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"
+                className='flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md'
                 onClick={() => setCreateModal(null)}
               >
                 Cancelar
               </button>
               <button
-                className="flex-1 bg-primary_400 hover:bg-primary_500 text-white px-4 py-2 rounded-md"
+                className='flex-1 bg-primary_400 hover:bg-primary_500 text-white px-4 py-2 rounded-md'
                 onClick={handleCreateAppointment}
               >
                 Crear Cita
